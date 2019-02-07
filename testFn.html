@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<script src="js/addStockcard.js"></script>
+
+<body>
+
+    <p id="showtxtUnit"></p>
+    <!-- <select id="setUnitType" onclick="showData()"> </select> -->
+
+    <input type="text" id="showtxt">
+    <button onclick="testFnn('ssssss')">showData</button>
+    <!-- <button onclick=" showData()">showData</button> -->
+    <script>
+
+        function testFnn(aaaaaa){
+alert(aaaaaa);
+        }
+
+        function addProductToCart() {
+            var setDateNow = new Date().toLocaleString();
+            var formdata = {
+
+                "RequisID": 1,
+                "ProductID": 1,
+                "Category": "sample string 2",
+                "ProductName": "sample string 3",
+                "Price": 1,
+                "UnitType": "sample string 4",
+                "Balance": 1,
+                "RequisAmount": 1,
+                "RequisNote": "sample string 5",
+                "Date": setDateNow,
+                "ImgProduct": "sample string 6",
+                "UserID": localStorage.logUsername
+
+
+            }
+
+
+
+            $.ajax({
+
+                type: "POST",
+                url: "http://localhost:60443/api/IN_ProductRequis",
+                dataType: 'json',
+                data: formdata,
+                headers: {
+                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                },
+                success: function (data) {
+                    console.log(data);
+                    //  console.log(data[0].UnitTypeName);
+                    //  location.reload();
+
+                },
+                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                    console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                    //alert("Add new product failed, error is '" + thrownError + "'");
+                }
+
+            });
+        }
+
+        $(document).ready(function () {
+
+
+        });
+
+
+
+
+
+
+
+
+
+        //     var ssss = "ขวด";
+        //     ddlUnitType(ssss);
+        // });
+
+        // function ddlUnitType(name) {
+        //     var checkDDLUnitType = 0;
+        //     $.ajax({
+
+        //         type: "GET",
+        //         url: "http://localhost:60443/api/IN_UnitType",
+        //         dataType: 'json',
+        //         headers: {
+        //             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        //         },
+        //         success: function (data) {
+        //             console.log(data.length);
+        //             //  console.log(data[0].UnitTypeName);
+        //             //  location.reload();
+        //             var setUnitType = document.getElementById("setUnitType");
+        //             var option = document.createElement("option");
+        //             for (var i = 0; i < 7; i++) {
+
+
+        //                 var option = document.createElement("option");
+        //                 option.text = data[i].UnitTypeName;
+
+        //                 setUnitType.add(option, setUnitType[i]);
+
+        //                 if (option.text === name) {
+        //                     checkDDLUnitType = i;
+
+        //                 }
+        //                 console.log(checkDDLUnitType);
+        //             }
+
+
+        //             document.getElementById("setUnitType").selectedIndex = checkDDLUnitType;
+
+        //         },
+        //         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+        //             console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+        //             //alert("Add new product failed, error is '" + thrownError + "'");
+        //         }
+
+        //     });
+
+        // }
+
+        // function selectddl(sss) {
+
+        //     document.getElementById("setUnitType").value = sss;
+
+        // }
+        // function showData() {
+        //     var UnitType = document.getElementById("setUnitType").value;
+        //     document.getElementById("showtxtUnit").innerHTML = UnitType;
+        //     document.getElementById("showtxt").value = UnitType;
+        //     console.log(UnitType);
+        // }
+
+
+        // var setDateNow = new Date().toLocaleString();
+        // console.log(setDateNow);
+    </script>
+</body>
+
+</html>
