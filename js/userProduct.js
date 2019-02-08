@@ -148,8 +148,9 @@ function addProductToCart(ProductID,ProductName,Category,Price,UnitType,Amount,B
             "Date": setDateNow,
             "ImgProduct": ImgProduct,
             "RequisStatus": "waiting",  // waiting,pending,approve,unapprove
-            "UserID": localStorage.logUsername
-    
+            "UserID": localStorage.logUsername,
+            "EMP_EngName": localStorage.getMyUsername,
+            "Position": localStorage.getMyPosition
     
         }
     

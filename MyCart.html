@@ -103,12 +103,20 @@
 
         <!-- Page Content -->
 
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
+        <div class="container-fluid setMycontainer">
+            <div class="container-fluid" >
+                
                 <h1>รายการเบิก วัสดุ - อุปกรณ์  </h1>
                 <hr>
-                สถานที่นำไปใช้ : <input type="text" ><br>
-                <button class="btn btn-success " >ส่งใบเบิก</button><br><br>
+                <button onclick="checkAmountProductUp()">xxx</button>
+                เลขที่ใบเบิก  : <div id="ranBillNumber"></div> <br>
+                ชื่อผู้เบิก : <div id="getMyUsername"></div><br>
+                สถานที่นำไปใช้ :     <select  class="form-control" id="setDataLocation" > </select><br>
+                <div class="form-group">
+                    <label for="comment">หมายเหตุ:</label>
+                    <textarea class="form-control" rows="3" id=""></textarea>
+                  </div>
+                <button class="btn btn-success " onclick="showDataLocation()" >ส่งใบเบิก</button><br><br>
                 
        
             </div>

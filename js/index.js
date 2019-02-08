@@ -26,6 +26,7 @@ function checkLogin(username, password){
     
     success: function (data) {
         localStorage.setItem("logSite", data[0].SITES.toLowerCase() );
+  
         try {
             if (data[0].Permission.toLowerCase() === "admin") {
                 window.location.href = "Dashboard.html";
@@ -55,6 +56,7 @@ function fnLogout(){
     localStorage.removeItem("logUsername");
     localStorage.removeItem("logPassword");
     localStorage.removeItem("logSite");
+    localStorage.clear();
     window.location.href = "index.html";
     alert("Logout success");
 }

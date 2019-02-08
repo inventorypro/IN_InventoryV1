@@ -20,6 +20,8 @@ $(document).ready(function () {
                 try {
                     if (data[0].Permission.toLowerCase() === "manager") {
                         document.getElementById("myUsername").innerHTML = data[0].EMP_EngName;
+                        localStorage.setItem("getMyUsername", data[0].EMP_EngName);
+                        localStorage.setItem("getMyPosition", data[0].Position);
                     } else {
                         window.location.href = "index.html";
                     }
