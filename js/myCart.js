@@ -1,6 +1,8 @@
 
 
 $(document).ready(function () {
+
+    var setRanBillNum;
     // document.getElementById("getMyUsername").value = localStorage.getMyUsername;
     document.getElementById("getMyUsername").innerHTML = localStorage.getMyUsername;
     console.log(localStorage.logSite);
@@ -19,7 +21,7 @@ $(document).ready(function () {
 
             // console.table(data);
 
-
+            calTotalCost(data);
 
             var datatable = $('#example').DataTable({
 
@@ -109,10 +111,43 @@ $(document).ready(function () {
 
 });
 
+function calTotalCost(){
+
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ProductRequis?userID=" + localStorage.logUsername + "&RequisStatus=waiting",
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+
+        success: function (data) {
+            var totalCost = 0; 
+            for(var i = 0 ; i < data.length ; i ++){
+                totalCost += data[i].Price *data[i].RequisAmount;
+            }
+            document.getElementById("totalCost").innerHTML = totalCost;
+            console.log(totalCost);
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
+            // alert('check !');
+
+        }
+
+    });
+
+
+
+
+
+}
+
 function btnUpdateCart(RequisID) {
     var checkAmount;
     var checkAmountID;
-    var validaAmount ;
+    var validaAmount;
     var RequisIdAmount = $('#editNum' + RequisID + '').val();
     $.ajax({
 
@@ -147,18 +182,18 @@ function btnUpdateCart(RequisID) {
             $.ajax({
 
                 type: "GET",
-                url: "http://localhost:60443/api/IN_Product/"+data.ProductID,
+                url: "http://localhost:60443/api/IN_Product/" + data.ProductID,
                 dataType: 'json',
                 headers: {
                     'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                 },
-                success: function (data) {   
-                    
-                    if(RequisIdAmount > data.Amount){
+                success: function (data) {
+
+                    if (RequisIdAmount > data.Amount) {
                         validaAmount = "true";
                         alert("จำวนวที่ต้องการมากเกินไป");
                         console.log(validaAmount);
-                    }else{
+                    } else {
                         validaAmount = "false";
                         console.log(validaAmount);
                         $.ajax({
@@ -171,30 +206,31 @@ function btnUpdateCart(RequisID) {
                                 'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                             },
                             success: function (data) {
-                               // console.table(data);
-        
+                                // console.table(data);
+                                calTotalCost();
+
                             },
                             error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                                 // console.log("Add new product failed, error is '" + thrownError + "'");
                                 alert("Edit product failed, error is '" + thrownError + "'");
                             }
-        
+
                         }).then(function (data) {
                             console.log(data);
-        
+
                             alert("You update success!");
                         });
                     }
-           
+
                 },
                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                     // console.log("Add new product failed, error is '" + thrownError + "'");
                     alert("Edit product failed, error is '" + thrownError + "'");
                 }
-        
-          
+
+
             });
-   
+
 
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -285,6 +321,112 @@ function ranBillNumber() {
     var setDateNow = new Date().toLocaleString();
     var ranBillNumber = Date.parse(setDateNow);
     var cutRanBillNumber = ranBillNumber.toString().substring(0, 11);
-    var setRanBillNum = cutRanBillNumber + "" + localStorage.logUsername;
+    setRanBillNum = cutRanBillNumber + "" + localStorage.logUsername;
     document.getElementById("ranBillNumber").innerHTML = setRanBillNum;
+}
+
+function addToRequisition() {
+
+    var setDateNow = new Date().toLocaleString();
+    var formdata = {
+        "RequisID": 1,
+        "RequisName": localStorage.getMyUsername,
+        "RequisPosition": localStorage.getMyPosition,
+        "RequisDept": localStorage.logDept,
+        "RequisLocation":  $('#setDataLocation').val(),
+        "RequisNote":$('#RequisNote').val(),
+        "RequisDate": setDateNow,
+        "ApproveID": "",
+        "ApproveName": "",
+        "ApproveDate": "",
+        "RequisNumber": setRanBillNum,
+        "TotalCost": 1,
+        "UserID": localStorage.logUsername,
+        "SITES": localStorage.logSite
+    }
+
+    $.ajax({
+
+        type: "POST",
+        url: "http://localhost:60443/api/IN_StockCard",
+        dataType: 'json',
+        data: formdata,
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.table(data);
+              location.reload();
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
+}
+
+function addAllRequisNumber() {
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ProductRequis?userID=" + localStorage.logUsername + "&RequisStatus=waiting",
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            var setDateNow = new Date().toLocaleString();
+            console.table(data);
+            for (var i = 0; i < data.length; i++) {
+                var formdata = {
+                    "RequisID": data[i].RequisID,
+                    "ProductID": data[i].ProductID,
+                    "Category": data[i].Category,
+                    "ProductName": data[i].ProductName,
+                    "Price": data[i].Price,
+                    "UnitType": data[i].UnitType,
+                    "Balance": data[i].Balance,
+                    "RequisAmount": data[i].RequisAmount,
+                    "RequisNote": data[i].RequisNote,
+                    "Date": setDateNow,
+                    "ImgProduct": data[i].ImgProduct,
+                    "UserID": data[i].UserID,
+                    "Barcode": data[i].Barcode,
+                    "Location": data[i].Location,
+                    "RequisStatus": "pending",
+                    "RequisNumber": setRanBillNum,
+                    "EMP_EngName": data[i].EMP_EngName,
+                    "Position": data[i].Position
+                }
+                $.ajax({
+
+                    type: "PUT",
+                    url: "http://localhost:60443/api/IN_ProductRequis/" + data[i].RequisID,
+                    dataType: 'json',
+                    data: formdata,
+                    headers: {
+                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                    },
+                    success: function (data) {
+                        //  console.table(data);
+                        addToRequisition();
+                       // location.reload();
+                    },
+                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                        console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                        //alert("Add new product failed, error is '" + thrownError + "'");
+                    }
+
+                });
+            }
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
 }

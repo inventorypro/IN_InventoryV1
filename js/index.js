@@ -26,7 +26,9 @@ function checkLogin(username, password){
     
     success: function (data) {
         localStorage.setItem("logSite", data[0].SITES.toLowerCase() );
-  
+        localStorage.setItem("logDept", data[0].Department);
+        localStorage.setItem("getMyUsername", data[0].EMP_EngName);
+        localStorage.setItem("getMyPosition", data[0].Position);
         try {
             if (data[0].Permission.toLowerCase() === "admin") {
                 window.location.href = "Dashboard.html";

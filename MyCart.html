@@ -102,21 +102,21 @@
         <!-- Page Content -->
 
         <div class="container-fluid setMycontainer">
-            <div class="container-fluid" >
-                
-                <h1>รายการเบิก วัสดุ - อุปกรณ์  </h1>
+            <div class="container-fluid">
+
+                <h1>รายการเบิก วัสดุ - อุปกรณ์ </h1>
                 <hr>
-                <button onclick="checkAmountProductUp()">xxx</button>
-                เลขที่ใบเบิก  : <div id="ranBillNumber"></div> <br>
+                <button onclick="calTotalCost()">xxx</button>
+                เลขที่ใบเบิก : <div id="ranBillNumber"></div> <br>
                 ชื่อผู้เบิก : <div id="getMyUsername"></div><br>
-                สถานที่นำไปใช้ :     <select  class="form-control" id="setDataLocation" > </select><br>
+                สถานที่นำไปใช้ : <select class="form-control" id="setDataLocation"> </select><br>
                 <div class="form-group">
                     <label for="comment">หมายเหตุ:</label>
-                    <textarea class="form-control" rows="3" id=""></textarea>
-                  </div>
-                <button class="btn btn-success " onclick="showDataLocation()" >ส่งใบเบิก</button><br><br>
-                
-       
+                    <textarea class="form-control" rows="3" id="RequisNote"></textarea>
+                </div>
+                <button class="btn btn-success " onclick="addAllRequisNumber()">ส่งใบเบิก</button><br><br>
+
+
             </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -125,46 +125,55 @@
 
 
                 <!-- <button class="btn btn-success float-right" >ส่งใบเบิก</button> -->
+              <div  class="float-right" style="font-size:25px" > Total :  &nbsp;  <div  class="float-right"  id="totalCost"> </div></div> 
+      
                 <h1>Product list</h1>
-             
+       
                 <hr>
 
 
                 <div class="row-fluid">
                     <div class="table-responsive">
 
-                        <center>  <table id="example" class="table table-striped table-bordered text-center dtCheck" style="width:80%">
-                            <thead>
-                                <tr>
-                                    <th>Select</th>
-                                    <th>Image</th>
-                                    <th>ProductID</th>
-                                    <th ><center>Product</center></th>
-                                    <th>Category</th>
-                                    <th>ProductName</th>
-                                    <th>Price</th>
-                                    <th>UnitType</th>
-                                    <th>RequisAmount</th>
-                                    <th>Barcode</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Select</th>
-                                    <th>Image</th>
-                                    <th>ProductID</th>
-                                    <th><center>Product</center></th>
-                                    <th>Category</th>
-                                    <th>ProductName</th>
-                                    <th>Price</th>
-                                    <th>UnitType</th>
-                                    <th>RequisAmount</th>
-                                    <th>Barcode</th>
-                 
+                        <center>
+                            <table id="example" class="table table-striped table-bordered text-center dtCheck"
+                                style="width:80%">
+                                <thead>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Image</th>
+                                        <th>ProductID</th>
+                                        <th>
+                                            <center>Product</center>
+                                        </th>
+                                        <th>Category</th>
+                                        <th>ProductName</th>
+                                        <th>Price</th>
+                                        <th>UnitType</th>
+                                        <th>RequisAmount</th>
+                                        <th>Barcode</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Image</th>
+                                        <th>ProductID</th>
+                                        <th>
+                                            <center>Product</center>
+                                        </th>
+                                        <th>Category</th>
+                                        <th>ProductName</th>
+                                        <th>Price</th>
+                                        <th>UnitType</th>
+                                        <th>RequisAmount</th>
+                                        <th>Barcode</th>
 
-                                </tr>
-                            </tfoot>
-                        </table></center>
+
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </center>
                     </div>
                 </div>
 
