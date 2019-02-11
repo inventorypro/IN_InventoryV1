@@ -348,7 +348,7 @@ function addToRequisition() {
     $.ajax({
 
         type: "POST",
-        url: "http://localhost:60443/api/IN_StockCard",
+        url: "http://localhost:60443/api/IN_Requisition",
         dataType: 'json',
         data: formdata,
         headers: {
