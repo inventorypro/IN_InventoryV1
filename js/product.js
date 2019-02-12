@@ -94,6 +94,7 @@ $(document).ready(function () {
                             return type === 'display' ?
                                 '<img id="blah" class="img-responsive" width="200" height="150" src="' + row.ImgProduct + '" alt="your image" />' :
                                 data;
+                                
                         }
 
                     },
