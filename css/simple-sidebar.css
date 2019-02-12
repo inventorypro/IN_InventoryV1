@@ -224,6 +224,8 @@ background-color: #f1f4f7;
   word-wrap:break-word;
 }
 
-.dtSetMiddle{
+
+
+table.dataTable tbody td {
   vertical-align: middle;
 }
