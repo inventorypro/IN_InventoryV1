@@ -40,6 +40,9 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -103,17 +106,63 @@
 
         <!-- Page Content -->
 
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <h1>Dashboard</h1>
-                <hr>
-                <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller
-                    screens, and will appear non-collapsed on larger screens. When toggled using the button below, the
-                    menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
-                <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
-
+        <div class="container-fluid setMycontainer">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="card border-success mb-3">
+                        <div class="card-body text-success">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">เบิกได้</h5>
+                                    <p class="card-text">36</p>
+                                </div>
+                                <div class="col-4"><i class="fas fa-check  sizeFontIcon"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card border-secondary mb-3">
+                        <div class="card-body text-secondary">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">งดการเบิก</h5>
+                                    <p class="card-text">16</p>
+                                </div>
+                                <div class="col-4"><i class="fas fa-times  sizeFontIcon"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card border-warning mb-3">
+                        <div class="card-body text-warning">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">ใกล้หมดสต็อก</h5>
+                                    <p class="card-text">6</p>
+                                </div>
+                                <div class="col-4"><i class="fas fa-sort-amount-down sizeFontIcon"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card border-danger mb-3">
+                        <div class="card-body text-danger">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">หมดสต็อก</h5>
+                                    <p class="card-text">26</p>
+                                </div>
+                                <div class="col-4"><i class="fas fa-exclamation-circle sizeFontIcon"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <!-- /#page-content-wrapper -->
         <div id="page-content-wrapper">
             <div class="container-fluid"><br>
@@ -121,7 +170,9 @@
 
                 <a href="MyCart.html" style="text-decoration:none;font-size: 25px" class="float-right ">
 
-                    <i class="material-icons">shopping_cart </i> Cart <span class="badge badge-danger"><div id="checkCartUser"></div></span>
+                    <i class="material-icons">shopping_cart </i> Cart <span class="badge badge-danger">
+                        <div id="checkCartUser"></div>
+                    </span>
                 </a>
                 <h1>Product list</h1>
                 <hr>
@@ -129,8 +180,9 @@
 
                 <div class="row-fluid">
                     <div class="table-responsive">
-                          
-                        <table id="example" class="table table-striped table-bordered text-center dtCheck" style="width:100%">
+
+                        <table id="example" class="table table-striped table-bordered text-center dtCheck"
+                            style="width:100%">
                             <thead>
 
                                 <tr>

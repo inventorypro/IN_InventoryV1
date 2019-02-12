@@ -40,6 +40,9 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -56,20 +59,21 @@
 <body>
 
 
-<div class="header">
-    <nav class="navbar fixed-top">
-        <span class="navbar-brand mb-0 h1">Navbar</span>
-        <a href="#menu-toggle" class="btn btn-secondary " id="menu-toggle">        <i class="material-icons">
-                menu
+    <div class="header">
+        <nav class="navbar fixed-top">
+            <span class="navbar-brand mb-0 h1">Navbar</span>
+            <a href="#menu-toggle" class="btn btn-secondary " id="menu-toggle"> <i class="material-icons">
+                    menu
                 </i></a>
-            </nav></div>
+        </nav>
+    </div>
     <div id="wrapper" class="toggled">
 
-        <!-- Sidebar -->    
+        <!-- Sidebar -->
         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav"> 
+            <ul class="sidebar-nav">
                 <li class="sidebar-brand">
-                       
+
                     <p id="myUsername"></p>
 
                 </li>
@@ -99,22 +103,68 @@
                     <a href="#" onclick="fnLogout()">Logout</a>
                 </li>
             </ul>
-        </div>    
+        </div>
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
-     
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <h1>Dashboard</h1>
-                <hr>
-                <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller
-                    screens, and will appear non-collapsed on larger screens. When toggled using the button below, the
-                    menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
-                <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
 
+        <div class="container-fluid setMycontainer">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="card border-success mb-3">
+                        <div class="card-body text-success">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">เบิกได้</h5>
+                                    <p class="card-text">36</p>
+                                </div>
+                                <div class="col-4"><i class="fas fa-check  sizeFontIcon"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card border-secondary mb-3">
+                        <div class="card-body text-secondary">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">งดการเบิก</h5>
+                                    <p class="card-text">16</p>
+                                </div>
+                                <div class="col-4"><i class="fas fa-times  sizeFontIcon"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card border-warning mb-3">
+                        <div class="card-body text-warning">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">ใกล้หมดสต็อก</h5>
+                                    <p class="card-text">6</p>
+                                </div>
+                                <div class="col-4"><i class="fas fa-sort-amount-down sizeFontIcon"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card border-danger mb-3">
+                        <div class="card-body text-danger">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="card-title">หมดสต็อก</h5>
+                                    <p class="card-text">26</p>
+                                </div>
+                                <div class="col-4"><i class="fas fa-exclamation-circle sizeFontIcon"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <!-- /#page-content-wrapper -->
         <div id="page-content-wrapper">
             <div class="container-fluid"><br>
@@ -122,8 +172,10 @@
 
                 <a href="MyCart.html" style="text-decoration:none;font-size: 25px" class="float-right ">
 
-                        <i class="material-icons">shopping_cart </i> Cart <span class="badge badge-danger"><div id="checkCartUser"></div></span>
-                    </a>
+                    <i class="material-icons">shopping_cart </i> Cart <span class="badge badge-danger">
+                        <div id="checkCartUser"></div>
+                    </span>
+                </a>
                 <h1>Product list</h1>
                 <hr>
 
@@ -131,7 +183,8 @@
                 <div class="row-fluid">
                     <div class="table-responsive">
 
-                        <table id="example" class="table table-striped table-bordered text-center dtCheck" style="width:100%">
+                        <table id="example" class="table table-striped table-bordered text-center dtCheck"
+                            style="width:100%">
                             <thead>
 
                                 <tr>
@@ -199,25 +252,25 @@
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 
     <!-- Menu Toggle Script -->
-<script>
-    !function (a) { var b = /iPhone/i, c = /iPod/i, d = /iPad/i, e = /(?=.*\bAndroid\b)(?=.*\bMobile\b)/i, f = /Android/i, g = /(?=.*\bAndroid\b)(?=.*\bSD4930UR\b)/i, h = /(?=.*\bAndroid\b)(?=.*\b(?:KFOT|KFTT|KFJWI|KFJWA|KFSOWI|KFTHWI|KFTHWA|KFAPWI|KFAPWA|KFARWI|KFASWI|KFSAWI|KFSAWA)\b)/i, i = /IEMobile/i, j = /(?=.*\bWindows\b)(?=.*\bARM\b)/i, k = /BlackBerry/i, l = /BB10/i, m = /Opera Mini/i, n = /(CriOS|Chrome)(?=.*\bMobile\b)/i, o = /(?=.*\bFirefox\b)(?=.*\bMobile\b)/i, p = new RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)", "i"), q = function (a, b) { return a.test(b) }, r = function (a) { var r = a || navigator.userAgent, s = r.split("[FBAN"); return "undefined" != typeof s[1] && (r = s[0]), s = r.split("Twitter"), "undefined" != typeof s[1] && (r = s[0]), this.apple = { phone: q(b, r), ipod: q(c, r), tablet: !q(b, r) && q(d, r), device: q(b, r) || q(c, r) || q(d, r) }, this.amazon = { phone: q(g, r), tablet: !q(g, r) && q(h, r), device: q(g, r) || q(h, r) }, this.android = { phone: q(g, r) || q(e, r), tablet: !q(g, r) && !q(e, r) && (q(h, r) || q(f, r)), device: q(g, r) || q(h, r) || q(e, r) || q(f, r) }, this.windows = { phone: q(i, r), tablet: q(j, r), device: q(i, r) || q(j, r) }, this.other = { blackberry: q(k, r), blackberry10: q(l, r), opera: q(m, r), firefox: q(o, r), chrome: q(n, r), device: q(k, r) || q(l, r) || q(m, r) || q(o, r) || q(n, r) }, this.seven_inch = q(p, r), this.any = this.apple.device || this.android.device || this.windows.device || this.other.device || this.seven_inch, this.phone = this.apple.phone || this.android.phone || this.windows.phone, this.tablet = this.apple.tablet || this.android.tablet || this.windows.tablet, "undefined" == typeof window ? this : void 0 }, s = function () { var a = new r; return a.Class = r, a }; "undefined" != typeof module && module.exports && "undefined" == typeof window ? module.exports = r : "undefined" != typeof module && module.exports && "undefined" != typeof window ? module.exports = s() : "function" == typeof define && define.amd ? define("isMobile", [], a.isMobile = s()) : a.isMobile = s() }(this);
-    // alert(isMobile.any ? 'Mobile' : 'Not mobile');
-    var mobileOrWeb = isMobile.any;
-    //console.log(mobileOrWeb);
-    if (mobileOrWeb === true) {
-        $("#wrapper").toggleClass("toggled");
-    } else {
+    <script>
+        !function (a) { var b = /iPhone/i, c = /iPod/i, d = /iPad/i, e = /(?=.*\bAndroid\b)(?=.*\bMobile\b)/i, f = /Android/i, g = /(?=.*\bAndroid\b)(?=.*\bSD4930UR\b)/i, h = /(?=.*\bAndroid\b)(?=.*\b(?:KFOT|KFTT|KFJWI|KFJWA|KFSOWI|KFTHWI|KFTHWA|KFAPWI|KFAPWA|KFARWI|KFASWI|KFSAWI|KFSAWA)\b)/i, i = /IEMobile/i, j = /(?=.*\bWindows\b)(?=.*\bARM\b)/i, k = /BlackBerry/i, l = /BB10/i, m = /Opera Mini/i, n = /(CriOS|Chrome)(?=.*\bMobile\b)/i, o = /(?=.*\bFirefox\b)(?=.*\bMobile\b)/i, p = new RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)", "i"), q = function (a, b) { return a.test(b) }, r = function (a) { var r = a || navigator.userAgent, s = r.split("[FBAN"); return "undefined" != typeof s[1] && (r = s[0]), s = r.split("Twitter"), "undefined" != typeof s[1] && (r = s[0]), this.apple = { phone: q(b, r), ipod: q(c, r), tablet: !q(b, r) && q(d, r), device: q(b, r) || q(c, r) || q(d, r) }, this.amazon = { phone: q(g, r), tablet: !q(g, r) && q(h, r), device: q(g, r) || q(h, r) }, this.android = { phone: q(g, r) || q(e, r), tablet: !q(g, r) && !q(e, r) && (q(h, r) || q(f, r)), device: q(g, r) || q(h, r) || q(e, r) || q(f, r) }, this.windows = { phone: q(i, r), tablet: q(j, r), device: q(i, r) || q(j, r) }, this.other = { blackberry: q(k, r), blackberry10: q(l, r), opera: q(m, r), firefox: q(o, r), chrome: q(n, r), device: q(k, r) || q(l, r) || q(m, r) || q(o, r) || q(n, r) }, this.seven_inch = q(p, r), this.any = this.apple.device || this.android.device || this.windows.device || this.other.device || this.seven_inch, this.phone = this.apple.phone || this.android.phone || this.windows.phone, this.tablet = this.apple.tablet || this.android.tablet || this.windows.tablet, "undefined" == typeof window ? this : void 0 }, s = function () { var a = new r; return a.Class = r, a }; "undefined" != typeof module && module.exports && "undefined" == typeof window ? module.exports = r : "undefined" != typeof module && module.exports && "undefined" != typeof window ? module.exports = s() : "function" == typeof define && define.amd ? define("isMobile", [], a.isMobile = s()) : a.isMobile = s() }(this);
+        // alert(isMobile.any ? 'Mobile' : 'Not mobile');
+        var mobileOrWeb = isMobile.any;
+        //console.log(mobileOrWeb);
+        if (mobileOrWeb === true) {
+            $("#wrapper").toggleClass("toggled");
+        } else {
 
-    }
+        }
 
-    $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
 
 
 
-</script>
+    </script>
 </body>
 
 </html>
