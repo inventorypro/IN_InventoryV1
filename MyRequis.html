@@ -50,7 +50,7 @@
 
     <script src="js/index.js"></script>
     <script src="js/manager.js"></script>
-    <script src="js/myCart.js"></script>
+    <script src="js/myRequis.js"></script>
 </head>
 
 <body>
@@ -104,19 +104,6 @@
         <div class="container-fluid setMycontainer">
             <div class="container-fluid">
 
-                <h1>รายการเบิก วัสดุ - อุปกรณ์ </h1>
-                <hr>
-                <button onclick="calTotalCost()">xxx</button>
-                เลขที่ใบเบิก : <div id="ranBillNumber"></div> <br>
-                ชื่อผู้เบิก : <div id="getMyUsername"></div><br>
-                สถานที่นำไปใช้ : <select class="form-control" id="setDataLocation"> </select><br>
-                <div class="form-group">
-                    <label for="comment">หมายเหตุ:</label>
-                    <textarea class="form-control" rows="3" id="RequisNote"></textarea>
-                </div>
-                <button class="btn btn-success " onclick="addAllRequisNumber()">ส่งใบเบิก</button><br><br>
-
-
             </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -140,36 +127,26 @@
                                 style="width:80%">
                                 <thead>
                                     <tr>
-                                        <th>Select</th>
-                                        <th>Image</th>
-                                        <th>ProductID</th>
-                                        <th>
-                                            <center>Product</center>
-                                        </th>
-                                        <th>Category</th>
-                                        <th>ProductName</th>
-                                        <th>Price</th>
-                                        <th>UnitType</th>
-                                        <th>RequisAmount</th>
-                                        <th>Barcode</th>
+                                        <th>RequisID</th>
+                                        <th>RequisNumber</th>                  
+                                        <th>RequisPosition</th>
+                                        <th>RequisDept</th>
+                                        <th>RequisLocation</th>
+                                        <th>RequisNote</th>
+                                        <th>RequisDate</th>
+                                        <th>RequisStatus</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>Select</th>
-                                        <th>Image</th>
-                                        <th>ProductID</th>
-                                        <th>
-                                            <center>Product</center>
-                                        </th>
-                                        <th>Category</th>
-                                        <th>ProductName</th>
-                                        <th>Price</th>
-                                        <th>UnitType</th>
-                                        <th>RequisAmount</th>
-                                        <th>Barcode</th>
-
-
+                                            <th>RequisID</th>
+                                            <th>RequisNumber</th>                  
+                                            <th>RequisPosition</th>
+                                            <th>RequisDept</th>
+                                            <th>RequisLocation</th>
+                                            <th>RequisNote</th>
+                                            <th>RequisDate</th>
+                                            <th>RequisStatus</th>
                                     </tr>
                                 </tfoot>
                             </table>

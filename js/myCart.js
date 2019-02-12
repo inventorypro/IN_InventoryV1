@@ -336,6 +336,7 @@ function addToRequisition() {
         "RequisLocation":  $('#setDataLocation').val(),
         "RequisNote":$('#RequisNote').val(),
         "RequisDate": setDateNow,
+        "RequisStatus": "pending",
         "ApproveID": "",
         "ApproveName": "",
         "ApproveDate": "",
@@ -356,7 +357,8 @@ function addToRequisition() {
         },
         success: function (data) {
             console.table(data);
-              location.reload();
+            //  location.reload();
+            window.location.href = "MyRequis.html";
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
             console.log("Add new Stockcard failed, error is '" + thrownError + "'");
@@ -410,8 +412,9 @@ function addAllRequisNumber() {
                     },
                     success: function (data) {
                         //  console.table(data);
-                        addToRequisition();
-                       // location.reload();
+                       
+                
+                        //location.reload();
                     },
                     error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                         console.log("Add new Stockcard failed, error is '" + thrownError + "'");
@@ -420,7 +423,7 @@ function addAllRequisNumber() {
 
                 });
             }
-
+            addToRequisition();
 
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {

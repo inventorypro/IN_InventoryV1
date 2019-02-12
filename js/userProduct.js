@@ -62,7 +62,7 @@ $(document).ready(function () {
                     {
                         "data": "ProductName", "class": "text-left dtCheck", render: function (data, type, row, meta) {
                             return type === 'display' ?
-                                '<h5 class="card-title">' + row.Barcode + " " + row.ProductName + '</h5><h6 class="card-subtitle mb-2 text-muted">' + row.Category + '</h6>' + "Amount:" + row.Amount + " " + row.UnitType + " <br>Price:" + row.Price + ' <br><input type="number" required min="1" max="' + row.Amount + '" id="addAmount' + row.ProductID + '"><br> <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#myModal" id="btnAddToCart'+row.ProductID+'" onclick="addProductToCart('+row.ProductID+",'"+row.ProductName+"',"+"'"+row.Category+"',"+row.Price+",'"+row.UnitType+"',"+row.Amount+",'"+row.Barcode+"','"+row.ImgProduct+"',"+')">Add</button>' :
+                                '<h5 class="card-title">' + row.Barcode + " " + row.ProductName + '</h5><h6 class="card-subtitle mb-2 text-muted">' + row.Category + '</h6>' + "Amount:" + row.Amount + " " + row.UnitType + " <br>Price:" + row.Price + ' <br><input type="number" value="1" required min="1" max="' + row.Amount + '" id="addAmount' + row.ProductID + '"><br> <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#myModal" id="btnAddToCart'+row.ProductID+'" onclick="addProductToCart('+row.ProductID+",'"+row.ProductName+"',"+"'"+row.Category+"',"+row.Price+",'"+row.UnitType+"',"+row.Amount+",'"+row.Barcode+"','"+row.ImgProduct+"',"+')">Add</button>' :
                                 data;
                         }
                     },
