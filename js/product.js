@@ -3,7 +3,10 @@
 $(document).ready(function () {
 
     console.log(localStorage.logSite);
-
+    var pageLength = 10 ; 
+    function pageLength(){
+        pageLength = $('#addProductName').val();
+    } 
 
     $.ajax({
 
@@ -23,21 +26,39 @@ $(document).ready(function () {
             var datatable = $('#example').DataTable({
                 // dom: 'lBrtip,Bfrtip,CBlrtip',
 
-                // dom: 'CBlrtip',
-                // dom: 'Bfrtip,lBrtip',
+                fixedHeader: true,
+            
+                dom: 'Bfrtip',
                 responsive: true,
+                lengthMenu: [
+                    [ 10, 25, 50, -1 ],
+                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                ],
         
                 autoWidth: false,
                 buttons: [
                     // 'copy', 'csv', 'excel',
                     // {
-                    //     extend: 'collection',
-                    //     text: 'Table control',
-                    //     autoClose: true,
-                    //     buttons: [
-                    //         'colvis'
-                    //     ]
-                    // }
+                    //     extend:    'csvHtml5',
+                    //     text:      '<i class="material-icons" style="font-size: 1em;"> file_copy </i>',
+                    //     titleAttr: 'CSV'
+                    // },
+                   
+                    {
+                        extend:    'pageLength',
+                        text:      'Page Length',
+                        className:"",
+                        titleAttr: 'Page Length'
+                    },
+                    {
+                        extend: 'collection',
+                        text: 'Table control',
+                        autoClose: true,
+                        buttons: [
+                            'colvis'
+                        ]
+                    },        
+                   
 
                 ],
 
@@ -104,7 +125,7 @@ $(document).ready(function () {
 
             });
 
-
+   
             // for(var i = 0 ; i <= data.length ; i++){
             //     $( ".getMyProduct" ).append( "<p>"+data[i].ProductID +"</p>" );
             // }
