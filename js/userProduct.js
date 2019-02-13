@@ -132,7 +132,13 @@ function addProductToCart(ProductID,ProductName,Category,Price,UnitType,Amount,B
    //alert(ProductID+ProductName+Category+Price+UnitType+Amount+Barcode+ImgProduct);
     var addAmount = $('#addAmount' + ProductID).val();
     if (Amount >= addAmount && addAmount != 0) {
-        var setDateNow = new Date().toLocaleString();
+        // var setDateNow = new Date().toLocaleString();
+        // console.log(setDateNow);
+        var now = new Date();
+        var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
+        
+        console.log(setDateNow);
+    
         var formdata = {
     
             "RequisID": 1,

@@ -231,5 +231,8 @@ background-color: #f1f4f7;
 
 table.dataTable tbody td {
   vertical-align: middle;
+}
+
+.setFont{
   font-family: 'Sarabun', sans-serif;
 }

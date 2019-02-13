@@ -160,7 +160,7 @@ function btnUpdateCart(RequisID) {
         success: function (data) {
             console.table(data.ProductID);
             checkAmountID = data.ProductID;
-            var setDateNow = new Date().toLocaleString();
+                    var now = new Date();         var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
             var formdata = {
                 "RequisID": RequisID,
                 "ProductID": data.ProductID,
@@ -318,16 +318,18 @@ function showDataLocation() {
 }
 
 function ranBillNumber() {
-    var setDateNow = new Date().toLocaleString();
+            var now = new Date();         var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
     var ranBillNumber = Date.parse(setDateNow);
     var cutRanBillNumber = ranBillNumber.toString().substring(0, 11);
     setRanBillNum = cutRanBillNumber + "" + localStorage.logUsername;
+    console.log("xx");
+    console.log(Date.parse(setDateNow));
     document.getElementById("ranBillNumber").innerHTML = setRanBillNum;
 }
 
 function addToRequisition() {
 
-    var setDateNow = new Date().toLocaleString();
+            var now = new Date();         var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
     var formdata = {
         "RequisID": 1,
         "RequisName": localStorage.getMyUsername,
@@ -378,7 +380,7 @@ function addAllRequisNumber() {
             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
         },
         success: function (data) {
-            var setDateNow = new Date().toLocaleString();
+                    var now = new Date();         var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
             console.table(data);
             for (var i = 0; i < data.length; i++) {
                 var formdata = {
