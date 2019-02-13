@@ -218,6 +218,7 @@ background-color: #f1f4f7;
   padding-top: 80px;
   margin-right: auto;
   margin-left: auto;
+  font-family: 'Sarabun', sans-serif;
 }
 
 .setWordNoteView{
@@ -230,4 +231,5 @@ background-color: #f1f4f7;
 
 table.dataTable tbody td {
   vertical-align: middle;
+  font-family: 'Sarabun', sans-serif;
 }

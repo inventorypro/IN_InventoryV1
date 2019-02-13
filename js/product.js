@@ -71,7 +71,7 @@ $(document).ready(function () {
                                 data;
                         }
                     },
-                    { "data": "ProductID" },
+                    { "data": "ProductID", visible: false },
                     {
                         "data": "ProductID", "class": "text-left dtCheck", render: function (data, type, row, meta) {
                             return type === 'display' ?
@@ -79,9 +79,9 @@ $(document).ready(function () {
                                 data;
                         }
                     },
-                    { "data": "ProductName" ,  "class": "text-center dtCheck",},
-                    { "data": "Category" },
-                    { "data": "UnitType" },
+                    { "data": "ProductName" ,  "class": "text-center dtCheck", visible: false},
+                    { "data": "Category", visible: false },
+                    { "data": "UnitType", visible: false },
                     { "data": "Price" },
                     { "data": "MinValue" },
                     { "data": "MaxValue" },
@@ -98,7 +98,7 @@ $(document).ready(function () {
                         }
 
                     },
-                    { "data": "Amount" },
+                    { "data": "Amount", visible: false },
                     { "data": "SITES", visible: false },
                     {
                         "data": "ProductID", render: function (data, type, row, meta) {
