@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Inventory</title>
+    
 </head>
 
 
@@ -43,9 +44,8 @@
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css?family=Sarabun" rel="stylesheet">
-<script src="script/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
+<script src="script/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!-- https://material.io/tools/icons/?icon=shopping_cart&style=baseline -->
@@ -96,14 +96,71 @@
     <hr />
     <div id="printSection">
         <div id="printThis">
-                This should BE printed, too!
-                       
-        </div>
+            
+                <center>
+                    <h1>ใบเบิก วัสดุ-อุปกรณ์</h1>
+                </center>
+                <hr>
+                <div class="form-row">
+                    <div class="col">
+                        <h5>เลขที่ : </h5>
+                        <h5>ชื่อผู้เบิก : </h5>
+                        <h5>สถานะ : </h5>
+                        <h5>หมายเหตุ : </h5>
+                    </div>
+                    <div class="col">
+                        <h5>วันที่ : </h5>
+                        <h5>หน่วยงาน : </h5>
+                        <h5>สถานที่นำไปใช้ : </h5>
+                    </div>
+                </div>
 
-        <div id="printThisToo">
-            This should BE printed, too!
-        </div>
+                <br>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ลำดับ</th>
+                            <th scope="col">รหัส</th>
+                            <th scope="col">รายการ</th>
+                            <th scope="col">ราคา</th>
+                            <th scope="col">หน่วยนับ</th>
+                            <th scope="col">จำนวนเบิก</th>
+                            <th scope="col">มูลค่า</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
+                    </tbody>
+                </table>
+                <br>
+                <h4>มูลค่ารวม : </h4>
+                <br>
+                <hr>
+                <div class="form-row">
+                    <div class="col">
+                        <center>
+                            <h5>ลงชื่อ............................................................</h5>
+                        </center>
+                        <center>
+                            <h5>(.......................................................)</h5>
+                        </center>
+                        <center>
+                            <h5>ผู้เบิก</h5>
+                        </center>
+                    </div>
+                    <div class="col">
+                        <center>
+                            <h5>ลงชื่อ............................................................</h5>
+                        </center>
+                        <center>
+                            <h5>(.......................................................)</h5>
+                        </center>
+                        <center>
+                            <h5>ผู้อนุมัติ</h5>
+                        </center>
+                    </div>
+                </div>
+        </div>
     </div>
 </body>
 
