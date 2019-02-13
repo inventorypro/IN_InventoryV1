@@ -1,5 +1,5 @@
 function addNewStockcard() {
-    var setDateNow = new Date().toLocaleString();
+            var now = new Date();         var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
     var formdata = {
         StockCardID: 1,
         Date: setDateNow,
