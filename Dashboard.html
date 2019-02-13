@@ -440,9 +440,9 @@
         //         alert("Only jpg/jpeg and png files are allowed!");
         //     }
         // });
-
+        document.getElementById("loader").style.display = "none";
         $('input[type=file]').on("change", function () {
-            document.getElementById("loader").style.display = "none";
+            document.getElementById("loader").style.display = "block";
             var $files = $(this).get(0).files;
 
             if ($files.length) {
@@ -479,7 +479,7 @@
 
                         document.getElementById("myImgUpload").src = res.data.link;
                         console.log(res.data.link);
-                        document.getElementById("loader").style.display = "block";
+                        document.getElementById("loader").style.display = "none";
                         document.getElementById("addImgProduct").value = res.data.link;
                         document.getElementById("editImgProduct").value = res.data.link;
 
