@@ -363,7 +363,7 @@ function btnEditProduct() {
         Barcode: $('#editBarcode').val(),
         Vender: $('#editVender').val(),
         Place: $('#editPlace').val(),
-        ProductStatus: "editProductStatus",
+        ProductStatus: $('#editProductStatus').val(),
         ImgProduct: $('#editImgProduct').val(),
         Amount: $('#editAmount').val(),
         SITES: localStorage.logSite
