@@ -420,7 +420,7 @@ function addAllRequisNumber() {
                     },
                     error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                         console.log("Add new Stockcard failed, error is '" + thrownError + "'");
-                        //alert("Add new product failed, error is '" + thrownError + "'");
+                  
                     }
 
                 });
@@ -431,6 +431,8 @@ function addAllRequisNumber() {
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
             console.log("Add new Stockcard failed, error is '" + thrownError + "'");
             //alert("Add new product failed, error is '" + thrownError + "'");
+            alert("กรุณาทำการเพิ่มสินค้าก่อนส่งใบเบิก!" + thrownError + "'");
+            window.location.href = "managerCart.html";
         }
 
     });

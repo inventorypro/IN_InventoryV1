@@ -33,7 +33,7 @@ $(document).ready(function () {
                     // }
 
                 ],
-                "order": [[ 6, 'desc' ]], //asc|desc
+                "order": [[ 0, 'desc' ]], //asc|desc
                 "data": data,
                 "columns": [
                     { "data": "RequisID", visible: false  },
@@ -48,7 +48,16 @@ $(document).ready(function () {
                     { "data": "RequisPosition" , visible: false},
                     { "data": "RequisDept",  visible: false },
                     { "data": "RequisLocation", visible: false },
-                    { "data": "RequisDate",  "class": "text-center dtCheck", }, //RequisNote
+                    // { "data": "RequisDate",  "class": "text-center dtCheck","type": 'date-dd-mmm-yyyy', targets: 0  }, //RequisNote
+                    { 
+                        data: "RequisDate",
+                        render: function(data, type, row){
+                            if(type === "sort" || type === "type"){
+                                return row.RequisDate;
+                            }
+                            return moment(row.RequisDate).format("DD-MM-YYYY HH:mm");
+                        }
+                    },
                     { "data": "RequisStatus", "class": "text-center dtCheck", },
                     {
                         
