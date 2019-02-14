@@ -116,7 +116,7 @@
                             <div class="row">
                                 <div class="col-8">
                                     <h5 class="card-title">เบิกได้</h5>
-                                    <p class="card-text">36</p>
+                                    <p class="card-text" id="showCountProduct">0</p>
                                 </div>
                                 <div class="col-4"><i class="fas fa-check  sizeFontIcon"></i></div>
                             </div>
@@ -129,7 +129,7 @@
                             <div class="row">
                                 <div class="col-8">
                                     <h5 class="card-title">งดการเบิก</h5>
-                                    <p class="card-text">16</p>
+                                    <p class="card-text" id="showCountProductFalse">0</p>
                                 </div>
                                 <div class="col-4"><i class="fas fa-times  sizeFontIcon"></i></div>
                             </div>
@@ -142,7 +142,7 @@
                             <div class="row">
                                 <div class="col-8">
                                     <h5 class="card-title">ใกล้หมดสต็อก</h5>
-                                    <p class="card-text">6</p>
+                                    <p class="card-text" id="showcountProductMinValue">0</p>
                                 </div>
                                 <div class="col-4"><i class="fas fa-sort-amount-down sizeFontIcon"></i></div>
                             </div>
@@ -155,7 +155,7 @@
                             <div class="row">
                                 <div class="col-8">
                                     <h5 class="card-title">หมดสต็อก</h5>
-                                    <p class="card-text">26</p>
+                                    <p class="card-text" id="showcountProductAmount">0</p>
                                 </div>
                                 <div class="col-4"><i class="fas fa-exclamation-circle sizeFontIcon"></i></div>
                             </div>
@@ -264,6 +264,49 @@
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
+
+          ///cont product
+          var countProduct = 0;
+        var countProductFalse = 0;
+        var countProductMinValue = 0;
+        var countProductAmount = 0;
+        $.ajax({
+
+            type: "GET",
+            url: "http://localhost:60443/api/IN_Product?sites=" + localStorage.logSite,
+            dataType: 'json',
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+
+
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].ProductStatus === "true") {
+                        countProduct += 1;
+                    } else if (data[i].ProductStatus === "false") {
+                        countProductFalse += 1;
+                    }
+                    if (data[i].Amount <= data[i].MinValue) {
+                        countProductMinValue += 1;
+                    }
+                    if (data[i].Amount === 0) {
+                        countProductAmount += 1;
+                    }
+                }
+                console.log(countProduct);
+                document.getElementById("showCountProduct").innerHTML = countProduct;
+                document.getElementById("showCountProductFalse").innerHTML = countProductFalse;
+                document.getElementById("showcountProductMinValue").innerHTML = countProductMinValue;
+                document.getElementById("showcountProductAmount").innerHTML = countProductAmount;
+
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
+                //window.location.href = "index.html";
+            }
+        });
+
 
 
 
