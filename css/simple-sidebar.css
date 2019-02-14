@@ -85,13 +85,10 @@ body {
   color: rgb(0, 0, 0);
   background: rgba(0, 153, 255, 0.2);
 }
-.sidebar-nav li a:active {
-  color: #fff;
-}
 
 .sidebar-nav li a:active, .sidebar-nav li a:focus {
   text-decoration: none;
-  color: #fff;
+  color: white;
 }
 
 .sidebar-nav>.sidebar-brand {
@@ -133,15 +130,12 @@ body {
 }
 
 
-
-
 .container-fluid {
 background-color: #ffffff;
 }
 .navbar{
   background-color: #3c527d;
   color: #ffffff;
-  
 
 }
 .sticky-top{
@@ -152,11 +146,7 @@ background-color: #ffffff;
 
 .active, a:active{
   background-color: #30a5ff;
-
 }
-
-
-
 
 
 #loader {
