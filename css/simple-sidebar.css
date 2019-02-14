@@ -148,6 +148,10 @@ background-color: #ffffff;
   background-color: #30a5ff;
 }
 
+.active a:visited{
+  color: white;
+}
+
 
 #loader {
   position: absolute;
@@ -248,4 +252,9 @@ table.dataTable tbody td {
 .badge2-danger {
   color: #fff;
   background-color: #dc3545;
+}
+
+.setIconbarSize{
+  font-size: 20px;
+  color: white;
 }
