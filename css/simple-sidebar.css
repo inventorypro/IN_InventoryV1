@@ -226,3 +226,26 @@ table.dataTable tbody td {
 .setFont{
   font-family: 'Sarabun', sans-serif;
 }
+
+
+
+.badge2 {
+  display: -webkit-inline-box;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: -webkit-center;
+  vertical-align: inherit;
+  border-radius: 100px;
+  position: relative;
+  top: -25px;
+  right: 20px;
+  height: 35px;
+  width: 35px;
+  padding: 8px;
+}
+
+.badge2-danger {
+  color: #fff;
+  background-color: #dc3545;
+}
