@@ -276,7 +276,8 @@ function ShowDataEditor(a) {
             document.getElementById("editProductStatus").value = data.ProductStatus;
             document.getElementById("editAmount").value = data.Amount;
             document.getElementById("editSITES").value = data.SITES;
-            document.getElementById("editImgProduct").value = data.ImgProduct; editUnitType
+            document.getElementById("editImgProduct").value = data.ImgProduct; 
+            document.getElementById("myImgShow").src = data.ImgProduct;
 
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -297,7 +298,7 @@ function deleteDataProduct(a) {
 
 function addNewProduct() {
 
-
+    // document.getElementById("loader").style.display = "none";
     var formdata = {
         ProductID: "1",
         ProductName: $('#addProductName').val(),
@@ -326,6 +327,8 @@ function addNewProduct() {
         },
         success: function (data) {
             //console.table(data);
+            
+    // document.getElementById("loader").style.display = "block";
             location.reload();
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {

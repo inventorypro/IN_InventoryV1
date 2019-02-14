@@ -301,7 +301,7 @@
                     ImgProduct:
                     <div class="form-group">
                         <input type="file" id="myfileUpload" /><br>
-                        <center><img id="blah" height="200" src="#" alt="your image" /></center>
+                        <center><img id="myImgShow" height="200" src="" alt="your image" /></center>
 
                     </div>
 
@@ -395,7 +395,7 @@
 
     }
     $(document).ready(function () {
-        document.getElementById("loader").style.display = "block";
+        document.getElementById("loader").style.display = "none";
         ddlUnitType(); //drop down list unit type
         ADDddlUnitType();//drop down list unit type *Add
         $("#menu-toggle").click(function (e) {
@@ -440,9 +440,9 @@
         //         alert("Only jpg/jpeg and png files are allowed!");
         //     }
         // });
-        document.getElementById("loader").style.display = "none";
+        // document.getElementById("loader").style.display = "none";
         $('input[type=file]').on("change", function () {
-            document.getElementById("loader").style.display = "block";
+            
             var $files = $(this).get(0).files;
 
             if ($files.length) {
@@ -456,7 +456,7 @@
                 // Replace ctrlq with your own API key
                 var apiUrl = 'https://api.imgur.com/3/image';
                 var apiKey = 'b8732e440376e3d';
-
+                // document.getElementById("loader").style.display = "none";
                 var formData = new FormData();
                 formData.append("image", $files[0]);
 
@@ -478,11 +478,12 @@
                     success: function (res) {
 
                         document.getElementById("myImgUpload").src = res.data.link;
+                        // document.getElementById("myImgUpload2").src = res.data.link;
                         console.log(res.data.link);
-                        document.getElementById("loader").style.display = "none";
+                     
                         document.getElementById("addImgProduct").value = res.data.link;
                         document.getElementById("editImgProduct").value = res.data.link;
-
+                        // document.getElementById("loader").style.display = "block";
                         // $('body').append('<img src="' + res.data.link + '" />');
                     },
                     error: function () {
@@ -492,6 +493,7 @@
                 $.ajax(settings).done(function (response) {
                     console.log("Done");
                 });
+
             }
         });
         ///cont product
