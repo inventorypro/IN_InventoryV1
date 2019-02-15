@@ -72,7 +72,7 @@ $(document).ready(function () {
                         
                         "data": "RequisID", "class": "text-center dtCheck dtSetMiddle", render: function (data, type, row, meta) {
                             return type === 'display' ? 
-                                '<button onclick="setIDrequisViewPro('+"'"+row.RequisNumber+"'"+')">View Product</button>' :
+                                '<button onclick="setIDrequisViewPro('+"'"+row.RequisNumber+"',"+''+row.RequisID+')">View Product</button>' :
                                 data;
                         }
                     },
@@ -103,8 +103,9 @@ function viewNote(note){
 
 }
 
-function setIDrequisViewPro(setId){
+function setIDrequisViewPro(setId,requisId){
     localStorage.setItem("logIDrequisViewPro", setId);
+    localStorage.setItem("logIDrequis", requisId);
      window.location.href = "AdminViewProductRequis.html";
 
 }

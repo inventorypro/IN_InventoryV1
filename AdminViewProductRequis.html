@@ -111,23 +111,25 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm">
-                            <h6>เลขที่ใบเบิก : </h6>
-                            <h6>ชื่อผู้เบิก : </h6>
-                            <h6>สถานที่นำไปใช้ : </h6>
-                            <h6>อนุมัติโดย : </h6>
+                            
+
+                            <h6>เลขที่ใบเบิก : <div id="RequisNumber"></div></h6>  
+                            <h6>ชื่อผู้เบิก : <div id="RequisName"></div></h6>
+                            <h6>สถานที่นำไปใช้ : <div id="RequisLocation"></div></h6>
+                            <h6>อนุมัติโดย : <div id="ApproveName"></div></h6>
                         </div>
                         <div class="col-sm">
-                            <h6>วันที่เบิก : </h6>
-                            <h6>ตำแหน่ง : </h6>
-                            <h6>หน่วยงาน / แผนก : </h6>
-                            <h6>หมายเหตุ : </h6>
-                            <h6>วันที่อนุมัติ : </h6>
+                            <h6>วันที่เบิก :<div id="RequisDate"></div> </h6>
+                            <h6>ตำแหน่ง :<div id="RequisPosition"></div> </h6>
+                            <h6>หน่วยงาน / แผนก : <div id="RequisDept"></div></h6>
+                            <h6>หมายเหตุ : <div id="RequisNote"></div></h6>
+                            <h6>วันที่อนุมัติ :<div id="ApproveDate"></div> </h6>
                         </div>
                     </div>
                     <br>
                     <div class="float-right">
                         <button>Print</button>
-                        <button>Cancel</button>
+                        <button onclick="goBack()">Back</button>
                     </div>
                 </div>
                 <br><br>
