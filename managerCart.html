@@ -280,12 +280,12 @@
 
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].ProductStatus === "true") {
+                    if (data[i].ProductStatus === "true" && data[i].Amount != 0) {
                         countProduct += 1;
                     } else if (data[i].ProductStatus === "false") {
                         countProductFalse += 1;
                     }
-                    if (data[i].Amount <= data[i].MinValue) {
+                    if (data[i].Amount <= data[i].MinValue && data[i].Amount != 0) {
                         countProductMinValue += 1;
                     }
                     if (data[i].Amount === 0) {
