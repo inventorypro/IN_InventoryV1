@@ -258,3 +258,9 @@ table.dataTable tbody td {
   font-size: 20px;
   color: white;
 }
+
+.setRequisNote{
+  display:block; 
+  width:100%;
+  word-wrap:break-word; 
+}
