@@ -63,15 +63,15 @@ $(document).ready(function () {
                     { "data": "Balance", },
                     { "data": "RequisAmount", },
                     { "data": "RequisNote", },
-                    { "data": "Date", },
-                    { "data": "ImgProduct", },
-                    { "data": "UserID", },
+                    { "data": "Date",  visible: false},
+                    { "data": "ImgProduct", visible: false },
+                    { "data": "UserID", visible: false },
                     { "data": "Barcode", },
-                    { "data": "Location", },
+                    { "data": "Location",  visible: false},
                     { "data": "RequisStatus", },
-                    { "data": "RequisNumber", },
-                    { "data": "EMP_EngName", },
-                    { "data": "Position", }
+                    { "data": "RequisNumber", visible: false },
+                    { "data": "EMP_EngName",  visible: false},
+                    { "data": "Position",  visible: false}
                 ]
 
 
@@ -101,7 +101,7 @@ $(document).ready(function () {
         success: function (data) {
 
             console.table(data.RequisNumber);
-
+        
             $("#RequisNumber").text(data.RequisNumber);
             $("#RequisName").text(data.RequisName);
             $("#RequisLocation").text(data.RequisLocation);
@@ -109,8 +109,22 @@ $(document).ready(function () {
             $("#RequisDate").text(data.RequisDate);
             $("#ApproveDate").text(data.ApproveDate);
             $("#RequisPosition").text(data.RequisPosition);
+            $("#RequisDept").text(data.RequisPosition);
             $("#RequisNote").text(data.RequisNote);
-            $("#RequisNumber").text(data.RequisNumber);
+            $("#TotalCost").text(data.TotalCost);
+
+            
+            $("#RequisNumberPrint").text(data.RequisNumber);
+            $("#RequisNamePrint").text(data.RequisName);
+            $("#RequisLocationPrint").text(data.RequisLocation);
+            $("#ApproveNamePrint").text(data.ApproveName);
+            $("#RequisDatePrint").text( moment(data.RequisDate).format('DD-MM-YYYY HH:mm:ss'));
+            $("#ApproveDatePrint").text(data.ApproveDate);
+            $("#RequisPositionPrint").text(data.RequisPosition);
+            $("#RequisDeptPrint").text(data.RequisPosition);
+            $("#RequisNotePrint").text(data.RequisNote);
+            $("#TotalCostPrint").text(data.TotalCost);
+      
 
             /////Check data
             $.ajax({
@@ -437,7 +451,7 @@ function getAmountProduct(id, amount, RequisProduct,countI) {
                                     console.log( allIdRequisProduct.length);
                                     if (countI === allIdRequisProduct.length) {
                                         alert("เบิกสำเร็จ");
-                                     //   location.reload();
+                                        location.reload();
                              
                                     }
                                 
@@ -480,3 +494,8 @@ function getAmountProduct(id, amount, RequisProduct,countI) {
 
 
 }
+
+function btnPrint() {
+    window.print();
+}
+

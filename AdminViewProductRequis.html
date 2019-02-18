@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>ใบเบิก วัสดุ-อุปกรณ์</title>
 
 
 
@@ -54,9 +54,39 @@
 
     <script src="js/index.js"></script>
     <script src="js/admin.js"></script>
-
+    <script src="js/print.js"></script>
     <script src="js/adminApprove.js"></script>
 </head>
+<style>
+    @media screen {
+        #printSection {
+            display: none;
+          
+        }
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #printSection,
+        #printSection * {
+            visibility: visible;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            
+            background: white;
+
+        }
+    }
+</style>
 
 <body>
     <div class="header">
@@ -126,11 +156,11 @@
                     </div>
                     <br>
                     <div class="float-left">
-                            <button id="btnApprove" disabled onclick="btnApprove()">Approve</button>
-                            <button id="btnApprove" onclick="btnApproveChecking()">ตรวจสอบ</button>
-                        </div>
+                        <button id="btnApprove" disabled onclick="btnApprove()">Approve</button>
+                        <button id="btnApprove" onclick="btnApproveChecking()">ตรวจสอบ</button>
+                    </div>
                     <div class="float-right">
-                        <button>Print</button>
+                        <button onclick="btnPrint()">Print</button>
                         <button onclick="goBack()">Back</button>
                     </div>
                 </div>
@@ -233,6 +263,81 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="printSection">
+        <div id="printThis">
+
+
+            <br> <br>
+            <center>
+                <h1>ใบเบิก วัสดุ-อุปกรณ์</h1>
+            </center>
+            <hr>
+            <div class="form-row">
+                <div class="col">
+                    <h5>เลขที่ : <a id="RequisNumberPrint"></a> </h5>
+                    <h5>ชื่อผู้เบิก :<a id="RequisNamePrint"></a> </h5>
+                    <h5>สถานะ : <a id="RequisNumberPrint"></a></h5>
+                    <h5>หมายเหตุ :<a id="RequisNotePrint"></a> </h5>
+                </div>
+                <div class="col">
+                    <h5>วันที่ : <a id="RequisDatePrint"></a> </h5>
+                    <h5>ตำแหน่ง : <a id="RequisPositionPrint"></a> </h5>
+                    <h5>แผนก :<a id="RequisDeptPrint"></a> </h5>
+                    <h5>สถานที่นำไปใช้ :<a id="RequisLocationPrint"></a> </h5>
+                </div>
+            </div>
+
+            <br>
+            <table id="examplePrint" class="table table-striped table-bordered text-center dtCheck " style="width:100%">
+                <thead>
+                    <tr>
+                        <th scope="col">ลำดับ</th>
+                        <th scope="col">รหัส</th>
+                        <th scope="col">รายการ</th>
+                        <th scope="col">ราคา</th>
+                        <th scope="col">หน่วยนับ</th>
+                        <th scope="col">จำนวนเบิก</th>
+                        <th scope="col">มูลค่า</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <br>
+            <div class="float-right">
+                <h4>มูลค่ารวม : <a id="TotalCostPrint"></a></h4>
+            </div>
+            <br>
+            <hr>
+            <div class="form-row">
+                <div class="col">
+                    <center>
+                        <h5>ลงชื่อ............................................................</h5>
+                    </center>
+                    <center>
+                        <h5>(.......................................................)</h5>
+                    </center>
+                    <center>
+                        <h5>ผู้เบิก</h5>
+                    </center>
+                </div>
+                <div class="col">
+                    <center>
+                        <h5>ลงชื่อ............................................................</h5>
+                    </center>
+                    <center>
+                        <h5>(.......................................................)</h5>
+                    </center>
+                    <center>
+                        <h5>ผู้อนุมัติ</h5>
+                    </center>
                 </div>
             </div>
         </div>
