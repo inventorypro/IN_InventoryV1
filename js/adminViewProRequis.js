@@ -1,4 +1,5 @@
 var allIdProduct = [];
+var allIdRequisProduct = [];
 var allAmountProduct = [];
 var allResultReqAmountProduct = [];
 $(document).ready(function () {
@@ -17,11 +18,12 @@ $(document).ready(function () {
 
             // console.table(data);
             for (var i = 0; i < data.length; i++) {
-                if (data[i].RequisStatus.toLowerCase() === "unapprove") {
+                if (data[i].RequisStatus.toLowerCase() === "unapprove" || data[i].RequisStatus.toLowerCase() === "approve") {
 
                 } else {
                     allIdProduct[i] = data[i].ProductID;
                     allAmountProduct[i] = data[i].RequisAmount;
+                    allIdRequisProduct[i] = data[i].RequisID;
                 }
 
 
@@ -113,22 +115,6 @@ $(document).ready(function () {
             $("#RequisNote").text(data.RequisNote);
             $("#RequisNumber").text(data.RequisNumber);
 
-            //  <h6>เลขที่ใบเบิก : </h6>RequisNumber
-            //  <h6>ชื่อผู้เบิก : </h6>RequisName
-            //  <h6>สถานที่นำไปใช้ : </h6>RequisLocation
-            //  <h6>อนุมัติโดย : </h6>ApproveName
-
-            //  <h6>วันที่เบิก : </h6>RequisDate
-            //  <h6>ตำแหน่ง : </h6>RequisPosition
-            //  <h6>หน่วยงาน / แผนก : </h6>RequisDept
-            //  <h6>หมายเหตุ : </h6>RequisNote
-            //  <h6>วันที่อนุมัติ : </h6>ApproveDate
-
-
-
-
-
-
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
             console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
@@ -138,6 +124,9 @@ $(document).ready(function () {
 
     });
 
+
+    /////Check data
+    
 
 });
 function btnApproveChecking() {
@@ -164,7 +153,7 @@ function btnApproveChecking() {
                             productNameFalse[j] = data[i].ProductName;
                             //alert(data[i].ProductName+"false");
                         } else {
-                            allResultReqAmountProduct[j] = data[i].Amount - allAmountProduct[j];
+                            // allResultReqAmountProduct[j] = data[i].Amount - allAmountProduct[j];
                         }
                     }
                 }
@@ -174,6 +163,8 @@ function btnApproveChecking() {
             // console.log(productNameFalse);
             if (checking === "false") {
                 alert(productNameFalse + " มีจำนวนสินค้าไม่เพียงพอ");
+                document.getElementById("btnApprove").disabled = true;
+            }else if(allIdProduct.length === 0){
                 document.getElementById("btnApprove").disabled = true;
             } else {
                 alert("สามารถเบิกได้");
@@ -193,12 +184,78 @@ function btnApproveChecking() {
 
 
 }
+function updateAmountProduct(formdataProduct,id){
+    $.ajax({
 
+        type: "PUT",
+        url: "http://localhost:60443/api/IN_Product/" + id,
+        dataType: 'json',
+        data: formdataProduct,
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+      
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            // console.log("Add new product failed, error is '" + thrownError + "'");
+            alert("Edit product failed, error is '" + thrownError + "'");
+        }
+
+    }).then(function (data) {
+        console.log("ssssssssssssssss");
+    });
+
+}
+
+function getAmountProduct(id,amount){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Product/" + id,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+
+        success: function (data) {      
+
+            var formdataProduct = {
+                ProductID: id,
+                ProductName: data.ProductName,
+                Category: data.Category,
+                UnitType: data.UnitType,
+                Price: data.Price,
+                MinValue: data.MinValue,
+                MaxValue: data.MaxValue,
+                Barcode: data.Barcode,
+                Vender: data.Vender,
+                Place: data.Place,
+                ProductStatus: data.ProductStatus,
+                ImgProduct: data.ImgProduct,
+                Amount: data.Amount-amount,
+                SITES: data.SITES
+            }
+
+            updateAmountProduct(formdataProduct,id);
+          
+            
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
+            // alert('check !');
+
+        }
+    });
+
+}
 
 function btnApprove() {
     console.log(allIdProduct);
     console.log(allAmountProduct);
-    console.log(allResultReqAmountProduct);
+   
     $.ajax({
 
         type: "GET",
@@ -219,7 +276,7 @@ function btnApprove() {
                             productNameFalse[j] = data[i].ProductName;
                             //alert(data[i].ProductName+"false");
                         } else {
-                            allResultReqAmountProduct[j] = data[i].Amount - allAmountProduct[j];
+                            // allResultReqAmountProduct[j] = data[i].Amount - allAmountProduct[j];
                         }
                     }
                 }
@@ -230,20 +287,79 @@ function btnApprove() {
             if (checking === "false") {
                 alert(productNameFalse + " มีจำนวนสินค้าไม่เพียงพอ");
                 document.getElementById("btnApprove").disabled = true;
-            } else {
+            }else if(allIdProduct.length === 0){
+                document.getElementById("btnApprove").disabled = true;
+            }else {
                 document.getElementById("btnApprove").disabled = false;
                 for (var i = 0; i < allIdProduct.length; i++) {
+                    console.log(allIdProduct[i]+"xxx"+allAmountProduct[i]);
+                    getAmountProduct(allIdProduct[i],allAmountProduct[i])
+                    ///////put req product
+                   
                     $.ajax({
                         type: "GET",
-                        url: "http://localhost:60443/api/IN_Product/"+allIdProduct[i],
+                        url: "http://localhost:60443/api/IN_ProductRequis/" + allIdRequisProduct[i],
                         dataType: 'json',
                         headers: {
                             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                         },
 
                         success: function (data) {
-                            console.log(data);
-                            console.log(allAmountProduct);
+
+
+                            for (var j = 0; j < allIdProduct.length; j++) {
+                                if(allIdRequisProduct[j]===data.RequisID){
+                                    var formdataReqProduct = {
+
+                                        "RequisID": data.RequisID,
+                                        "ProductID": data.ProductID,
+                                        "Category": data.Category,
+                                        "ProductName": data.ProductName,
+                                        "Price": data.Price,
+                                        "UnitType": data.UnitType,
+                                        "Balance": data.Balance,
+                                        "RequisAmount": data.RequisAmount,
+                                        "RequisNote": data.RequisNote,
+                                        "Date": data.Date,
+                                        "ImgProduct": data.ImgProduct,
+                                        "UserID": data.UserID,
+                                        "Barcode": data.Barcode,
+                                        "Location": data.Location,
+                                        "RequisStatus": "approve",
+                                        "RequisNumber": data.RequisNumber,
+                                        "EMP_EngName": data.EMP_EngName,
+                                        "Position": data.Position
+    
+                                    }
+    
+                                    $.ajax({
+    
+                                        type: "PUT",
+                                        url: "http://localhost:60443/api/IN_ProductRequis/" + allIdRequisProduct[j],
+                                        dataType: 'json',
+                                        data: formdataReqProduct,
+                                        headers: {
+                                            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                                        },
+                                        success: function (data) {
+    
+    
+                                        },
+                                        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                            // console.log("Add new product failed, error is '" + thrownError + "'");
+                                            alert("Edit product failed, error is '" + thrownError + "'");
+                                        }
+    
+                                    }).then(function (data) {
+                                        console.log("ssssssssssssssss");
+                                    });
+                                }
+                            
+
+
+                            }
+                  
+
 
 
                         },
@@ -253,14 +369,86 @@ function btnApprove() {
 
                         }
                     });
-
+                    location.reload();
                 }
+                  //// req
+
+                  $.ajax({
+                    type: "GET",
+                    url: "http://localhost:60443/api/IN_Requisition/" + localStorage.logIDrequis,
+                    dataType: 'json',
+                    headers: {
+                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                    },
+
+                    success: function (data) {
+
+
+                        for (var j = 0; j < allIdProduct.length; j++) {
+                            var now = new Date();
+                            var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
+                            var formdataReq = {
+
+                                "RequisID": data.RequisID,
+                                "RequisName": data.RequisName,
+                                "RequisPosition": data.RequisPosition,
+                                "RequisDept": data.RequisDept,
+                                "RequisLocation": data.RequisLocation,
+                                "RequisNote": data.RequisNote,
+                                "RequisDate": data.RequisDate,
+                                "ApproveID": localStorage.logUsername,
+                                "ApproveName":localStorage.getMyUsername,
+                                "ApproveDate": setDateNow,
+                                "RequisNumber": data.RequisNumber,
+                                "TotalCost": data.TotalCost,
+                                "UserID": data.UserID,
+                                "SITES": data.SITES,
+                                "RequisStatus": "approve"
+
+                            }
+
+                            $.ajax({
+
+                                type: "PUT",
+                                url: "http://localhost:60443/api/IN_Requisition/" +  localStorage.logIDrequis,
+                                dataType: 'json',
+                                data: formdataReq,
+                                headers: {
+                                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                                },
+                                success: function (data) {
+
+
+                                },
+                                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                    // console.log("Add new product failed, error is '" + thrownError + "'");
+                                    alert("Edit product failed, error is '" + thrownError + "'");
+                                }
+
+                            }).then(function (data) {
+                                //    location.reload();
+                                console.log("ssssssssssssssss");
+                            });
+
+
+                        }
+
+
+
+
+                    },
+                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                        console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
+                        // alert('check !');
+
+                    }
+                });
 
 
 
             }
-
-            return checking;
+     
+    
 
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -271,7 +459,7 @@ function btnApprove() {
     });
 
 
-
+  
 }
 
 function checkAmountProduct(idProduct, ReqAmount) {
@@ -288,9 +476,6 @@ function checkAmountProduct(idProduct, ReqAmount) {
         success: function (data) {
 
 
-
-            //   console.log(checking);
-
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
             console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
@@ -298,9 +483,8 @@ function checkAmountProduct(idProduct, ReqAmount) {
         }
 
     });
-
-
 }
+
 function viewNote(note) {
     document.getElementById("getNoteView").innerHTML = note;
 

@@ -57,9 +57,26 @@
         console.log(setDateNow);
     });
 
+    function ttff(){
+     
+
+        var check =   document.getElementById("MyElement").value;
+        console.log(check);
+        if(check === "block"){
+            document.getElementById("MyElement").value="unblock";
+        document.getElementById("MyElement").className = "btn btn-danger";
+
+        }else{
+            document.getElementById("MyElement").value="block";
+        document.getElementById("MyElement").className = "btn btn-success";
+        }
+    }
+
 </script>
 
 <body>
+    <input type="button" value="block" onclick="ttff()" id="MyElement"  class="btn btn-success">
+
 
 
 
