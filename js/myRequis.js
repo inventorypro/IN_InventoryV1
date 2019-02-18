@@ -67,6 +67,14 @@ $(document).ready(function () {
                                 data;
                         }
                     },
+                    {
+                        
+                        "data": "RequisID", "class": "text-center dtCheck dtSetMiddle", render: function (data, type, row, meta) {
+                            return type === 'display' ? 
+                                '<button onclick="setIDrequisViewPro('+"'"+row.RequisNumber+"',"+''+row.RequisID+')">View Product</button>' :
+                                data;
+                        }
+                    },
 
                 ]
 
@@ -91,5 +99,11 @@ $(document).ready(function () {
 
 function viewNote(note){
     document.getElementById("getNoteView").innerHTML =  note;
+
+}
+function setIDrequisViewPro(setId,requisId){
+    localStorage.setItem("logIDrequisViewPro", setId);
+    localStorage.setItem("logIDrequis", requisId);
+     window.location.href = "managerViewProductRequis.html";
 
 }

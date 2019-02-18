@@ -22,7 +22,6 @@ $(document).ready(function () {
 
             }
 
-            btnApproveChecking();
             var datatable = $('#examplePrint').DataTable({
 
                 dom: 'lBrtip',
