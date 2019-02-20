@@ -15,7 +15,7 @@ $(document).ready(function () {
         },
 
         success: function (data) {
-
+            console.log(localStorage.logSite);
             // console.table(data);
 
 
@@ -23,7 +23,6 @@ $(document).ready(function () {
             var datatable = $('#example').DataTable({
 
                 // dom: 'lBrtip',
-
                 responsive: true,
                 // dom: 'Bfrtip',
                 autoWidth: false,
@@ -72,10 +71,10 @@ $(document).ready(function () {
                     // { "data": "Price" },
                     // { "data": "MinValue" },
                     // { "data": "MaxValue" },
-                    { "data": "Barcode", visible: false },
+                    // { "data": "Barcode", visible: false },
                     // { "data": "Vender" },
                     // { "data": "Place" },
-                    // { "data": "ProductStatus" },
+                    { "data": "ProductStatus" },
 
                     // { "data": "Amount", visible: false },
                     // { "data": "SITES", visible: false },
@@ -109,10 +108,6 @@ $(document).ready(function () {
         }
 
     });
-
-
-
-
 
 
 
