@@ -42,7 +42,7 @@ $(document).ready(function () {
                     // }
 
                 ],
-                "order": [[2, 'asc']], //asc|desc
+                "order": [[0, 'asc']], //asc|desc
                 "data": data,
                 "bPaginate": false,
                 "bFilter": false,
