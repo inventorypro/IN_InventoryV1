@@ -101,7 +101,25 @@ $(document).ready(function () {
     });
 
 
+    $.ajax({
 
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Product?sites=" + localStorage.logSite,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+
+
+        success: function (data) {
+  
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
+            //window.location.href = "index.html";
+        }
+    });
 
 
 
@@ -329,7 +347,7 @@ function ranBillNumber() {
 
 function addToRequisition() {
 
-            var now = new Date();         var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
+ var now = new Date();         var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
     var formdata = {
         "RequisID": 1,
         "RequisName": localStorage.getMyUsername,
@@ -343,7 +361,7 @@ function addToRequisition() {
         "ApproveName": "",
         "ApproveDate": "",
         "RequisNumber": setRanBillNum,
-        "TotalCost": 1,
+        "TotalCost": sumPrice,
         "UserID": localStorage.logUsername,
         "SITES": localStorage.logSite
     }
@@ -369,7 +387,7 @@ function addToRequisition() {
 
     });
 }
-
+var sumPrice = 0;
 function addAllRequisNumber() {
     $.ajax({
 
@@ -383,6 +401,7 @@ function addAllRequisNumber() {
                     var now = new Date();         var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
             console.table(data);
             for (var i = 0; i < data.length; i++) {
+                sumPrice += data[i].Price*data[i].RequisAmount;
                 var formdata = {
                     "RequisID": data[i].RequisID,
                     "ProductID": data[i].ProductID,
@@ -425,7 +444,10 @@ function addAllRequisNumber() {
 
                 });
             }
-            addToRequisition();
+    
+                addToRequisition();
+            
+            
 
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {

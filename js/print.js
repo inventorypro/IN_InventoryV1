@@ -50,8 +50,9 @@ $(document).ready(function () {
                 "columns": [
                     {
                         "data": "RequisID", render: function (data, type, row, meta) {
+                            var showNo = parseInt(meta.row)+1;
                             return type === 'display' ?
-                                '' + numberRow++ + '' :
+                                '' + showNo  + '' :
                                 data;
                         }
                     },
