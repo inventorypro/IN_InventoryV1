@@ -3,10 +3,10 @@
 $(document).ready(function () {
 
     console.log(localStorage.logSite);
-    var pageLength = 10 ; 
-    function pageLength(){
+    var pageLength = 10;
+    function pageLength() {
         pageLength = $('#addProductName').val();
-    } 
+    }
 
     $.ajax({
 
@@ -27,14 +27,14 @@ $(document).ready(function () {
                 // dom: 'lBrtip,Bfrtip,CBlrtip',
 
                 fixedHeader: true,
-            
+
                 dom: 'Bfrtip',
                 responsive: true,
                 lengthMenu: [
-                    [ 10, 25, 50, -1 ],
-                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                    [10, 25, 50, -1],
+                    ['10 rows', '25 rows', '50 rows', 'Show all']
                 ],
-        
+
                 autoWidth: false,
                 buttons: [
                     // 'copy', 'csv', 'excel',
@@ -43,11 +43,11 @@ $(document).ready(function () {
                     //     text:      '<i class="material-icons" style="font-size: 1em;"> file_copy </i>',
                     //     titleAttr: 'CSV'
                     // },
-                   
+
                     {
-                        extend:    'pageLength',
-                        text:      'Page Length',
-                        className:"",
+                        extend: 'pageLength',
+                        text: 'Page Length',
+                        className: "",
                         titleAttr: 'Page Length'
                     },
                     {
@@ -57,8 +57,8 @@ $(document).ready(function () {
                         buttons: [
                             'colvis'
                         ]
-                    },        
-                   
+                    },
+
 
                 ],
 
@@ -79,7 +79,7 @@ $(document).ready(function () {
                                 data;
                         }
                     },
-                    { "data": "ProductName" ,  "class": "text-center dtCheck", visible: false},
+                    { "data": "ProductName", "class": "text-center dtCheck", visible: false },
                     { "data": "Category", visible: false },
                     { "data": "UnitType", visible: false },
                     { "data": "Price" },
@@ -94,7 +94,7 @@ $(document).ready(function () {
                             return type === 'display' ?
                                 '<img id="blah" class="img-responsive" width="200" height="150" src="' + row.ImgProduct + '" alt="your image" />' :
                                 data;
-                                
+
                         }
 
                     },
@@ -110,6 +110,7 @@ $(document).ready(function () {
                     },
                     {
                         "data": "ProductID", render: function (data, type, row, meta) {
+                            var tttr = $(this).closest('tr');
                             return type === 'display' ?
                                 '  <center>  <button type="button" class="btn btn-danger" onclick="btnDelete(' + row.ProductID + ')">delete </button></center>' :
                                 data;
@@ -126,7 +127,7 @@ $(document).ready(function () {
 
             });
 
-   
+
             // for(var i = 0 ; i <= data.length ; i++){
             //     $( ".getMyProduct" ).append( "<p>"+data[i].ProductID +"</p>" );
             // }
@@ -151,9 +152,13 @@ $(document).ready(function () {
 });
 
 function btnDelete(idVal) {
+
+
     var showCfDelete = confirm("Are you sure you want to delete this product?");
     if (showCfDelete == true) {
+
         txtShow = "You delete success!";
+
 
         $.ajax({
 
@@ -168,6 +173,7 @@ function btnDelete(idVal) {
                 console.log("success");
                 alert(txtShow);
                 location.reload();
+                // clearProduct(idVal)
             },
             error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                 console.log("Your can't delete, error is '" + thrownError + "'");
@@ -182,6 +188,69 @@ function btnDelete(idVal) {
 
     }
 
+}
+function clearProduct(getID) {
+    var countDel = 1;
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ProductRequis?userID=all&RequisStatus=all",
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+
+        success: function (data) {
+            var getLength = data.length;
+            if (data.length === 0) {
+                console.log("success");
+                alert(txtShow);
+                location.reload();
+
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    countDel++;
+
+                    if (data[i].ProductID === getID && data[i].ProductStatus === "waiting") {
+                        delReqProduct(data[i].RequisID, countDel, getLength);
+                    }
+
+
+                }
+
+            }
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Your can't delete, error is '" + thrownError + "'");
+            //window.location.href = "index.html";
+        }
+    });
+
+}
+
+function delReqProduct(id, countDel, getLength) {
+    $.ajax({
+
+        type: "DELETE",
+        url: "http://localhost:60443/api/IN_ProductRequis/" + id,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+
+        success: function (datax) {
+            console.log("success");
+            alert(txtShow);
+            location.reload();
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Your can't delete, error is '" + thrownError + "'");
+            //window.location.href = "index.html";
+        }
+    });
 }
 
 function toggleCheckbox(source) {
@@ -276,8 +345,9 @@ function ShowDataEditor(a) {
             document.getElementById("editProductStatus").value = data.ProductStatus;
             document.getElementById("editAmount").value = data.Amount;
             document.getElementById("editSITES").value = data.SITES;
-            document.getElementById("editImgProduct").value = data.ImgProduct; 
-            document.getElementById("myImgShow").src = data.ImgProduct;
+            document.getElementById("editImgProduct").value = data.ImgProduct;
+
+            document.getElementById("editImgProductShow").src = data.ImgProduct;
 
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -327,8 +397,8 @@ function addNewProduct() {
         },
         success: function (data) {
             //console.table(data);
-            
-    // document.getElementById("loader").style.display = "block";
+
+            // document.getElementById("loader").style.display = "block";
             location.reload();
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {

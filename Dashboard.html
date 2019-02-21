@@ -97,7 +97,7 @@
                     <a href="#">Services</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="#" onclick="clearProduct()">Contact</a>
                 </li>
                 <li>
                     <a href="#" onclick="fnLogout()">Logout</a>
@@ -297,12 +297,13 @@
                     editProductStatus: <input type="text" class="form-control" id="editProductStatus">
                     editAmount: <input type="text" class="form-control" id="editAmount">
                     editSITES: <input type="text" class="form-control" id="editSITES">
-                    editImgProduct: <input type="hidden" class="form-control" id="editImgProduct">
+                    <input type="hidden" class="form-control" id="editImgProduct">
                     ImgProduct:
+                    <center><img id="editImgProductShow" height="200" src="" alt="your image" /></center>
                     <div class="form-group">
                         <input type="file" id="myfileUpload" /><br>
-                        <center><img id="myImgShow" height="200" src="" alt="your image" /></center>
-
+                        <center><img id="myImgUpload" height="200" src="" alt="new image product" /></center>
+                   
                     </div>
 
                 </div>
@@ -483,6 +484,7 @@
 
                         document.getElementById("addImgProduct").value = res.data.link;
                         document.getElementById("editImgProduct").value = res.data.link;
+                        document.getElementById("editImgProductShow").src = data.ImgProduct;
                         // document.getElementById("loader").style.display = "block";
                         // $('body').append('<img src="' + res.data.link + '" />');
                     },

@@ -1,4 +1,5 @@
 var allIdProduct = [];
+var allNameProduct = [];
 var allIdRequisProduct = [];
 var allAmountProduct = [];
 var allResultReqAmountProduct = [];
@@ -23,6 +24,7 @@ $(document).ready(function () {
 
                 } else {
                     allIdProduct[i] = data[i].ProductID;
+                    allNameProduct[i] = data[i].ProductName;
                     allAmountProduct[i] = data[i].RequisAmount;
                     allIdRequisProduct[i] = data[i].RequisID;
                     totalCost += parseInt(data[i].RequisAmount) * parseInt(data[i].Price);
@@ -63,15 +65,15 @@ $(document).ready(function () {
                     { "data": "Balance", },
                     { "data": "RequisAmount", },
                     { "data": "RequisNote", },
-                    { "data": "Date",  visible: false},
+                    { "data": "Date", visible: false },
                     { "data": "ImgProduct", visible: false },
                     { "data": "UserID", visible: false },
                     { "data": "Barcode", },
-                    { "data": "Location",  visible: false},
+                    { "data": "Location", visible: false },
                     { "data": "RequisStatus", },
                     { "data": "RequisNumber", visible: false },
-                    { "data": "EMP_EngName",  visible: false},
-                    { "data": "Position",  visible: false}
+                    { "data": "EMP_EngName", visible: false },
+                    { "data": "Position", visible: false }
                 ]
 
 
@@ -101,7 +103,7 @@ $(document).ready(function () {
         success: function (data) {
 
             console.table(data.RequisNumber);
-        
+
             $("#RequisNumber").text(data.RequisNumber);
             $("#RequisName").text(data.RequisName);
             $("#RequisLocation").text(data.RequisLocation);
@@ -113,18 +115,18 @@ $(document).ready(function () {
             $("#RequisNote").text(data.RequisNote);
             $("#TotalCost").text(data.TotalCost);
 
-            
+
             $("#RequisNumberPrint").text(data.RequisNumber);
             $("#RequisNamePrint").text(data.RequisName);
             $("#RequisLocationPrint").text(data.RequisLocation);
             $("#ApproveNamePrint").text(data.ApproveName);
-            $("#RequisDatePrint").text( moment(data.RequisDate).format('DD-MM-YYYY HH:mm:ss'));
+            $("#RequisDatePrint").text(moment(data.RequisDate).format('DD-MM-YYYY HH:mm:ss'));
             $("#ApproveDatePrint").text(data.ApproveDate);
             $("#RequisPositionPrint").text(data.RequisPosition);
             $("#RequisDeptPrint").text(data.RequisPosition);
             $("#RequisNotePrint").text(data.RequisNote);
             $("#TotalCostPrint").text(data.TotalCost);
-      
+
 
             /////Check data
             $.ajax({
@@ -138,10 +140,49 @@ $(document).ready(function () {
 
                 success: function (data) {
                     var checking = "true";
+                    var statusCheckAllProduct = "true";
+                    var checkingAllProduct = [];
+                    var checkingAllIdProduct = [];
                     var productNameFalse = [];
+                    var indexFalse = [];
+                    var numIndexFalse = 0;
+
+                    for (var j = 0; j < allIdProduct.length; j++) {
+                        for (var i = 0; i < data.length; i++) {
+                            if (allIdProduct[j] === data[i].ProductID) {
+                                indexFalse[numIndexFalse] = j;
+                                checkingAllProduct[j] = "true";
+                                numIndexFalse++;
+                                break;
+                            } else {
+
+                                checkingAllProduct[j] = "false";
+
+                            }
+                        }
+
+
+                    }
+
+                    for (var j = 0; j < checkingAllProduct.length; j++) {
+                        if (checkingAllProduct[j] === "false") {
+                            statusCheckAllProduct = "false";
+                            break;
+                        }
+
+                    }
+                    console.log(indexFalse);
+                    console.log(checkingAllProduct);
+                    console.log(allIdProduct);
+                    console.log(statusCheckAllProduct);
+                    console.log(checkingAllIdProduct);
+
                     for (var i = 0; i < data.length; i++) {
                         for (var j = 0; j < allIdProduct.length; j++) {
+
+
                             if (data[i].ProductID === allIdProduct[j]) {
+
                                 if (data[i].Amount < allAmountProduct[j]) {
                                     checking = "false";
                                     productNameFalse[j] = data[i].ProductName;
@@ -149,13 +190,21 @@ $(document).ready(function () {
                                 } else {
                                     // allResultReqAmountProduct[j] = data[i].Amount - allAmountProduct[j];
                                 }
+
+                            } else if (allIdProduct[j]) {
+
                             }
+
+
                         }
                     }
 
+
+
+
                     // console.log(checking);
                     // console.log(productNameFalse);
-                    if (checking === "false") {
+                    if (checking === "false" || statusCheckAllProduct === "false") {
                         //alert(productNameFalse + " มีจำนวนสินค้าไม่เพียงพอ");
                         document.getElementById("btnApprove").disabled = true;
                     } else if (allIdProduct.length === 0) {
@@ -191,6 +240,35 @@ $(document).ready(function () {
 
 });
 
+function checkProduct(id) {
+    var resultCheckProduct = "false";
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Product/" + id,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+
+        success: function (data) {
+            resultCheckProduct = "true";
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
+            resultCheckProduct = "false";
+
+        }
+
+    });
+    return resultCheckProduct;
+
+}
+
+
+
 function viewNote(note) {
     document.getElementById("getNoteView").innerHTML = note;
 
@@ -212,22 +290,81 @@ function btnApproveChecking() {
         },
         success: function (data) {
             var checking = "true";
+            var statusCheckAllProduct = "true";
+            var checkingAllProduct = [];
+            var checkingAllIdProduct = [];
             var productNameFalse = [];
+            var indexFalse = [];
+            var numIndexFalse = 0;
+
+            for (var j = 0; j < allIdProduct.length; j++) {
+                for (var i = 0; i < data.length; i++) {
+                    if (allIdProduct[j] === data[i].ProductID) {
+                        indexFalse[numIndexFalse] = j;
+                        checkingAllProduct[j] = "true";
+                        numIndexFalse++;
+                        break;
+                    } else {
+
+                        checkingAllProduct[j] = "false";
+
+                    }
+                }
+
+
+            }
+
+            for (var j = 0; j < checkingAllProduct.length; j++) {
+                if (checkingAllProduct[j] === "false") {
+                    statusCheckAllProduct = "false";
+                    break;
+                }
+
+            }
+
+
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < allIdProduct.length; j++) {
+
+
                     if (data[i].ProductID === allIdProduct[j]) {
+
                         if (data[i].Amount < allAmountProduct[j]) {
                             checking = "false";
-                            productNameFalse[j] = data[i].ProductName;
+                            productNameFalse[i] = data[i].ProductName;
+                            //alert(data[i].ProductName+"false");
+                        } else {
+                            // allResultReqAmountProduct[j] = data[i].Amount - allAmountProduct[j];
+                        }
+
+                    } else if (allIdProduct[j]) {
+
+                    }
+
+
+                }
+            }
+
+
+            if (checking === "false" || statusCheckAllProduct === "false") {
+            if (statusCheckAllProduct === "false") {
+                var warningTxtProduct = "";
+                for (var i = 0; i < allNameProduct.length; i++) {
+                    for (var j = 0; j < indexFalse.length; j++) {
+                        if (indexFalse[j] === i) {
 
                         } else {
-
+                            warningTxtProduct += " / " + allNameProduct[i];
                         }
                     }
                 }
+
+                console.log(allNameProduct);
+                alert(warningTxtProduct + " ไม่สินค้าในคลัง");
+            }if(checking === "false"){
+                alert(productNameFalse + " จำนวนสินค้าไม่เพียงพอ");
             }
-            if (checking === "false") {
-                alert(productNameFalse + " มีจำนวนสินค้าไม่เพียงพอ");
+
                 document.getElementById("btnApprove").disabled = true;
             } else if (allIdProduct.length === 0) {
                 document.getElementById("btnApprove").disabled = true;
@@ -285,11 +422,11 @@ function btnApprove() {
                 addToRequis();
                 var countI = 1;
                 for (var i = 0; i < allIdRequisProduct.length; i++) {
-                  
-                    getAmountProduct(allIdProduct[i], allAmountProduct[i], allIdRequisProduct[i],countI)
+
+                    getAmountProduct(allIdProduct[i], allAmountProduct[i], allIdRequisProduct[i], countI)
                     countI++;
                 }
-            
+
 
                 document.getElementById("btnApprove").disabled = false;
             }
@@ -368,7 +505,7 @@ function addToRequis() {
 
 
 
-function getAmountProduct(id, amount, RequisProduct,countI) {
+function getAmountProduct(id, amount, RequisProduct, countI) {
     $.ajax({
         type: "GET",
         url: "http://localhost:60443/api/IN_Product/" + id,
@@ -448,13 +585,13 @@ function getAmountProduct(id, amount, RequisProduct,countI) {
                                 },
                                 success: function (data) {
                                     console.log(countI);
-                                    console.log( allIdRequisProduct.length);
+                                    console.log(allIdRequisProduct.length);
                                     if (countI === allIdRequisProduct.length) {
                                         alert("เบิกสำเร็จ");
                                         location.reload();
-                             
+
                                     }
-                                
+
                                 },
                                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                                     // console.log("Add new product failed, error is '" + thrownError + "'");
@@ -478,7 +615,7 @@ function getAmountProduct(id, amount, RequisProduct,countI) {
                     // console.log("Add new product failed, error is '" + thrownError + "'");
                     alert("Cal product failed, error is '" + thrownError + "'");
                 }
-            
+
             });
 
 
