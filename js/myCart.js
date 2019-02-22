@@ -65,7 +65,7 @@ $(document).ready(function () {
                     {
                         "data": "RequisID", "class": "text-left dtCheck", render: function (data, type, row, meta) {
                             return type === 'display' ?
-                                '<button type="button" class="close" onclick="btnDeleteCart(' + row.RequisID + ')" aria-label="Close"><span aria-hidden="true">&times;</span></button><br><img id="blah"  class="img-responsive" width="200" height="150" src="' + row.ImgProduct + '" alt="your image" /> <h5 class="card-title">' + row.Barcode + '' + row.ProductName + '</h5><h6>' + row.Category + '</h6><p>' + row.Price + ' บาท/' + row.UnitType + ' </p>จำนวนที่ต้องการ: <input type="number" id="editNum' + row.RequisID + '" value="' + row.RequisAmount + '"> ' + row.UnitType + '<div class="float-right"><br><button class="btn btn-primary" onclick="btnUpdateCart(' + row.RequisID + ')">Update</button></div>' :
+                                '<button type="button" class="close" onclick="btnDeleteCart(' + row.RequisID + ')" aria-label="Close"><span aria-hidden="true">&times;</span></button><br><img id="blah"  class="img-responsive" width="200" height="150" src="' + row.ImgProduct + '" alt="your image" /> <h5 class="card-title">' + row.Barcode + ' ' + row.ProductName + '</h5><h6>' + row.Category + '</h6><p>' + row.Price + ' บาท/' + row.UnitType + ' </p>จำนวนที่ต้องการ: <input type="number" id="editNum' + row.RequisID + '" value="' + row.RequisAmount + '"> ' + row.UnitType + '<div class="float-right"><br><button class="btn btn-primary" onclick="btnUpdateCart(' + row.RequisID + ')">Update</button></div>' :
                                 data;
                         }
                     },
