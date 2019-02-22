@@ -1,12 +1,12 @@
 
 
 $(document).ready(function () {
-
+    $( "#addPackProduct" ).hide();
     console.log(localStorage.logSite);
-    var pageLength = 10;
-    function pageLength() {
-        pageLength = $('#addProductName').val();
-    }
+    // var pageLength = 10;
+    // function pageLength() {
+    //     pageLength = $('#addProductName').val();
+    // }
 
     $.ajax({
 
@@ -677,4 +677,21 @@ function setVarDdlCategory() {
 function addsetVarDdlCategory() {
     var Category = document.getElementById("addsetCategory").value;
     document.getElementById("addCategory").value = Category;
+
+    var check = document.getElementById("addCategory").value;
+    if (check === "PACKAGE") {
+        $( "#addPackProduct" ).show();
+    } else {
+        $( "#addPackProduct" ).hide();
+    }
 }
+function addButton(){
+    $( "#addPackProduct" ).append( '<input type="text" class="form-control" id="xxxx">   <button type="button" id="btnRemove" onclick="removeButton(this)">Remove</button>' );
+}
+
+function removeButton(){
+    $( "#xxxx" ).remove();
+    $( "#btnRemove" ).remove();
+    
+}
+

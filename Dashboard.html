@@ -304,7 +304,7 @@
                     <div class="form-group">
                         <input type="file" id="myfileUpload" /><br>
                         <center><img id="myImgUpload" height="200" src="" alt="new image product" /></center>
-                   
+
                     </div>
 
                 </div>
@@ -338,31 +338,43 @@
                 <div id="loader" style="display:none;"> </div>
                 <!-- Modal body -->
 
-                <div class="modal-body"><form>
-                    <!-- ProductID: <input type="text" class="form-control" id="addProductID"> -->
-                    ProductName: <input type="text" class="form-control" id="addProductName">
-                    Category: <input type="text" class="form-control" id="addCategory">
-                    <select class="form-control" id="addsetCategory" placeholder="select" onclick="addsetVarDdlCategory()" required>  <option disabled selected value="">Please select value</option> </select>
-                    UnitType: <input type="text" class="form-control" id="addUnitType">
-                    <select class="form-control" id="addsetUnitType" onclick="addsetVarDdlUnitType()" required>  <option disabled selected value="">Please select value</option></select>
-                    Price: <input type="text" class="form-control" id="addPrice">
-                    MinValue: <input type="text" class="form-control" id="addMinValue">
-                    MaxValue: <input type="text" class="form-control" id="addMaxValue">
-                    Barcode: <input type="text" class="form-control" id="addBarcode">
-                    Vender: <input type="text" class="form-control" id="addVender">
-                    Place: <input type="text" class="form-control" id="addPlace">
-                    <!-- ProductStatus: <input type="text" class="form-control" id="addProductStatus"> -->
-                    Amount: <input type="text" class="form-control" id="addAmount">
-                    <!-- SITES: <input type="text" class="form-control" id="addSITES"> -->
-                    <input type="hidden" class="form-control" id="addImgProduct">
-                    ImgProduct:
-                    <div class="form-group">
-                        <input type="file" id="myfileUpload" /><br>
-                        <!-- <center><img id="blah" height="200" src="" alt="your image" /></center> -->
-                        <center><img id="myImgUpload" src="" alt="your upload image" height="200"></center>
-                    </div>
+                <div class="modal-body">
+                    <form>
+                        <!-- ProductID: <input type="text" class="form-control" id="addProductID"> -->
+                        ProductName: <input type="text" class="form-control" id="addProductName">
+                        Category: <input type="hidden" class="form-control" id="addCategory" >
+                        <select class="form-control" id="addsetCategory" placeholder="select"  
+                            onclick="addsetVarDdlCategory()" required>
+                            <option disabled selected value="">Please select Category</option>
+                        </select>
 
-                </form>
+                        <div id="addPackProduct">
+                                <button type="button"  onclick="addButton()">Close</button>
+                            <input type="text" class="form-control" id="">
+                        </div>
+
+                        UnitType: <input type="hidden" class="form-control" id="addUnitType">
+                        <select class="form-control" id="addsetUnitType" onclick="addsetVarDdlUnitType()" required>
+                            <option disabled selected value="">Please select UnitType</option>
+                        </select>
+                        Price: <input type="text" class="form-control" id="addPrice">
+                        MinValue: <input type="text" class="form-control" id="addMinValue">
+                        MaxValue: <input type="text" class="form-control" id="addMaxValue">
+                        Barcode: <input type="text" class="form-control" id="addBarcode">
+                        Vender: <input type="text" class="form-control" id="addVender">
+                        Place: <input type="text" class="form-control" id="addPlace">
+                        <!-- ProductStatus: <input type="text" class="form-control" id="addProductStatus"> -->
+                        Amount: <input type="text" class="form-control" id="addAmount">
+                        <!-- SITES: <input type="text" class="form-control" id="addSITES"> -->
+                        <input type="hidden" class="form-control" id="addImgProduct">
+                        ImgProduct:
+                        <div class="form-group">
+                            <input type="file" id="myfileUpload" /><br>
+                            <!-- <center><img id="blah" height="200" src="" alt="your image" /></center> -->
+                            <center><img id="myImgUpload" src="" alt="your upload image" height="200"></center>
+                        </div>
+
+                    </form>
                 </div>
 
 
