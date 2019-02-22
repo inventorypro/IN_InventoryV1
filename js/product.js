@@ -1,7 +1,7 @@
-
+var allProduct = [];
 
 $(document).ready(function () {
-    $( "#addPackProduct" ).hide();
+    $("#addPackProduct").hide();
     console.log(localStorage.logSite);
     // var pageLength = 10;
     // function pageLength() {
@@ -18,10 +18,12 @@ $(document).ready(function () {
         },
 
         success: function (data) {
-
+            for (var i = 0; i < data.length; i++) {
+                allProduct[i] = data[i].ProductID + "," + data[i].ProductName;
+            }
             // console.table(data);
 
-
+            // console.log(allProduct[0].split(",")[0]);
 
             var datatable = $('#example').DataTable({
                 // dom: 'lBrtip,Bfrtip,CBlrtip',
@@ -265,11 +267,11 @@ function multiDelete() {
 
     var items = document.getElementsByName('deleteMulti');
     var selectedItems = [];
-    var countTrue=0;
+    var countTrue = 0;
     for (var i = 0; i < items.length; i++) {
         if (items[i].type == 'checkbox' && items[i].checked == true) {
             selectedItems[i] = items[i].value;
-         
+
         }
 
 
@@ -290,9 +292,9 @@ function multiDelete() {
             for (var i = 0; i < selectedItems.length; i++) {
                 if (selectedItems[i] !== undefined) {
 
-                    ccnMultiDelete(selectedItems[i],countRowTrue,countTrue)
+                    ccnMultiDelete(selectedItems[i], countRowTrue, countTrue)
 
-countRowTrue++;
+                    countRowTrue++;
                 }
             }
 
@@ -306,7 +308,7 @@ countRowTrue++;
 
 }
 
-function ccnMultiDelete(getIdDelete,countRowTrue,countTrue) {
+function ccnMultiDelete(getIdDelete, countRowTrue, countTrue) {
     console.log(countRowTrue);
     console.log(countTrue);
     $.ajax({
@@ -320,10 +322,10 @@ function ccnMultiDelete(getIdDelete,countRowTrue,countTrue) {
 
         success: function (data) {
             console.log("success " + data);
-            if(countRowTrue === countTrue){
+            if (countRowTrue === countTrue) {
 
-            alert("You delete success! x");
-            location.reload();
+                alert("You delete success! x");
+                location.reload();
             }
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -596,7 +598,7 @@ function ddlCategory() {
         },
         success: function (data) {
             console.log(data.length);
-   
+
             var setCategory = document.getElementById("setCategory");
 
             var option = document.createElement("option");
@@ -641,7 +643,7 @@ function ADDddlCategory() {
             var addsetCategory = document.getElementById("addsetCategory");
             var option = document.createElement("option");
             for (var i = 0; i < data.length; i++) {
-          
+
 
                 var option = document.createElement("option");
                 option.text = data[i].CategoryName;
@@ -680,18 +682,58 @@ function addsetVarDdlCategory() {
 
     var check = document.getElementById("addCategory").value;
     if (check === "PACKAGE") {
-        $( "#addPackProduct" ).show();
+        $("#addPackProduct").show();
     } else {
-        $( "#addPackProduct" ).hide();
+        $("#addPackProduct").hide();
     }
 }
-function addButton(){
-    $( "#addPackProduct" ).append( '<input type="text" class="form-control" id="xxxx">   <button type="button" id="btnRemove" onclick="removeButton(this)">Remove</button>' );
+
+
+
+var countAddButton = 1;
+var numberAddButton = 0;
+var allIDproductPackELM = [];
+function addButton() {
+ 
+    // for (var i = i; i <= countAddButton.length; i++) {
+    $("#addPackProduct").append(' <div id="xxxx' + numberAddButton + '">' + numberAddButton + '<select class="form-control" id="addsetProduct' + numberAddButton + '" name="xxxx" onclick="" required><option disabled selected value="">Please select Product</option></select><button type="button" id="btnRemove" onclick="removeButton(' + numberAddButton + ')">Remove</button><br><br></div>');
+
+    // }
+    var setName = "addsetProduct" + numberAddButton;
+    var addsetProduct = document.getElementById(setName);
+    var option = document.createElement("option");
+    for (var i = 0; i < allProduct.length; i++) {
+
+
+        var option = document.createElement("option");
+        option.text = allProduct[i].split(",")[1];
+
+
+        addsetProduct.add(option, addsetProduct[i]);
+
+    }
+    allIDproductPackELM.push(numberAddButton);
+
+
+    numberAddButton++;
+    countAddButton++;
+
 }
 
-function removeButton(){
-    $( "#xxxx" ).remove();
-    $( "#btnRemove" ).remove();
-    
+
+
+function removeButton(id) {
+    for (var i = 0; i < allIDproductPackELM.length; i++) {
+        if (allIDproductPackELM[i] === id) {
+            allIDproductPackELM.splice(i, 1);
+        }
+    }
+
+
+
+    countAddButton--;
+    var setName = "xxxx" + id;
+    document.getElementById(setName).remove();
+  
 }
 
