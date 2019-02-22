@@ -71,7 +71,7 @@ $(document).ready(function () {
                         
                         "data": "RequisID", "class": "text-center dtCheck dtSetMiddle", render: function (data, type, row, meta) {
                             return type === 'display' ? 
-                                '<button onclick="setIDrequisViewPro('+"'"+row.RequisNumber+"',"+''+row.RequisID+')">View Product</button>' :
+                                '<button class="btn btn-primary btn-lg" onclick="setIDrequisViewPro('+"'"+row.RequisNumber+"',"+''+row.RequisID+')">View Product</button>' :
                                 data;
                         }
                     },

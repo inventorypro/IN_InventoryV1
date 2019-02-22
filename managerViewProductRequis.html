@@ -157,8 +157,8 @@
                     <br>
 
                     <div class="float-right">
-                        <button onclick="btnPrint()">Print</button>
-                        <button onclick="goBack()">Back</button>
+                        <button class="btn btn-outline-info" onclick="btnPrint()"><i class="fas fa-print fa-lg"></i></button>
+                        <button class="btn btn-outline-info" onclick="goBack()"><i class="fas fa-arrow-left fa-lg"></i></button>
                     </div>
                 </div>
                 <br><br>
@@ -167,7 +167,7 @@
 
         <!-- /#page-content-wrapper -->
         <div id="page-content-wrapper">
-            <div class="container-fluid"><br>
+            <div class="container-fluid setFont"><br>
 
 
                 <!-- <button class="btn btn-success float-right" >ส่งใบเบิก</button> -->
@@ -265,7 +265,7 @@
     </div>
 
 
-    <div id="printSection">
+    <div id="printSection" class="setFont">
         <div id="printThis">
 
 
@@ -277,15 +277,15 @@
             <div class="form-row">
                 <div class="col">
                     <h5>เลขที่ : <a id="RequisNumberPrint"></a> </h5>
-                    <h5>ชื่อผู้เบิก :<a id="RequisNamePrint"></a> </h5>
+                    <h5>ชื่อผู้เบิก : <a id="RequisNamePrint"></a> </h5>
                     <h5>สถานะ : <a id="RequisStatusPrint"></a></h5>
-                    <h5>หมายเหตุ :<a id="RequisNotePrint"></a> </h5>
+                    <h5>หมายเหตุ : <a id="RequisNotePrint"></a> </h5>
                 </div>
                 <div class="col">
                     <h5>วันที่ : <a id="RequisDatePrint"></a> </h5>
                     <h5>ตำแหน่ง : <a id="RequisPositionPrint"></a> </h5>
-                    <h5>แผนก :<a id="RequisDeptPrint"></a> </h5>
-                    <h5>สถานที่นำไปใช้ :<a id="RequisLocationPrint"></a> </h5>
+                    <h5>แผนก : <a id="RequisDeptPrint"></a> </h5>
+                    <h5>สถานที่นำไปใช้ : <a id="RequisLocationPrint"></a> </h5>
                 </div>
             </div>
 

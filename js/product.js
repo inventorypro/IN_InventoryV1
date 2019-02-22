@@ -114,7 +114,7 @@ $(document).ready(function () {
                         "data": "ProductID", render: function (data, type, row, meta) {
                             var tttr = $(this).closest('tr');
                             return type === 'display' ?
-                                '  <center>  <button type="button" class="btn btn-danger" onclick="btnDelete(' + row.ProductID + ')">delete </button></center>' :
+                                '  <center>  <button type="button" class="btn btn-danger" onclick="btnDelete(' + row.ProductID + ')">Delete </button></center>' :
                                 data;
                         },
 
