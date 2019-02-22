@@ -48,34 +48,55 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 </head>
+<!-- <script>
+
+    // $(document).ready(function () {
+    //     var now = "2562-12-02T11:53:15";
+    //     var setDateNow = moment("2562-12-02T11:53:15").format('DD-MM-YYYY HH:mm:ss');
+
+    //     console.log(setDateNow);
+    // });
+
+    // function ttff(){
+
+
+    //     var check =   document.getElementById("MyElement").value;
+    //     console.log(check);
+    //     if(check === "block"){
+    //         document.getElementById("MyElement").value="unblock";
+    //     document.getElementById("MyElement").className = "btn btn-danger";
+
+    //     }else{
+    //         document.getElementById("MyElement").value="block";
+    //     document.getElementById("MyElement").className = "btn btn-success";
+    //     }
+    // }
+
+
+</script> -->
 <script>
+     $(document).ready(function () {
+        $( "#get" ).hide();
 
-    $(document).ready(function () {
-        var now = "2562-12-02T11:53:15";
-        var setDateNow = moment("2562-12-02T11:53:15").format('DD-MM-YYYY HH:mm:ss');
-        
-        console.log(setDateNow);
-    });
+     });
 
-    function ttff(){
-     
-
-        var check =   document.getElementById("MyElement").value;
-        console.log(check);
-        if(check === "block"){
-            document.getElementById("MyElement").value="unblock";
-        document.getElementById("MyElement").className = "btn btn-danger";
-
-        }else{
-            document.getElementById("MyElement").value="block";
-        document.getElementById("MyElement").className = "btn btn-success";
+    function myFunction() {
+        var check = document.getElementById("fname").value;
+        if (check === "pppp") {
+           
+            $( "#get" ).show();
+        } else {
+            $( "#get" ).hide();
         }
     }
-
 </script>
 
 <body>
-    <input type="button" value="block" onclick="ttff()" id="MyElement"  class="btn btn-success">
+    <div id="get">
+        <input type="text" name="" >
+        </div>
+    <input type="text" id="fname" onkeyup="myFunction()">
+
 
 
 

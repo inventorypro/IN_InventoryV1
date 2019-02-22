@@ -1,12 +1,12 @@
 
 
 $(document).ready(function () {
-
+    $( "#addPackProduct" ).hide();
     console.log(localStorage.logSite);
-    var pageLength = 10;
-    function pageLength() {
-        pageLength = $('#addProductName').val();
-    }
+    // var pageLength = 10;
+    // function pageLength() {
+    //     pageLength = $('#addProductName').val();
+    // }
 
     $.ajax({
 
@@ -264,30 +264,40 @@ function multiDelete() {
 
 
     var items = document.getElementsByName('deleteMulti');
-    var selectedItems = [];;
+    var selectedItems = [];
+    var countTrue=0;
     for (var i = 0; i < items.length; i++) {
         if (items[i].type == 'checkbox' && items[i].checked == true) {
             selectedItems[i] = items[i].value;
+         
         }
 
 
         // ccnMultiDelete(items[i].value);
     }
+    for (var i = 0; i < selectedItems.length; i++) {
+        if (selectedItems[i] !== undefined) {
+            countTrue++;
+        }
+    }
+
     if (selectedItems.length === 0) {
         alert("You have not selected data!");
     } else {
+        var countRowTrue = 1;
         var multiCfDelete = confirm("Are you sure you want to delete this product?");
         if (multiCfDelete == true) {
             for (var i = 0; i < selectedItems.length; i++) {
                 if (selectedItems[i] !== undefined) {
-                    ccnMultiDelete(selectedItems[i])
 
+                    ccnMultiDelete(selectedItems[i],countRowTrue,countTrue)
 
+countRowTrue++;
                 }
             }
 
-            alert("You delete success!");
-            location.reload();
+            // alert("You delete success! x");
+            // location.reload();
         }
 
     }
@@ -296,7 +306,9 @@ function multiDelete() {
 
 }
 
-function ccnMultiDelete(getIdDelete) {
+function ccnMultiDelete(getIdDelete,countRowTrue,countTrue) {
+    console.log(countRowTrue);
+    console.log(countTrue);
     $.ajax({
 
         type: "DELETE",
@@ -308,6 +320,11 @@ function ccnMultiDelete(getIdDelete) {
 
         success: function (data) {
             console.log("success " + data);
+            if(countRowTrue === countTrue){
+
+            alert("You delete success! x");
+            location.reload();
+            }
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
             console.log("Your can't delete, error is '" + thrownError + "'");
@@ -335,6 +352,7 @@ function ShowDataEditor(a) {
             document.getElementById("editCategory").value = data.Category;
             document.getElementById("editUnitType").value = data.UnitType;
             // document.getElementById("showUnitType").innerHTML = data.UnitType;
+            showddlCategory(data.Category);
             showddlUnitType(data.UnitType);
             document.getElementById("editPrice").value = data.Price;
             document.getElementById("editMinValue").value = data.MinValue;
@@ -564,3 +582,116 @@ function addsetVarDdlUnitType() {
     var UnitType = document.getElementById("addsetUnitType").value;
     document.getElementById("addUnitType").value = UnitType;
 }
+
+
+function ddlCategory() {
+
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Category",
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.log(data.length);
+   
+            var setCategory = document.getElementById("setCategory");
+
+            var option = document.createElement("option");
+            for (var i = 0; i < data.length; i++) {
+
+
+                var option = document.createElement("option");
+                option.text = data[i].CategoryName;
+
+                setCategory.add(option, setCategory[i]);
+
+
+            }
+
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
+
+}
+function ADDddlCategory() {
+
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Category",
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.log(data.length);
+            //  console.log(data[0].UnitTypeName);
+            //  location.reload();
+
+            var addsetCategory = document.getElementById("addsetCategory");
+            var option = document.createElement("option");
+            for (var i = 0; i < data.length; i++) {
+          
+
+                var option = document.createElement("option");
+                option.text = data[i].CategoryName;
+
+
+                addsetCategory.add(option, addsetCategory[i]);
+
+            }
+
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
+
+}
+function showddlCategory(nameCategory) {
+
+    document.getElementById("setCategory").value = nameCategory;
+
+}
+
+function setVarDdlCategory() {
+    var Category = document.getElementById("setCategory").value;
+    document.getElementById("editCategory").value = Category;
+
+}
+function addsetVarDdlCategory() {
+    var Category = document.getElementById("addsetCategory").value;
+    document.getElementById("addCategory").value = Category;
+
+    var check = document.getElementById("addCategory").value;
+    if (check === "PACKAGE") {
+        $( "#addPackProduct" ).show();
+    } else {
+        $( "#addPackProduct" ).hide();
+    }
+}
+function addButton(){
+    $( "#addPackProduct" ).append( '<input type="text" class="form-control" id="xxxx">   <button type="button" id="btnRemove" onclick="removeButton(this)">Remove</button>' );
+}
+
+function removeButton(){
+    $( "#xxxx" ).remove();
+    $( "#btnRemove" ).remove();
+    
+}
+

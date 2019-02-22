@@ -378,6 +378,7 @@ function addToRequisition() {
         success: function (data) {
             console.table(data);
             //  location.reload();
+            alert("ส่งใบเบิกเรียบร้อยรอการอนุมัติ");
             window.location.href = "MyRequis.html";
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
