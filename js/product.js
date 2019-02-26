@@ -1,6 +1,9 @@
 var allProduct = [];
 
 $(document).ready(function () {
+
+
+
     $("#addPackProduct").hide();
     console.log(localStorage.logSite);
     // var pageLength = 10;
@@ -337,6 +340,7 @@ function ccnMultiDelete(getIdDelete, countRowTrue, countTrue) {
 }
 
 function ShowDataEditor(a) {
+    document.getElementById("myImgUpload").src = "";
     $.ajax({
 
         type: "GET",
@@ -387,46 +391,170 @@ function deleteDataProduct(a) {
 }
 
 function addNewProduct() {
+    //addsetProduct
 
-    // document.getElementById("loader").style.display = "none";
-    var formdata = {
-        ProductID: "1",
-        ProductName: $('#addProductName').val(),
-        Category: $('#addCategory').val(),
-        UnitType: $('#addUnitType').val(),
-        Price: $('#addPrice').val(),
-        MinValue: $('#addMinValue').val(),
-        MaxValue: $('#addMaxValue').val(),
-        Barcode: $('#addBarcode').val(),
-        Vender: $('#addVender').val(),
-        Place: $('#addPlace').val(),
-        ProductStatus: "true",
-        ImgProduct: $('#addImgProduct').val(),
-        Amount: $('#addAmount').val(),
-        SITES: localStorage.logSite
-    }
+    if ($('#addCategory').val().toLowerCase() === "package"
+        && $('#addProductName').val() 
+        && $('#addUnitType').val()
+        && $('#addPrice').val()
+        && $('#addMinValue').val()
+        && $('#addMaxValue').val()
+        && $('#addBarcode').val()
+        && $('#addVender').val()
+        && $('#addPlace').val()
+        && $('#addImgProduct').val()
+        && $('#addAmount').val()
+    ) {
 
-    $.ajax({
+        if (allIDproductPackELM.length === 0) {
+            alert("Add product in package!");
+        } else {
 
-        type: "POST",
-        url: "http://localhost:60443/api/IN_Product",
-        dataType: 'json',
-        data: formdata,
-        headers: {
-            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-        },
-        success: function (data) {
-            //console.table(data);
+            var formdata = {
+                ProductID: "1",
+                ProductName: $('#addProductName').val(),
+                Category: $('#addCategory').val(),
+                UnitType: $('#addUnitType').val(),
+                Price: $('#addPrice').val(),
+                MinValue: $('#addMinValue').val(),
+                MaxValue: $('#addMaxValue').val(),
+                Barcode: $('#addBarcode').val(),
+                Vender: $('#addVender').val(),
+                Place: $('#addPlace').val(),
+                ProductStatus: "true",
+                ImgProduct: $('#addImgProduct').val(),
+                Amount: $('#addAmount').val(),
+                SITES: localStorage.logSite
+            }
 
-            // document.getElementById("loader").style.display = "block";
-            location.reload();
-        },
-        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-            // console.log("Add new product failed, error is '" + thrownError + "'");
-            alert("Add new product failed, error is '" + thrownError + "'");
+            $.ajax({
+
+                type: "POST",
+                url: "http://localhost:60443/api/IN_Product",
+                dataType: 'json',
+                data: formdata,
+                headers: {
+                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                },
+                success: function (data) {
+        
+
+                    var checkNameCat = "";
+                    for (var i = 0; i < allIDproductPackELM.length; i++) {
+                        checkNameCat = "addsetProduct" + allIDproductPackELM[i];
+                        checkAmountPackPro = "addsetAmountProduct" + allIDproductPackELM[i];
+                        // var vvvvv =document.getElementById(checkNameCat).value;
+                        var getIdPackInProduct = $('#' + checkNameCat).val()
+                        var getAmountPackInProduct = $('#' + checkAmountPackPro).val()
+                        // console.log(getIdPackInProduct);
+
+                        var formdataPack = {
+                            "PackageID": 1,
+                            "ProductID": data.ProductID,
+                            "Amount": getAmountPackInProduct,
+                            "SITES": localStorage.logSite,
+                            "PackProductID": getIdPackInProduct.split(",")[0],
+                        }
+            
+                        $.ajax({
+            
+                            type: "POST",
+                            url: "http://localhost:60443/api/IN_Package",
+                            dataType: 'json',
+                            data: formdataPack,
+                            headers: {
+                                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                            },
+                            success: function (data) {
+                                console.table(data);
+            
+                                // document.getElementById("loader").style.display = "block";
+                                // location.reload();
+                            },
+                            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                // console.log("Add new product failed, error is '" + thrownError + "'");
+                                alert("Add new product failed, error is '" + thrownError + "'");
+                            }
+            
+                        });
+
+                    }
+        
+
+                },
+                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                    // console.log("Add new product failed, error is '" + thrownError + "'");
+                    alert("Add new product failed, error is '" + thrownError + "'");
+                }
+
+            });
+
         }
 
-    });
+
+
+
+    } else {
+        if (!$('#addProductName').val() || !$('#addCategory').val()
+
+            || !$('#addUnitType').val()
+            || !$('#addPrice').val()
+            || !$('#addMinValue').val()
+            || !$('#addMaxValue').val()
+            || !$('#addBarcode').val()
+            || !$('#addVender').val()
+            || !$('#addPlace').val()
+            || !$('#addImgProduct').val()
+            || !$('#addAmount').val()
+
+        ) {
+            alert("กรุณาตรวจสอบข้อมูล");
+
+        } else {
+            // document.getElementById("loader").style.display = "none";
+            var formdata = {
+                ProductID: "1",
+                ProductName: $('#addProductName').val(),
+                Category: $('#addCategory').val(),
+                UnitType: $('#addUnitType').val(),
+                Price: $('#addPrice').val(),
+                MinValue: $('#addMinValue').val(),
+                MaxValue: $('#addMaxValue').val(),
+                Barcode: $('#addBarcode').val(),
+                Vender: $('#addVender').val(),
+                Place: $('#addPlace').val(),
+                ProductStatus: "true",
+                ImgProduct: $('#addImgProduct').val(),
+                Amount: $('#addAmount').val(),
+                SITES: localStorage.logSite
+            }
+
+            $.ajax({
+
+                type: "POST",
+                url: "http://localhost:60443/api/IN_Product",
+                dataType: 'json',
+                data: formdata,
+                headers: {
+                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                },
+                success: function (data) {
+                    console.table(data.ProductID);
+
+                    // document.getElementById("loader").style.display = "block";
+                    // location.reload();
+                },
+                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                    // console.log("Add new product failed, error is '" + thrownError + "'");
+                    alert("Add new product failed, error is '" + thrownError + "'");
+                }
+
+            });
+        }
+
+    }
+
+
 }
 
 $('#exampleModal').on('show.bs.modal', function (event) {
@@ -694,9 +822,9 @@ var countAddButton = 1;
 var numberAddButton = 0;
 var allIDproductPackELM = [];
 function addButton() {
- 
+
     // for (var i = i; i <= countAddButton.length; i++) {
-    $("#addPackProduct").append(' <div id="xxxx' + numberAddButton + '">' + numberAddButton + '<select class="form-control" id="addsetProduct' + numberAddButton + '" name="xxxx" onclick="" required><option disabled selected value="">Please select Product</option></select><button type="button" id="btnRemove" onclick="removeButton(' + numberAddButton + ')">Remove</button><br><br></div>');
+    $("#addPackProduct").append(' <div id="addPack' + numberAddButton + '">' + numberAddButton + '<select class="form-control" id="addsetProduct' + numberAddButton + '"  onclick="" required><option disabled selected value="">Please select Product</option></select>จำนวน(1 : 1 Pack): <input type="number" name="quantity"  id="addsetAmountProduct' + numberAddButton + '" min="1" value="1"><button type="button" id="btnRemove" onclick="removeButton(' + numberAddButton + ')">Remove</button><br><br></div>');
 
     // }
     var setName = "addsetProduct" + numberAddButton;
@@ -706,8 +834,8 @@ function addButton() {
 
 
         var option = document.createElement("option");
-        option.text = allProduct[i].split(",")[1];
-
+        // option.text = allProduct[i].split(",")[1];
+        option.text = allProduct[i];
 
         addsetProduct.add(option, addsetProduct[i]);
 
@@ -732,8 +860,8 @@ function removeButton(id) {
 
 
     countAddButton--;
-    var setName = "xxxx" + id;
+    var setName = "addPack" + id;
     document.getElementById(setName).remove();
-  
+
 }
 

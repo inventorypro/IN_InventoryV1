@@ -264,3 +264,30 @@ table.dataTable tbody td {
   width:100%;
   word-wrap:break-word; 
 }
+
+input:invalid {
+  background-color: #ffdddd;
+}
+
+form:invalid {
+
+}
+
+input:valid {
+
+}
+
+form:valid {
+
+}
+  
+input:required {
+
+}
+
+input:required:invalid {
+  border-color: #C00000;
+}
+select:required:invalid {
+  border-color: #C00000;
+}
