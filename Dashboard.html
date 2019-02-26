@@ -282,8 +282,12 @@
                 <div class="modal-body">
                     <input type="hidden" class="form-control" id="editProductID">
                     editProductName: <input type="text" class="form-control" id="editProductName">
-                    editCategory: <input type="text" class="form-control" id="editCategory">
-                    <select class="form-control" id="setCategory" onclick="setVarDdlCategory()"> </select>
+                    editCategory: <input type="hidden" class="form-control" id="editCategory">
+                    <select class="form-control" id="setCategory" disable onclick="setVarDdlCategory()"> </select>
+                    <div id="showPackProduct">
+                       
+                    </div>
+                    
                     editUnitType:
                     <input type="hidden" class="form-control" id="editUnitType">
                     <select class="form-control" id="setUnitType" onclick="setVarDdlUnitType()"> </select>
@@ -311,7 +315,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" data-dismiss="modal"
                         onclick="btnEditProduct()">Save</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>
                 </div>
 
             </div>

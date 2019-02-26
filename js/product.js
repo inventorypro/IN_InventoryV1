@@ -353,11 +353,31 @@ function ShowDataEditor(a) {
 
         success: function (data) {
             console.log(data);
+            clearDivShowPDEdit();
             document.getElementById("editProductID").value = data.ProductID;
             document.getElementById("editProductName").value = data.ProductName;
             document.getElementById("editCategory").value = data.Category;
+            if (data.Category.toLowerCase() === "package") {
+                document.getElementById("setCategory").disabled = true;
+            } else {
+                var op = document.getElementById("setCategory").getElementsByTagName("option");
+           
+                    for (var i = 0; i < op.length; i++) {
+                        // lowercase comparison for case-insensitivity
+                        if(op[i].value.toLowerCase() === "package"){
+                            op[i].disabled = true;
+                        }
+                     
+                    }
+              
+            
+                document.getElementById("setCategory").disabled = false;
+            }
+
+
             document.getElementById("editUnitType").value = data.UnitType;
             // document.getElementById("showUnitType").innerHTML = data.UnitType;
+            showddlPackProduct(data.ProductID);
             showddlCategory(data.Category);
             showddlUnitType(data.UnitType);
             document.getElementById("editPrice").value = data.Price;
@@ -394,7 +414,7 @@ function addNewProduct() {
     //addsetProduct
 
     if ($('#addCategory').val().toLowerCase() === "package"
-        && $('#addProductName').val() 
+        && $('#addProductName').val()
         && $('#addUnitType').val()
         && $('#addPrice').val()
         && $('#addMinValue').val()
@@ -437,7 +457,7 @@ function addNewProduct() {
                     'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                 },
                 success: function (data) {
-        
+
 
                     var checkNameCat = "";
                     for (var i = 0; i < allIDproductPackELM.length; i++) {
@@ -454,10 +474,11 @@ function addNewProduct() {
                             "Amount": getAmountPackInProduct,
                             "SITES": localStorage.logSite,
                             "PackProductID": getIdPackInProduct.split(",")[0],
+                            "ProductName": getIdPackInProduct.split(",")[1]
                         }
-            
+
                         $.ajax({
-            
+
                             type: "POST",
                             url: "http://localhost:60443/api/IN_Package",
                             dataType: 'json',
@@ -467,7 +488,7 @@ function addNewProduct() {
                             },
                             success: function (data) {
                                 console.table(data);
-            
+
                                 // document.getElementById("loader").style.display = "block";
                                 // location.reload();
                             },
@@ -475,11 +496,11 @@ function addNewProduct() {
                                 // console.log("Add new product failed, error is '" + thrownError + "'");
                                 alert("Add new product failed, error is '" + thrownError + "'");
                             }
-            
+
                         });
 
                     }
-        
+
 
                 },
                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -794,6 +815,8 @@ function ADDddlCategory() {
 
 }
 function showddlCategory(nameCategory) {
+    // disabled = true;
+   
 
     document.getElementById("setCategory").value = nameCategory;
 
@@ -865,3 +888,56 @@ function removeButton(id) {
 
 }
 
+function showddlPackProduct(id) {
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ProductInPackage?productID=" + id,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.log(data.length);
+            //  console.log(data[0].UnitTypeName);
+            //  location.reload();
+
+            for (var j = 0; j < data.length; j++) {
+
+                $("#showPackProduct").append(' <div id="addShowPack' + data[j].PackageID + '">' + data[j].ProductName + '<br>จำนวน(1 : 1 Pack): <input type="number" name="quantity"  id="addsetAmountProduct' + data[j].PackageID + '" min="1" value="' + data[j].Amount + '"><br><br></div>');
+
+
+
+
+                // document.getElementById(setName).value = data[j].PackageID;
+
+
+            }
+
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
+}
+
+var shownameProduct = ""
+function getProductById(id) {
+
+    for (var i = 0; i < allProduct.length; i++) {
+        if (allProduct[i].split(",")[0] === id) {
+            return allProduct[i].split(",")[1]
+        }
+
+    }
+
+}
+
+function clearDivShowPDEdit() {
+    $("#showPackProduct").empty();
+}
