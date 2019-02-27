@@ -23,7 +23,7 @@ $(document).ready(function () {
 
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
-                allProduct[i] = data[i].ProductID + "," + data[i].ProductName + "," + data[i].Price+ "," + data[i].Amount;
+                allProduct[i] = data[i].ProductID + "," + data[i].ProductName + "," + data[i].Price + "," + data[i].Amount;
             }
             // console.table(data);
 
@@ -901,7 +901,7 @@ var allIDproductPackELM = [];
 function addButton() {
 
     // for (var i = i; i <= countAddButton.length; i++) {
-    $("#addPackProduct").append(' <div id="addPack' + numberAddButton + '">' + numberAddButton + '<select class="form-control" onchange="checkVall()" id="addsetProduct' + numberAddButton + '"  onclick="" required><option disabled selected value="">Please select Product</option></select>จำนวน(1 : 1 Pack): <input type="number" name="quantity" onchange="checkVall()" id="addsetAmountProduct' + numberAddButton + '" min="1" value="1"><button type="button" onchange="checkVall()" id="btnRemove" onclick="removeButton(' + numberAddButton + ')">Remove</button><br><br></div>');
+    $("#addPackProduct").append(' <div id="addPack' + numberAddButton + '">' + numberAddButton + '<select class="form-control" onchange="checkVall()" id="addsetProduct' + numberAddButton + '"  onclick="" required><option disabled selected value="">Please select Product</option></select>จำนวน(1 : 1 Pack): <input type="number" name="quantity" onchange="checkVall()" id="addsetAmountProduct' + numberAddButton + '" min="1" value="1"><button class="btn btn-danger" type="button" onchange="checkVall()" id="btnRemove" onclick="removeButton(' + numberAddButton + ')">Remove</button><br><br></div>');
 
     // }
     var setName = "addsetProduct" + numberAddButton;
@@ -997,7 +997,7 @@ function checkVall() {
     var checkNameCat = "";
     var checkRePrice = 0;
     var checkAmountPackPro = 0;
-    var allAmountCalucattor= 99999999;
+    var allAmountCalucattor = 99999999;
     for (var i = 0; i < allIDproductPackELM.length; i++) {
         checkNameCat = "addsetProduct" + allIDproductPackELM[i];
         checkAmountPackPro = "addsetAmountProduct" + allIDproductPackELM[i];
@@ -1006,15 +1006,15 @@ function checkVall() {
         var getAmountPackInProduct = $('#' + checkAmountPackPro).val()
 
 
-        if(getIdPackInProduct.split(",")[3] / getAmountPackInProduct < allAmountCalucattor){
+        if (getIdPackInProduct.split(",")[3] / getAmountPackInProduct < allAmountCalucattor) {
             allAmountCalucattor = getIdPackInProduct.split(",")[3] / getAmountPackInProduct
         }
-        
+
         checkRePrice += getIdPackInProduct.split(",")[2] * getAmountPackInProduct
         console.log(getIdPackInProduct.split(",")[2]);
         console.log(getAmountPackInProduct);
     }
-    
+
     document.getElementById("addAmount").value = Math.floor(allAmountCalucattor);
     document.getElementById("addPrice").value = checkRePrice;
     console.log(allAmountCalucattor);
