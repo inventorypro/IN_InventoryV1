@@ -4,6 +4,7 @@ $(document).ready(function () {
 
 
 
+
     $("#addPackProduct").hide();
     console.log(localStorage.logSite);
     // var pageLength = 10;
@@ -22,7 +23,7 @@ $(document).ready(function () {
 
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
-                allProduct[i] = data[i].ProductID + "," + data[i].ProductName;
+                allProduct[i] = data[i].ProductID + "," + data[i].ProductName + "," + data[i].Price+ "," + data[i].Amount;
             }
             // console.table(data);
 
@@ -312,30 +313,77 @@ function multiDelete() {
 }
 
 function ccnMultiDelete(getIdDelete, countRowTrue, countTrue) {
+    // localhost:60443/api/IN_Package/
+
     console.log(countRowTrue);
     console.log(countTrue);
+
     $.ajax({
 
-        type: "DELETE",
-        url: "http://localhost:60443/api/IN_Product/" + getIdDelete,
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ProductInPackage?productID=" + getIdDelete,
         dataType: 'json',
         headers: {
             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
         },
 
         success: function (data) {
-            console.log("success " + data);
-            if (countRowTrue === countTrue) {
+            var checkMixRowDelete = 1;
+            for (var i = 0; i < data.length; i++) {
+                $.ajax({
 
-                alert("You delete success! x");
-                location.reload();
+                    type: "DELETE",
+                    url: "http://localhost:60443/api/IN_Package/" + data[i].PackageID,
+                    dataType: 'json',
+                    headers: {
+                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                    },
+
+                    success: function (dataPackDelete) {
+                        checkMixRowDelete++;
+                        if (checkMixRowDelete === data.length) {
+
+                            $.ajax({
+
+                                type: "DELETE",
+                                url: "http://localhost:60443/api/IN_Product/" + getIdDelete,
+                                dataType: 'json',
+                                headers: {
+                                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                                },
+
+                                success: function (data) {
+                                    console.log("success " + data);
+                                    if (countRowTrue === countTrue) {
+
+                                        alert("You delete success! x");
+                                        location.reload();
+                                    }
+                                },
+                                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                    console.log("Your can't delete, error is '" + thrownError + "'");
+                                    //window.location.href = "index.html";
+                                }
+                            });
+                        }
+
+
+                    },
+                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                        console.log("Your can't delete, error is '" + thrownError + "'");
+                        //window.location.href = "index.html";
+                    }
+                });
             }
+
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
             console.log("Your can't delete, error is '" + thrownError + "'");
             //window.location.href = "index.html";
         }
     });
+
+
 
 }
 
@@ -361,16 +409,16 @@ function ShowDataEditor(a) {
                 document.getElementById("setCategory").disabled = true;
             } else {
                 var op = document.getElementById("setCategory").getElementsByTagName("option");
-           
-                    for (var i = 0; i < op.length; i++) {
-                        // lowercase comparison for case-insensitivity
-                        if(op[i].value.toLowerCase() === "package"){
-                            op[i].disabled = true;
-                        }
-                     
+
+                for (var i = 0; i < op.length; i++) {
+                    // lowercase comparison for case-insensitivity
+                    if (op[i].value.toLowerCase() === "package") {
+                        op[i].disabled = true;
                     }
-              
-            
+
+                }
+
+
                 document.getElementById("setCategory").disabled = false;
             }
 
@@ -490,11 +538,11 @@ function addNewProduct() {
                             success: function (data) {
                                 countUpload++;
                                 console.table(data);
-                                console.table(allIDproductPackELM.length+" x "+countUpload);
-                          
+                                console.table(allIDproductPackELM.length + " x " + countUpload);
+
                                 // document.getElementById("loader").style.display = "block";
                                 // location.reload();
-                                if(countUpload === allIDproductPackELM.length){
+                                if (countUpload === allIDproductPackELM.length) {
                                     location.reload();
                                 }
                             },
@@ -504,7 +552,7 @@ function addNewProduct() {
                             }
 
                         });
-                     
+
                     }
 
 
@@ -822,7 +870,7 @@ function ADDddlCategory() {
 }
 function showddlCategory(nameCategory) {
     // disabled = true;
-   
+
 
     document.getElementById("setCategory").value = nameCategory;
 
@@ -853,7 +901,7 @@ var allIDproductPackELM = [];
 function addButton() {
 
     // for (var i = i; i <= countAddButton.length; i++) {
-    $("#addPackProduct").append(' <div id="addPack' + numberAddButton + '">' + numberAddButton + '<select class="form-control" id="addsetProduct' + numberAddButton + '"  onclick="" required><option disabled selected value="">Please select Product</option></select>จำนวน(1 : 1 Pack): <input type="number" name="quantity"  id="addsetAmountProduct' + numberAddButton + '" min="1" value="1"><button type="button" id="btnRemove" onclick="removeButton(' + numberAddButton + ')">Remove</button><br><br></div>');
+    $("#addPackProduct").append(' <div id="addPack' + numberAddButton + '">' + numberAddButton + '<select class="form-control" onchange="checkVall()" id="addsetProduct' + numberAddButton + '"  onclick="" required><option disabled selected value="">Please select Product</option></select>จำนวน(1 : 1 Pack): <input type="number" name="quantity" onchange="checkVall()" id="addsetAmountProduct' + numberAddButton + '" min="1" value="1"><button type="button" onchange="checkVall()" id="btnRemove" onclick="removeButton(' + numberAddButton + ')">Remove</button><br><br></div>');
 
     // }
     var setName = "addsetProduct" + numberAddButton;
@@ -914,14 +962,9 @@ function showddlPackProduct(id) {
 
 
 
-
                 // document.getElementById(setName).value = data[j].PackageID;
 
-
             }
-
-
-
 
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -947,3 +990,33 @@ function getProductById(id) {
 function clearDivShowPDEdit() {
     $("#showPackProduct").empty();
 }
+
+
+
+function checkVall() {
+    var checkNameCat = "";
+    var checkRePrice = 0;
+    var checkAmountPackPro = 0;
+    var allAmountCalucattor= 99999999;
+    for (var i = 0; i < allIDproductPackELM.length; i++) {
+        checkNameCat = "addsetProduct" + allIDproductPackELM[i];
+        checkAmountPackPro = "addsetAmountProduct" + allIDproductPackELM[i];
+        // var vvvvv =document.getElementById(checkNameCat).value;
+        var getIdPackInProduct = $('#' + checkNameCat).val()
+        var getAmountPackInProduct = $('#' + checkAmountPackPro).val()
+
+
+        if(getIdPackInProduct.split(",")[3] / getAmountPackInProduct < allAmountCalucattor){
+            allAmountCalucattor = getIdPackInProduct.split(",")[3] / getAmountPackInProduct
+        }
+        
+        checkRePrice += getIdPackInProduct.split(",")[2] * getAmountPackInProduct
+        console.log(getIdPackInProduct.split(",")[2]);
+        console.log(getAmountPackInProduct);
+    }
+    
+    document.getElementById("addAmount").value = Math.floor(allAmountCalucattor);
+    document.getElementById("addPrice").value = checkRePrice;
+    console.log(allAmountCalucattor);
+}
+
