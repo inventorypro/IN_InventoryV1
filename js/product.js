@@ -460,6 +460,7 @@ function addNewProduct() {
 
 
                     var checkNameCat = "";
+                    var countUpload = 1;
                     for (var i = 0; i < allIDproductPackELM.length; i++) {
                         checkNameCat = "addsetProduct" + allIDproductPackELM[i];
                         checkAmountPackPro = "addsetAmountProduct" + allIDproductPackELM[i];
@@ -487,10 +488,15 @@ function addNewProduct() {
                                 'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                             },
                             success: function (data) {
+                                countUpload++;
                                 console.table(data);
-
+                                console.table(allIDproductPackELM.length+" x "+countUpload);
+                          
                                 // document.getElementById("loader").style.display = "block";
                                 // location.reload();
+                                if(countUpload === allIDproductPackELM.length){
+                                    location.reload();
+                                }
                             },
                             error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                                 // console.log("Add new product failed, error is '" + thrownError + "'");
@@ -498,7 +504,7 @@ function addNewProduct() {
                             }
 
                         });
-
+                     
                     }
 
 
@@ -563,7 +569,7 @@ function addNewProduct() {
                     console.table(data.ProductID);
 
                     // document.getElementById("loader").style.display = "block";
-                    // location.reload();
+                    location.reload();
                 },
                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                     // console.log("Add new product failed, error is '" + thrownError + "'");
