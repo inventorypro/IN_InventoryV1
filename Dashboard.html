@@ -83,17 +83,34 @@
                     <a href="AdminRequis.html">All Requisition</a>
                 </li>
                 <li>
-                    <a href="#">Overview</a>
+                    <a data-toggle="collapse" href="#multiCollapseExample1" aria-expanded="false"
+                        aria-controls="multiCollapseExample1" style="color:black;">Report</a>
                 </li>
-                <li>
-                    <a href="#">Events</a>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <ul>
+                        <li>
+                            <a href="ReportBalance.html">Balance Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportReceive.html">Receive Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportReturn.html">Return Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportRequisition.html">Requisition Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportLowProduct.html">Low Product Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportOutOfStock.html">Out of Stock Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportTotalCost.html">Total Cost Report</a>
+                        </li>
+                    </ul>
+                </div>
                 <li>
                     <a href="#" onclick="clearProduct()">Contact</a>
                 </li>
@@ -285,9 +302,9 @@
                     editCategory: <input type="hidden" class="form-control" id="editCategory">
                     <select class="form-control" id="setCategory" disable onclick="setVarDdlCategory()"> </select>
                     <div id="showPackProduct">
-                       
+
                     </div>
-                    
+
                     editUnitType:
                     <input type="hidden" class="form-control" id="editUnitType">
                     <select class="form-control" id="setUnitType" onclick="setVarDdlUnitType()"> </select>
@@ -315,7 +332,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" data-dismiss="modal"
                         onclick="btnEditProduct()">Save</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
@@ -339,14 +356,15 @@
 
                 <div id="loader" style="display:none;"> </div>
                 <!-- Modal body -->
-              
-                    <div class="modal-body">
-                        <form id="myform" >
-                    
+
+                <div class="modal-body">
+                    <form id="myform">
+
                         <!-- ProductID: <input type="text" class="form-control" id="addProductID"> -->
-                        ProductName: <input type="text" name="field" class="form-control xxxx" id="addProductName"required/>
-                      
-                        Category: <input type="hidden" class="form-control" id="addCategory" required/>
+                        ProductName: <input type="text" name="field" class="form-control xxxx" id="addProductName"
+                            required />
+
+                        Category: <input type="hidden" class="form-control" id="addCategory" required />
                         <select class="form-control" id="addsetCategory" placeholder="select"
                             onclick="addsetVarDdlCategory()" required>
                             <option disabled selected value="">Please select Category</option>
@@ -355,7 +373,7 @@
                         <div id="addPackProduct">
                             <br> <button type="button" onclick="addButton()">Add</button><br><br>
                         </div>
-                        
+
                         UnitType: <input type="hidden" class="form-control" id="addUnitType" required>
                         <select class="form-control" id="addsetUnitType" onclick="addsetVarDdlUnitType()" required>
                             <option disabled selected value="">Please select UnitType</option>
@@ -378,15 +396,15 @@
                         </div>
                     </form>
 
-                    </div>
+                </div>
 
 
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success"onclick="addNewProduct()">Add</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-           
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="addNewProduct()">Add</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
         </div>
 
@@ -402,7 +420,7 @@
 
 </body>
 <script>
-// just for the demos, avoids form submit
+    // just for the demos, avoids form submit
 
     !function (a) { var b = /iPhone/i, c = /iPod/i, d = /iPad/i, e = /(?=.*\bAndroid\b)(?=.*\bMobile\b)/i, f = /Android/i, g = /(?=.*\bAndroid\b)(?=.*\bSD4930UR\b)/i, h = /(?=.*\bAndroid\b)(?=.*\b(?:KFOT|KFTT|KFJWI|KFJWA|KFSOWI|KFTHWI|KFTHWA|KFAPWI|KFAPWA|KFARWI|KFASWI|KFSAWI|KFSAWA)\b)/i, i = /IEMobile/i, j = /(?=.*\bWindows\b)(?=.*\bARM\b)/i, k = /BlackBerry/i, l = /BB10/i, m = /Opera Mini/i, n = /(CriOS|Chrome)(?=.*\bMobile\b)/i, o = /(?=.*\bFirefox\b)(?=.*\bMobile\b)/i, p = new RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)", "i"), q = function (a, b) { return a.test(b) }, r = function (a) { var r = a || navigator.userAgent, s = r.split("[FBAN"); return "undefined" != typeof s[1] && (r = s[0]), s = r.split("Twitter"), "undefined" != typeof s[1] && (r = s[0]), this.apple = { phone: q(b, r), ipod: q(c, r), tablet: !q(b, r) && q(d, r), device: q(b, r) || q(c, r) || q(d, r) }, this.amazon = { phone: q(g, r), tablet: !q(g, r) && q(h, r), device: q(g, r) || q(h, r) }, this.android = { phone: q(g, r) || q(e, r), tablet: !q(g, r) && !q(e, r) && (q(h, r) || q(f, r)), device: q(g, r) || q(h, r) || q(e, r) || q(f, r) }, this.windows = { phone: q(i, r), tablet: q(j, r), device: q(i, r) || q(j, r) }, this.other = { blackberry: q(k, r), blackberry10: q(l, r), opera: q(m, r), firefox: q(o, r), chrome: q(n, r), device: q(k, r) || q(l, r) || q(m, r) || q(o, r) || q(n, r) }, this.seven_inch = q(p, r), this.any = this.apple.device || this.android.device || this.windows.device || this.other.device || this.seven_inch, this.phone = this.apple.phone || this.android.phone || this.windows.phone, this.tablet = this.apple.tablet || this.android.tablet || this.windows.tablet, "undefined" == typeof window ? this : void 0 }, s = function () { var a = new r; return a.Class = r, a }; "undefined" != typeof module && module.exports && "undefined" == typeof window ? module.exports = r : "undefined" != typeof module && module.exports && "undefined" != typeof window ? module.exports = s() : "function" == typeof define && define.amd ? define("isMobile", [], a.isMobile = s()) : a.isMobile = s() }(this);
     // alert(isMobile.any ? 'Mobile' : 'Not mobile');

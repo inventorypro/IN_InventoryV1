@@ -111,17 +111,34 @@
                     <a href="AdminRequis.html">All Requisition</a>
                 </li>
                 <li>
-                    <a href="#">Overview</a>
+                    <a data-toggle="collapse" href="#multiCollapseExample1" aria-expanded="false"
+                        aria-controls="multiCollapseExample1" style="color:black;">Report</a>
                 </li>
-                <li>
-                    <a href="#">Events</a>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <ul>
+                        <li>
+                            <a href="ReportBalance.html">Balance Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportReceive.html">Receive Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportReturn.html">Return Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportRequisition.html">Requisition Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportLowProduct.html">Low Product Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportOutOfStock.html">Out of Stock Report</a>
+                        </li>
+                        <li>
+                            <a href="ReportTotalCost.html">Total Cost Report</a>
+                        </li>
+                    </ul>
+                </div>
                 <li>
                     <a href="#">Contact</a>
                 </li>
@@ -144,6 +161,7 @@
                             <b>เลขที่ใบเบิก : &nbsp;</b><a id="RequisNumber"></a><br>
                             <b>ชื่อผู้เบิก : &nbsp;</b><a id="RequisName"></a><br>
                             <b>สถานที่นำไปใช้ : &nbsp;</b><a id="RequisLocation"></a><br>
+                            <b>สถานะ : &nbsp;</b><a id="ApproveStatus"></a><br>
                             <b>อนุมัติโดย : &nbsp;</b><a id="ApproveName"></a><br>
                         </div>
                         <div class="col-md-6">
@@ -158,19 +176,19 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <button id="btnApprove" class="btn btn-outline-success" disabled
+                            <button id="btnApprove" class="btn btn-success" disabled
                                 onclick="btnApprove()">Approve</button>
-                            <button id="btnApprove" class="btn btn-outline-warning"
+                            <button id="btnCheckingApprove" class="btn btn-warning"
                                 onclick="btnApproveChecking()">ตรวจสอบ</button>
-                            <button id="btnApprove" class="btn btn-outline-primary"
+                            <button id="btnUpdateApprove" class="btn btn-primary"
                                 onclick="btnApproveChecking()">อัพเดตรายการ</button>
                         </div>
                         <div class="col-md-6">
                             <div class="float-right">
-                                <button class="btn btn-outline-info" onclick="btnPrint()"><i
-                                        class="fas fa-print fa-lg"></i></button>
-                                <button class="btn btn-outline-info" onclick="goBack()"><i
-                                        class="fas fa-arrow-left fa-lg"></i></button>
+                                <button class="btn btn-info" onclick="btnPrint()"><i
+                                        class="fas fa-print fa-lg"></i> Print</button>
+                                <button class="btn btn-info" onclick="goBack()"><i
+                                        class="fas fa-arrow-left fa-lg"></i> Back</button>
                             </div>
                         </div>
 
@@ -299,13 +317,13 @@
                 </center>
                 <hr>
                 <div class="form-row">
-                    <div class="col">
+                    <div class="col-md-6">
                         <h5>เลขที่ : <a id="RequisNumberPrint"></a> </h5>
                         <h5>ชื่อผู้เบิก : <a id="RequisNamePrint"></a> </h5>
                         <h5>สถานะ : <a id="RequisStatusPrint"></a></h5>
-                        <h5>หมายเหตุ : <a id="RequisNotePrint"></a> </h5>
+                        <h5>หมายเหตุ : <a class="setRequisNotePrint" id="RequisNotePrint"></a> </h5>
                     </div>
-                    <div class="col">
+                    <div class="col-md-6">
                         <h5>วันที่ : <a id="RequisDatePrint"></a> </h5>
                         <h5>ตำแหน่ง : <a id="RequisPositionPrint"></a> </h5>
                         <h5>แผนก : <a id="RequisDeptPrint"></a> </h5>

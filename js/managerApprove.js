@@ -101,10 +101,11 @@ $(document).ready(function () {
             $("#RequisName").text(data.RequisName);
             $("#RequisLocation").text(data.RequisLocation);
             $("#ApproveName").text(data.ApproveName);
+            $("#ApproveStatus").text(data.RequisStatus);
             $("#RequisDate").text(data.RequisDate);
             $("#ApproveDate").text(data.ApproveDate);
             $("#RequisPosition").text(data.RequisPosition);
-            $("#RequisDept").text(data.RequisPosition);
+            $("#RequisDept").text(data.RequisDept);
             $("#RequisNote").text(data.RequisNote);
             $("#TotalCost").text(data.TotalCost);
             $("#RequisStatus").text(data.RequisStatus);
@@ -116,7 +117,7 @@ $(document).ready(function () {
             $("#RequisDatePrint").text( moment(data.RequisDate).format('DD-MM-YYYY HH:mm:ss'));
             $("#ApproveDatePrint").text(data.ApproveDate);
             $("#RequisPositionPrint").text(data.RequisPosition);
-            $("#RequisDeptPrint").text(data.RequisPosition);
+            $("#RequisDeptPrint").text(data.RequisDept);
             $("#RequisNotePrint").text(data.RequisNote);
             $("#TotalCostPrint").text(data.TotalCost);
             $("#RequisStatusPrint").text(data.RequisStatus);
