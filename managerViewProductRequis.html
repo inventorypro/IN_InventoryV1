@@ -144,6 +144,7 @@
                             <b>เลขที่ใบเบิก : &nbsp;</b><a id="RequisNumber"></a><br>
                             <b>ชื่อผู้เบิก : &nbsp;</b><a id="RequisName"></a><br>
                             <b>สถานที่นำไปใช้ : &nbsp;</b><a id="RequisLocation"></a><br>
+                            <b>สถานะ : &nbsp;</b><a id="ApproveStatus"></a><br>
                             <b>อนุมัติโดย : &nbsp;</b><a id="ApproveName"></a><br>
                         </div>
                         <div class="col-md-6">
@@ -157,8 +158,8 @@
                     <br>
 
                     <div class="float-right">
-                        <button class="btn btn-outline-info" onclick="btnPrint()"><i class="fas fa-print fa-lg"></i></button>
-                        <button class="btn btn-outline-info" onclick="goBack()"><i class="fas fa-arrow-left fa-lg"></i></button>
+                        <button class="btn btn-info" onclick="btnPrint()"><i class="fas fa-print fa-lg"></i> Print</button>
+                        <button class="btn btn-info" onclick="goBack()"><i class="fas fa-arrow-left fa-lg"></i> Back</button>
                     </div>
                 </div>
                 <br><br>
@@ -275,13 +276,13 @@
             </center>
             <hr>
             <div class="form-row">
-                <div class="col">
+                <div class="col-md-6">
                     <h5>เลขที่ : <a id="RequisNumberPrint"></a> </h5>
                     <h5>ชื่อผู้เบิก : <a id="RequisNamePrint"></a> </h5>
                     <h5>สถานะ : <a id="RequisStatusPrint"></a></h5>
-                    <h5>หมายเหตุ : <a id="RequisNotePrint"></a> </h5>
+                    <h5>หมายเหตุ : <a class="setRequisNotePrint" id="RequisNotePrint"></a> </h5>
                 </div>
-                <div class="col">
+                <div class="col-md-6">
                     <h5>วันที่ : <a id="RequisDatePrint"></a> </h5>
                     <h5>ตำแหน่ง : <a id="RequisPositionPrint"></a> </h5>
                     <h5>แผนก : <a id="RequisDeptPrint"></a> </h5>

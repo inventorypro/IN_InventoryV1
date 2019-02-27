@@ -92,6 +92,14 @@ $(document).ready(function () {
 
         success: function (data) {
 
+            if (data.RequisStatus === "approve") {
+                document.getElementById('btnApprove').style.visibility = 'hidden';
+                document.getElementById('btnCheckingApprove').style.visibility = 'hidden';
+                document.getElementById('btnUpdateApprove').style.visibility = 'hidden';
+                // document.getElementById("btnCheckingApprove").disabled = true;
+                // document.getElementById("btnUpdateApprove").disabled = true;
+            }
+
             console.table(data.RequisNumber);
 
             $("#RequisNumber").text(data.RequisNumber);
@@ -101,7 +109,8 @@ $(document).ready(function () {
             $("#RequisDate").text(data.RequisDate);
             $("#ApproveDate").text(data.ApproveDate);
             $("#RequisPosition").text(data.RequisPosition);
-            $("#RequisDept").text(data.RequisPosition);
+            $("#RequisDept").text(data.RequisDept);
+            $("#ApproveStatus").text(data.RequisStatus);
             $("#RequisNote").text(data.RequisNote);
             $("#TotalCost").text(data.TotalCost);
 
@@ -113,7 +122,7 @@ $(document).ready(function () {
             $("#RequisDatePrint").text(moment(data.RequisDate).format('DD-MM-YYYY HH:mm:ss'));
             $("#ApproveDatePrint").text(data.ApproveDate);
             $("#RequisPositionPrint").text(data.RequisPosition);
-            $("#RequisDeptPrint").text(data.RequisPosition);
+            $("#RequisDeptPrint").text(data.RequisDept);
             $("#RequisNotePrint").text(data.RequisNote);
             $("#TotalCostPrint").text(data.TotalCost);
 

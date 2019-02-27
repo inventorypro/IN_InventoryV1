@@ -259,9 +259,19 @@ table.dataTable tbody td {
   color: white;
 }
 
+.btn.btn-success[disabled] {
+  background-color: #101310;
+}
+
 .setRequisNote{
   display:block; 
   width:100%;
+  word-wrap:break-word; 
+}
+
+.setRequisNotePrint{
+  display:block; 
+  width:95%;
   word-wrap:break-word; 
 }
 
