@@ -249,7 +249,7 @@ function btnCheckApproveRequis() {
 
                         if (allDataApprove[j].Category.toLowerCase() === "package") {
                             console.log(allDataApprove[j].ProductID);
-                            checkApproveRequisPackage(allDataApprove[j].ProductID);
+                            checkApproveRequisPackage(allDataApprove[j].ProductID,allDataApprove[j].Amount);
                             console.log(checkNameProductINPackage.length);
                             if (checkNameProductINPackage.length > 0) {
 
@@ -478,7 +478,7 @@ function checkApproveRequis() {
 
 }
 var checkNameProductINPackage = [];
-function checkApproveRequisPackage(id) {
+function checkApproveRequisPackage(id,amount) {
 
 
     $.ajax({
@@ -506,7 +506,7 @@ function checkApproveRequisPackage(id) {
                         for (var j = 0; j < data.length; j++) {
 
                             if (data[i].PackProductID === dataP[j].ProductID) {
-                                if (data[i].Amount > dataP[j].Amount || dataP[j].ProductStatus === "false") {
+                                if (data[i].Amount*amount > dataP[j].Amount || dataP[j].ProductStatus === "false") {
                                     checkNameProductINPackage[countCheckProductInPack] = data[i].ProductName;
                                     countCheckProductInPack++;
 
