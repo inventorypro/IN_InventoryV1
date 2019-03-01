@@ -356,7 +356,7 @@ function checkApproveRequis() {
 
                         if (allDataApprove[j].Category.toLowerCase() === "package") {
                             console.log(allDataApprove[j].ProductID);
-                            // checkApproveRequisPackage(allDataApprove[j].ProductID);
+                            checkApproveRequisPackage(allDataApprove[j].ProductID,allDataApprove[j].Amount);
 
 
                             $.ajax({
