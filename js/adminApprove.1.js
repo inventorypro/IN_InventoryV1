@@ -462,8 +462,8 @@ function checkApproveRequis() {
                 } else {
 
                     document.getElementById("btnApprove").disabled = false;
-                    document.getElementById('btnCheckingApprove').style.visibility = 'hidden';
-                    document.getElementById('btnUpdateApprove').style.visibility = 'hidden';
+                    // document.getElementById('btnCheckingApprove').style.visibility = 'hidden';
+                    // document.getElementById('btnUpdateApprove').style.visibility = 'hidden';
                 }
             }
 
