@@ -905,7 +905,7 @@ var allIDproductPackELM = [];
 function addButton() {
 
     // for (var i = i; i <= countAddButton.length; i++) {
-    $("#addPackProduct").append(' <div id="addPack' + numberAddButton + '">' + numberAddButton + '<select class="form-control" onchange="checkVall()" id="addsetProduct' + numberAddButton + '"  onclick="" required><option disabled selected value="">Please select Product</option></select>จำนวน(1 : 1 Pack): <input type="number" name="quantity" onchange="checkVall()" id="addsetAmountProduct' + numberAddButton + '" min="1" value="1"><button type="button" onchange="checkVall()" id="btnRemove" onclick="removeButton(' + numberAddButton + ')">Remove</button><br><br></div>');
+    $("#addPackProduct").append(' <div id="addPack' + numberAddButton + '">' + numberAddButton + '<select class="form-control" onchange="checkVall()" id="addsetProduct' + numberAddButton + '"  onclick="" required><option disabled selected value="">Please select Product</option></select>จำนวน(1 : 1 Pack): <input type="number" name="quantity" onchange="checkVall()" id="addsetAmountProduct' + numberAddButton + '" min="1" value="1"><button class="btn btn-danger" type="button" onchange="checkVall()" id="btnRemove" onclick="removeButton(' + numberAddButton + ')">Remove</button><br><br></div>');
 
     // }
     var setName = "addsetProduct" + numberAddButton;
