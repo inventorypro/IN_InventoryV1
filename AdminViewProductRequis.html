@@ -52,10 +52,12 @@
 
 
 
-    <script src="js/index.js"></script>
-    <script src="js/admin.js"></script>
-    <script src="js/print.js"></script>
-    <script src="js/adminApprove.1.js"></script>
+    <script src="js/index.js" async></script>
+    <script src="js/admin.js" async></script>
+    <script src="js/print.js" async></script>
+    <script src="js/adminApprove.1.js" async></script>
+
+
 </head>
 <style>
     @media screen {
@@ -177,18 +179,29 @@
                     <div class="row">
                         <div class="col-md-6">
                             <button id="btnApprove" class="btn btn-success" disabled
+                                onclick="approveRequis()">Approve</button>
+                            <button id="btnUnapprove" class="btn btn-danger" 
+                                onclick="unapproveRequis()">Unapprove</button>
+                            <button id="btnCheckingApprove" class="btn btn-warning"
+                                onclick="btnCheckApproveRequis()">ตรวจสอบ</button>
+                            <button id="btnUpdateApprove" class="btn btn-primary"
+                                onclick="updateProductUnapprove()">อัพเดตรายการ</button>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <button id="btnApprove" class="btn btn-success" disabled
                                 onclick="btnApprove()">Approve</button>
                             <button id="btnCheckingApprove" class="btn btn-warning"
                                 onclick="btnApproveChecking()">ตรวจสอบ</button>
                             <button id="btnUpdateApprove" class="btn btn-primary"
                                 onclick="btnApproveChecking()">อัพเดตรายการ</button>
-                        </div>
+                        </div> -->
+
                         <div class="col-md-6">
                             <div class="float-right">
-                                <button class="btn btn-info" onclick="btnPrint()"><i
-                                        class="fas fa-print fa-lg"></i> Print</button>
-                                <button class="btn btn-info" onclick="goBack()"><i
-                                        class="fas fa-arrow-left fa-lg"></i> Back</button>
+                                <button class="btn btn-info" onclick="btnPrint()"><i class="fas fa-print fa-lg"></i>
+                                    Print</button>
+                                <button class="btn btn-info" onclick="goBack()"><i class="fas fa-arrow-left fa-lg"></i>
+                                    Back</button>
                             </div>
                         </div>
 

@@ -23,7 +23,7 @@ $(document).ready(function () {
 
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
-                allProduct[i] = data[i].ProductID + "," + data[i].ProductName + "," + data[i].Price+ "," + data[i].Amount;
+                allProduct[i] = data[i].ProductID + "," + data[i].ProductName + "," + data[i].Price + "," + data[i].Amount;
             }
             // console.table(data);
 
@@ -645,6 +645,10 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 
 function btnEditProduct() {
 
+if($('#editCategory').val().toLowerCase() === "package"){
+    updateAllProductPackage(); 
+}
+
     var cProductID = $('#editProductID').val();
 
 
@@ -941,7 +945,7 @@ function removeButton(id) {
     document.getElementById(setName).remove();
 
 }
-
+var editArrayIdPackProduct = [];
 function showddlPackProduct(id) {
     $.ajax({
 
@@ -958,11 +962,11 @@ function showddlPackProduct(id) {
 
             for (var j = 0; j < data.length; j++) {
 
-                $("#showPackProduct").append(' <div id="addShowPack' + data[j].PackageID + '">' + data[j].ProductName + '<br>จำนวน(1 : 1 Pack): <input type="number" name="quantity"  id="addsetAmountProduct' + data[j].PackageID + '" min="1" value="' + data[j].Amount + '"><br><br></div>');
-
-
+                $("#showPackProduct").append(' <div id="addShowPack' + data[j].PackageID + '">' + data[j].ProductName + '<br>จำนวน(1 : 1 Pack): <input type="number" name="quantity" onchange="checkEditVal()" id="editsetAmountProduct' + data[j].PackageID + '" min="1" value="' + data[j].Amount + '"><br><br></div>');
 
                 // document.getElementById(setName).value = data[j].PackageID;
+                editArrayIdPackProduct[j] = ''+data[j].PackageID+','+ data[j].ProductID+','+'editsetAmountProduct' + data[j].PackageID +','+data[j].PackProductID+','+data[j].ProductName ;
+
 
             }
 
@@ -988,6 +992,10 @@ function getProductById(id) {
 }
 
 function clearDivShowPDEdit() {
+    
+for(var i = editArrayIdPackProduct.length ; 0<i ; i--){
+    editArrayIdPackProduct.pop();
+}
     $("#showPackProduct").empty();
 }
 
@@ -997,7 +1005,7 @@ function checkVall() {
     var checkNameCat = "";
     var checkRePrice = 0;
     var checkAmountPackPro = 0;
-    var allAmountCalucattor= 99999999;
+    var allAmountCalucattor = 99999999;
     for (var i = 0; i < allIDproductPackELM.length; i++) {
         checkNameCat = "addsetProduct" + allIDproductPackELM[i];
         checkAmountPackPro = "addsetAmountProduct" + allIDproductPackELM[i];
@@ -1006,17 +1014,83 @@ function checkVall() {
         var getAmountPackInProduct = $('#' + checkAmountPackPro).val()
 
 
-        if(getIdPackInProduct.split(",")[3] / getAmountPackInProduct < allAmountCalucattor){
+        if (getIdPackInProduct.split(",")[3] / getAmountPackInProduct < allAmountCalucattor) {
             allAmountCalucattor = getIdPackInProduct.split(",")[3] / getAmountPackInProduct
         }
-        
+
         checkRePrice += getIdPackInProduct.split(",")[2] * getAmountPackInProduct
         console.log(getIdPackInProduct.split(",")[2]);
         console.log(getAmountPackInProduct);
     }
-    
+
     document.getElementById("addAmount").value = Math.floor(allAmountCalucattor);
     document.getElementById("addPrice").value = checkRePrice;
     console.log(allAmountCalucattor);
 }
 
+
+function updateAllProductPackage() {
+    var getReqAmount = "";
+    var getIdPackEdit ;
+    var getNameReqAmount = "";
+
+    for(var i = 0 ; i < editArrayIdPackProduct.length ; i++ ){
+        getReqAmount = editArrayIdPackProduct[i];
+        getNameReqAmount = "#"+getReqAmount.split(",")[2];
+        getIdPackEdit = getReqAmount.split(",")[0];
+        console.log(getNameReqAmount);
+        var formdata = {
+            "PackageID": getIdPackEdit,
+            "ProductID": getReqAmount.split(",")[1],
+            "Amount":   $(getNameReqAmount).val(),
+            "SITES": localStorage.logSite,
+            "PackProductID": getReqAmount.split(",")[3],
+            "ProductName": getReqAmount.split(",")[4]
+        }
+        $.ajax({
+
+            type: "PUT",
+            url: "http://localhost:60443/api/IN_Package/" + getIdPackEdit,
+            dataType: 'json',
+            data: formdata,
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (datax) {
+                console.table(datax);
+    
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                // console.log("Add new product failed, error is '" + thrownError + "'");
+                alert("Edit product failed, error is '" + thrownError + "'");
+            }
+    
+        }).then(function (data) {
+            // console.log(data);
+    
+            // location.reload();
+        });
+ 
+    }
+}
+
+function checkEditVal(){
+    // var valAmountEdit = 99999999;
+    // for(var i = 0 ; i < allProduct.length ; i++ ){
+    //     for(var j = 0 ; j < editArrayIdPackProduct.length ; j++ ){
+    //         if(allProduct[i].split(",")[0] === editArrayIdPackProduct[j].split(",")[3] ){
+
+    //             valAmountEdit = $("#"+editArrayIdPackProduct[j].split(",")[2]).val() / allProduct[i].split(",")[3] ;
+    //             if($("#"+editArrayIdPackProduct[j].split(",")[2]).val() / allProduct[i].split(",")[3] < valAmountEdit){
+    //                 valAmountEdit = $("#"+editArrayIdPackProduct[j].split(",")[2]).val() / allProduct[i].split(",")[3] ;
+    //             }
+    //         }
+  
+            
+    //     }
+    
+    // }
+
+    // document.getElementById("editAmount").value = Math.floor(valAmountEdit);
+    // // document.getElementById("editPrice").value = xxxxx;
+}
