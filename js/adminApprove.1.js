@@ -249,7 +249,7 @@ function btnCheckApproveRequis() {
 
                         if (allDataApprove[j].Category.toLowerCase() === "package") {
                             console.log(allDataApprove[j].ProductID);
-                            checkApproveRequisPackage(allDataApprove[j].ProductID,allDataApprove[j].Amount);
+                            checkApproveRequisPackage(allDataApprove[j].ProductID,allDataApprove[j].RequisAmount);
                             console.log(checkNameProductINPackage.length);
                             if (checkNameProductINPackage.length > 0) {
 
@@ -356,7 +356,7 @@ function checkApproveRequis() {
 
                         if (allDataApprove[j].Category.toLowerCase() === "package") {
                             console.log(allDataApprove[j].ProductID);
-                            checkApproveRequisPackage(allDataApprove[j].ProductID,allDataApprove[j].Amount);
+                            checkApproveRequisPackage(allDataApprove[j].ProductID,allDataApprove[j].RequisAmount);
 
 
                             $.ajax({
@@ -381,7 +381,7 @@ function checkApproveRequis() {
                                             console.log(data);
                                             var countCheckProductInPack = 0;
                                             for (var i = 0; i < data.length; i++) {
-                                                for (var j = 0; j < data.length; j++) {
+                                                for (var j = 0; j < dataP.length; j++) {
 
                                                     if (data[i].PackProductID === dataP[j].ProductID) {
                                                         if (data[i].Amount > dataP[j].Amount || dataP[j].ProductStatus === "false") {
