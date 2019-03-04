@@ -26,7 +26,7 @@ $(document).ready(function () {
 
 
             }
-            checkApproveRequis();
+            // checkApproveRequis();
 
             // console.table(allDataApprove);
             var datatable = $('#example').DataTable({
@@ -105,7 +105,7 @@ $(document).ready(function () {
                 // document.getElementById("btnCheckingApprove").disabled = true;
                 // document.getElementById("btnUpdateApprove").disabled = true;
             }
-            if(data.RequisStatus === "unapprove"){
+            if (data.RequisStatus === "unapprove") {
                 document.getElementById('btnApprove').style.visibility = 'hidden';
                 document.getElementById('btnCheckingApprove').style.visibility = 'hidden';
                 document.getElementById('btnUpdateApprove').style.visibility = 'hidden';
@@ -211,7 +211,7 @@ function approveRequis() {
                     for (var i = 0; i < allDataApprove.length; i++) {
                         countAllApprove++;
                         updateProductApproveAPI(allDataApprove[i].RequisID, countAllApprove);
-                       
+
                     }
 
                 },
@@ -249,7 +249,7 @@ function btnCheckApproveRequis() {
 
                         if (allDataApprove[j].Category.toLowerCase() === "package") {
                             console.log(allDataApprove[j].ProductID);
-                            checkApproveRequisPackage(allDataApprove[j].ProductID,allDataApprove[j].RequisAmount);
+                            checkApproveRequisPackage(allDataApprove[j].ProductID, allDataApprove[j].RequisAmount);
                             console.log(checkNameProductINPackage.length);
                             if (checkNameProductINPackage.length > 0) {
 
@@ -288,7 +288,7 @@ function btnCheckApproveRequis() {
                     for (var ei = 0; ei < checkAmountInProduct.length; ei++) {
                         if (checkAmountInProduct[ei].split(",")[0] === "false") {
 
-                            msgCheckApprove += "ไม่สามารถเบิก" + checkAmountInProduct[ei].split(",")[2] +"\n" ;
+                            msgCheckApprove += "ไม่สามารถเบิก" + checkAmountInProduct[ei].split(",")[2] + "\n";
                             // alert(msgCheckApprove + " ");
 
                         } else {
@@ -297,9 +297,9 @@ function btnCheckApproveRequis() {
                         }
                     }
                     if (checkNameProductINPackage.length > 0) {
-                        msgCheckApprove +="สินค้าใน Package มีจำนวนไม่เพียงพอ(" + checkNameProductINPackage + ")";
-                       
-    
+                        msgCheckApprove += "สินค้าใน Package มีจำนวนไม่เพียงพอ(" + checkNameProductINPackage + ")";
+
+
                     }
                     // location.reload();
                     document.getElementById("btnApprove").disabled = true;
@@ -318,9 +318,9 @@ function btnCheckApproveRequis() {
             if (msgCheckApprove === "สามารถเบิก") {
 
                 alert(msgCheckApprove);
-            }else{
+            } else {
                 alert(msgCheckApprove);
-              
+
             }
 
 
@@ -356,7 +356,7 @@ function checkApproveRequis() {
 
                         if (allDataApprove[j].Category.toLowerCase() === "package") {
                             console.log(allDataApprove[j].ProductID);
-                            checkApproveRequisPackage(allDataApprove[j].ProductID,allDataApprove[j].RequisAmount);
+                            checkApproveRequisPackage(allDataApprove[j].ProductID, allDataApprove[j].RequisAmount);
 
 
                             $.ajax({
@@ -457,7 +457,7 @@ function checkApproveRequis() {
             for (var i = 0; i < checkAmountInProduct.length; i++) {
                 if (checkAmountInProduct[i].split(",")[0] === "false") {
                     document.getElementById("btnApprove").disabled = true;
-
+            
                     break;
                 } else {
 
@@ -478,7 +478,7 @@ function checkApproveRequis() {
 
 }
 var checkNameProductINPackage = [];
-function checkApproveRequisPackage(id,amount) {
+function checkApproveRequisPackage(id, amount) {
 
 
     $.ajax({
@@ -506,7 +506,7 @@ function checkApproveRequisPackage(id,amount) {
                         for (var j = 0; j < data.length; j++) {
 
                             if (data[i].PackProductID === dataP[j].ProductID) {
-                                if (data[i].Amount*amount > dataP[j].Amount || dataP[j].ProductStatus === "false") {
+                                if (data[i].Amount * amount > dataP[j].Amount || dataP[j].ProductStatus === "false") {
                                     checkNameProductINPackage[countCheckProductInPack] = data[i].ProductName;
                                     countCheckProductInPack++;
 
@@ -556,7 +556,7 @@ function updateProductUnapprove() {
         if (checkAmountInProduct[i].split(",")[0] === "false") {
             countUpdate++;
             updateProductUnapproveAPI(checkAmountInProduct[i].split(",")[1], maxLenghtUpdate, countUpdate);
-          
+
         }
     }
 }
@@ -627,7 +627,7 @@ function updateProductUnapproveAPI(id, maxLenghtUpdate, countUpdate) {
 }
 
 
-function updateProductApproveAPI(id,countAllApprove) {
+function updateProductApproveAPI(id, countAllApprove) {
     $.ajax({
 
         type: "GET",
@@ -737,7 +737,7 @@ function unapproveRequis() {
                     for (var i = 0; i < allDataApprove.length; i++) {
                         countAllApprove++;
                         updateProductUnApproveAPI(allDataApprove[i].RequisID, countAllApprove);
-                       
+
                     }
 
                 },
@@ -756,7 +756,7 @@ function unapproveRequis() {
     });
 }
 
-function updateProductUnApproveAPI(id,countAllApprove) {
+function updateProductUnApproveAPI(id, countAllApprove) {
     $.ajax({
 
         type: "GET",

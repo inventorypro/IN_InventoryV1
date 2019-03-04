@@ -1,5 +1,6 @@
 var allDataApprove = [];
 var totalCost = 0;
+var countArryAllDataApprove = 0;
 $(document).ready(function () {
 
     $.ajax({
@@ -14,19 +15,19 @@ $(document).ready(function () {
         success: function (data) {
 
             // console.table(data);
-            var countArryAllDataApprove = 0;
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].RequisStatus.toLowerCase() === "unapprove" || data[i].RequisStatus.toLowerCase() === "approve" || data[i].RequisStatus.toLowerCase() === "finish") {
-                    console.table(data[i]);
-                } else {
-                    allDataApprove[countArryAllDataApprove] = data[i];
-                    totalCost += data[i].Price;
-                    countArryAllDataApprove++;
-                }
+            // var countArryAllDataApprove = 0;
+            // for (var i = 0; i < data.length; i++) {
+            //     if (data[i].RequisStatus.toLowerCase() === "unapprove" || data[i].RequisStatus.toLowerCase() === "approve" || data[i].RequisStatus.toLowerCase() === "finish") {
+            //         console.table(data[i]);
+            //     } else {
+            //         allDataApprove[countArryAllDataApprove] = data[i];
+            //         totalCost += data[i].Price;
+            //         countArryAllDataApprove++;
+            //     }
 
 
-            }
-          
+            // }
+
 
             // console.table(allDataApprove);
             var datatable = $('#example').DataTable({
@@ -105,7 +106,7 @@ $(document).ready(function () {
                 // document.getElementById("btnCheckingApprove").disabled = true;
                 // document.getElementById("btnUpdateApprove").disabled = true;
             }
-            if(data.RequisStatus === "unapprove"){
+            if (data.RequisStatus === "unapprove") {
                 document.getElementById('btnApprove').style.visibility = 'hidden';
                 document.getElementById('btnCheckingApprove').style.visibility = 'hidden';
                 document.getElementById('btnUpdateApprove').style.visibility = 'hidden';
@@ -166,4 +167,103 @@ function goBack() {
 function btnPrint() {
     window.print();
 }
+
+function getDataCheckProductApprove(id,amount,category) {
+if(category.toLowerCase()  === "package"){
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ProductInPackage?productID=" + id,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+
+            console.log(data);
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
+}
+
+
+}
+
+function checkDataBfApprove() {
+    var allDataProduct = [];
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Product?sites=" + localStorage.logSite,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+
+
+            for (var i = 0; i < data.length; i++) {
+                allDataProduct[i] = data[i];
+            }
+
+
+            $.ajax({
+
+                type: "GET",
+                url: "http://localhost:60443/api/IN_ProductViewBarcode?RequisNumber=" + localStorage.logIDrequisViewPro,
+                dataType: 'json',
+                headers: {
+                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                },
+                success: function (data) {
+                    var countArryAllDataApprove = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].RequisStatus.toLowerCase() === "unapprove" || data[i].RequisStatus.toLowerCase() === "approve" || data[i].RequisStatus.toLowerCase() === "finish") {
+                            console.table(data[i]);
+                        } else {
+
+                            allDataApprove[countArryAllDataApprove] = data[i];
+                            totalCost += data[i].Price;
+                            countArryAllDataApprove++;
+                        }
+
+
+                    }
+
+                    for (var i = 0; i < allDataProduct.length; i++) {
+                        console.log(allDataApprove[i]);
+                        if(allDataProduct.length-1 === i){
+                            for(var j = 0; j < allDataApprove.length; j++){
+                                getDataCheckProductApprove(allDataApprove[j].ProductID, allDataApprove[j].RequisAmount, allDataApprove[j].Category);
+                            }
+                        
+                        }
+                    }
+
+
+                },
+                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                    console.log("Failed, error is '" + thrownError + "'");
+                    //alert("Add new product failed, error is '" + thrownError + "'");
+                }
+
+            });
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
+
+
+}
+
 
