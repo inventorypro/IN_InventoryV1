@@ -11,7 +11,7 @@
 <script src="js/addStockcard.js"></script>
 
 <body>
-        <input id="myTextInput" value="" />
+    <input id="myTextInput" value="" />
     <!-- <p id="showtxtUnit"></p> -->
     <!-- <select id="setUnitType" onclick="showData()"> </select> -->
 
@@ -22,64 +22,106 @@
 
     <script>
 
-//         function testFnn(aaaaaa){
-// alert(aaaaaa);
-//         }
+        //         function testFnn(aaaaaa){
+        // alert(aaaaaa);
+        //         }
 
-//         function addProductToCart() {
-//             var setDateNow = new Date().toLocaleString();
-//             var formdata = {
+        //         function addProductToCart() {
+        //             var setDateNow = new Date().toLocaleString();
+        //             var formdata = {
 
-//                 "RequisID": 1,
-//                 "ProductID": 1,
-//                 "Category": "sample string 2",
-//                 "ProductName": "sample string 3",
-//                 "Price": 1,
-//                 "UnitType": "sample string 4",
-//                 "Balance": 1,
-//                 "RequisAmount": 1,
-//                 "RequisNote": "sample string 5",
-//                 "Date": setDateNow,
-//                 "ImgProduct": "sample string 6",
-//                 "UserID": localStorage.logUsername
-
-
-//             }
+        //                 "RequisID": 1,
+        //                 "ProductID": 1,
+        //                 "Category": "sample string 2",
+        //                 "ProductName": "sample string 3",
+        //                 "Price": 1,
+        //                 "UnitType": "sample string 4",
+        //                 "Balance": 1,
+        //                 "RequisAmount": 1,
+        //                 "RequisNote": "sample string 5",
+        //                 "Date": setDateNow,
+        //                 "ImgProduct": "sample string 6",
+        //                 "UserID": localStorage.logUsername
 
 
+        //             }
 
-//             $.ajax({
 
-//                 type: "POST",
-//                 url: "http://localhost:60443/api/IN_ProductRequis",
-//                 dataType: 'json',
-//                 data: formdata,
-//                 headers: {
-//                     'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-//                 },
-//                 success: function (data) {
-//                     console.log(data);
-//                     //  console.log(data[0].UnitTypeName);
-//                     //  location.reload();
 
-//                 },
-//                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-//                     console.log("Add new Stockcard failed, error is '" + thrownError + "'");
-//                     //alert("Add new product failed, error is '" + thrownError + "'");
-//                 }
+        //             $.ajax({
 
-//             });
-//         }
+        //                 type: "POST",
+        //                 url: "http://localhost:60443/api/IN_ProductRequis",
+        //                 dataType: 'json',
+        //                 data: formdata,
+        //                 headers: {
+        //                     'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        //                 },
+        //                 success: function (data) {
+        //                     console.log(data);
+        //                     //  console.log(data[0].UnitTypeName);
+        //                     //  location.reload();
+
+        //                 },
+        //                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+        //                     console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+        //                     //alert("Add new product failed, error is '" + thrownError + "'");
+        //                 }
+
+        //             });
+        //         }
 
         $(document).ready(function () {
-     
-            var xxx = document.getElementById('myTextInput');
-             xxx.focus();
-  $("#myTextInput").keypress(function(){
 
-  });
+            var xxx = document.getElementById('myTextInput');
+            xxx.focus();
+            $("#myTextInput").keypress(function () {
+
+            });
 
         });
+
+
+        function xxxx() {
+            $.ajax({
+
+                type: "GET",
+                url: "http://localhost:60443/api/IN_UnitType",
+                dataType: 'json',
+                headers: {
+                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                },
+                success: function (data) {
+                    console.log("1");
+                },
+                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                    console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+
+                }
+
+            }).done(function (returnedValue) {
+                $.ajax({
+
+                    type: "GET",
+                    url: "http://localhost:60443/api/IN_Category",
+                    dataType: 'json',
+                    headers: {
+                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                    },
+                    success: function (data) {
+                        console.log("2");
+                        console.log(data);
+                        console.log(returnedValue);
+                    },
+                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                        console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+
+                    }
+
+                });
+            });
+        }
+
 
 
 
