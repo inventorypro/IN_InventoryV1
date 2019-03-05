@@ -81,7 +81,7 @@
 
         });
 
-
+        var ccc = 0;
         function xxxx() {
             $.ajax({
 
@@ -91,7 +91,7 @@
                 headers: {
                     'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                 },
-                success: function (data) {
+                success: function (data1) {
                     console.log("1");
                 },
                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -99,7 +99,7 @@
 
                 }
 
-            }).done(function (returnedValue) {
+            }).always(function (data1) {
                 $.ajax({
 
                     type: "GET",
@@ -108,21 +108,40 @@
                     headers: {
                         'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                     },
-                    success: function (data) {
-                        console.log("2");
-                        console.log(data);
-                        console.log(returnedValue);
+                    success: function (data2) {
+
+                        console.log(ccc);
+                        // console.log(data1);
+                        // console.log(returnedValue);
                     },
                     error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                         console.log("Add new Stockcard failed, error is '" + thrownError + "'");
 
                     }
 
+                }).done(function (data2X) {
+                    $.ajax({
+
+                        type: "GET",
+                        url: "http://localhost:60443/api/IN_Category",
+                        dataType: 'json',
+                        headers: {
+                            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                        },
+                        success: function (data) {
+                            console.log("3");
+                            ccc++;
+                            console.log(data2X);
+                        },
+                        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+
+                        }
+
+                    });
                 });
             });
         }
-
-
 
 
 
