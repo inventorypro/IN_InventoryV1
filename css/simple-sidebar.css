@@ -277,7 +277,7 @@ input:invalid {
   background-color: #ffdddd;
 }
 
-form:invalid {
+/* form:invalid {
 
 }
 
@@ -291,7 +291,7 @@ form:valid {
   
 input:required {
 
-}
+} */
 
 input:required:invalid {
   border-color: #C00000;

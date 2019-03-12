@@ -135,122 +135,117 @@ function toggleCheckbox(source) {
 }
 var statusCheckAddProduct = true;
 function addProductToCart(ProductID, ProductName, Category, Price, UnitType, Amount, Barcode, ImgProduct) {
+    putDataToCart(ProductID, ProductName, Category, Price, UnitType, Amount, Barcode, ImgProduct); 
+    // if (checkCartUserCount > 0) {
+    //     $.ajax({
 
-    if (checkCartUserCount > 0) {
-        $.ajax({
+    //         type: "GET",
+    //         url: "http://localhost:60443/api/IN_ProductRequis?userID=" + localStorage.logUsername + "&RequisStatus=waiting",
+    //         dataType: 'json',
+    //         headers: {
+    //             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+    //         },
+    //         success: function (data) {
+    //             var idCheckInPackage;
 
-            type: "GET",
-            url: "http://localhost:60443/api/IN_ProductRequis?userID=" + localStorage.logUsername + "&RequisStatus=waiting",
-            dataType: 'json',
-            headers: {
-                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-            },
-            success: function (data) {
-                var idCheckInPackage;
+    //             for (var i = 0; i < data.length; i++) {
 
-                for (var i = 0; i < data.length; i++) {
+    //                 if (data[i].Category.toLowerCase() === "package") {
 
-                    if (data[i].Category.toLowerCase() === "package") {
+    //                     idCheckInPackage = data[i].ProductID;
+    //                     $.ajax({
 
-                        idCheckInPackage = data[i].ProductID;
-                        $.ajax({
-
-                            type: "GET",
-                            url: "http://localhost:60443/api/IN_ProductInPackage?productID=" + idCheckInPackage,
-                            dataType: 'json',
-                            headers: {
-                                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-                            },
-                            success: function (dataPackage) {
-                                console.log(ProductID);
-                                for (var p = 0; p < dataPackage.length; p++) {
-                                    if (ProductID === dataPackage[p].PackProductID) {
-                                        alert("โปรดักที่เลือกมีอยู่ใน Package ที่เลือกแล้ว");
-                                        window.location.href = "MyCart.html";
-                                        statusCheckAddProduct = false;
-                                        break;
-                                    }
-                                }
+    //                         type: "GET",
+    //                         url: "http://localhost:60443/api/IN_ProductInPackage?productID=" + idCheckInPackage,
+    //                         dataType: 'json',
+    //                         headers: {
+    //                             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+    //                         },
+    //                         success: function (dataPackage) {
+    //                             console.log(ProductID);
+    //                             for (var p = 0; p < dataPackage.length; p++) {
+    //                                 if (ProductID === dataPackage[p].PackProductID) {
+    //                                     alert("โปรดักที่เลือกมีอยู่ใน Package ที่เลือกแล้ว");
+    //                                     window.location.href = "MyCart.html";
+    //                                     statusCheckAddProduct = false;
+    //                                     break;
+    //                                 }
+    //                             }
                        
-                            },
-                            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                                console.log("Failed, error is '" + thrownError + "'");
-                                //alert("Add new product failed, error is '" + thrownError + "'");
-                            }
+    //                         },
+    //                         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+    //                             console.log("Failed, error is '" + thrownError + "'");
+    //                             //alert("Add new product failed, error is '" + thrownError + "'");
+    //                         }
 
-                        });
-                    } else {
-                        idCheckInPackage = ProductID;
-                        $.ajax({
+    //                     });
+    //                 } else {
+    //                     idCheckInPackage = ProductID;
+    //                     $.ajax({
 
-                            type: "GET",
-                            url: "http://localhost:60443/api/IN_ProductInPackage?productID=" + idCheckInPackage,
-                            dataType: 'json',
-                            headers: {
-                                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-                            },
-                            success: function (dataPackage) {
-                                console.log(dataPackage);
-                                var allCheckInPack = dataPackage;
+    //                         type: "GET",
+    //                         url: "http://localhost:60443/api/IN_ProductInPackage?productID=" + idCheckInPackage,
+    //                         dataType: 'json',
+    //                         headers: {
+    //                             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+    //                         },
+    //                         success: function (dataPackage) {
+    //                             console.log(dataPackage);
+    //                             var allCheckInPack = dataPackage;
 
-                                $.ajax({
+    //                             $.ajax({
 
-                                    type: "GET",
-                                    url: "http://localhost:60443/api/IN_ProductRequis?userID=" + localStorage.logUsername + "&RequisStatus=waiting",
-                                    dataType: 'json',
-                                    headers: {
-                                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-                                    },
-                                    success: function (data) {
-                                        for (var p = 0; p < data.length; p++) {
-                                            for (var k = 0; k < allCheckInPack.length; k++) {
-                                                if (data[p].ProductID === allCheckInPack[k].PackProductID) {
+    //                                 type: "GET",
+    //                                 url: "http://localhost:60443/api/IN_ProductRequis?userID=" + localStorage.logUsername + "&RequisStatus=waiting",
+    //                                 dataType: 'json',
+    //                                 headers: {
+    //                                     'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+    //                                 },
+    //                                 success: function (data) {
+    //                                     for (var p = 0; p < data.length; p++) {
+    //                                         for (var k = 0; k < allCheckInPack.length; k++) {
+    //                                             if (data[p].ProductID === allCheckInPack[k].PackProductID) {
                                               
                                                     
-                                                    statusCheckAddProduct = false;
-                                                    alert("หากต้องการเลือก Package โปรดลบโปรดันชนิดที่ไม่เหมือนในตะกล้าสินค้า");
-                                                    window.location.href = "MyCart.html";
-                                                    break;
+    //                                                 statusCheckAddProduct = false;
+    //                                                 alert("หากต้องการเลือก Package โปรดลบโปรดันชนิดที่ไม่เหมือนในตะกล้าสินค้า");
+    //                                                 window.location.href = "MyCart.html";
+    //                                                 break;
                                                    
-                                                }
-                                            }
-                                        }
+    //                                             }
+    //                                         }
+    //                                     }
                                  
                                         
-                                    },
-                                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                                        console.log("Failed, error is '" + thrownError + "'");
-                                        //alert("Add new product failed, error is '" + thrownError + "'");
-                                    }
+    //                                 },
+    //                                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+    //                                     console.log("Failed, error is '" + thrownError + "'");
+    //                                     //alert("Add new product failed, error is '" + thrownError + "'");
+    //                                 }
 
-                                });
+    //                             });
 
-                            },
-                            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                                console.log("Failed, error is '" + thrownError + "'");
-                                //alert("Add new product failed, error is '" + thrownError + "'");
-                            }
+    //                         },
+    //                         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+    //                             console.log("Failed, error is '" + thrownError + "'");
+    //                             //alert("Add new product failed, error is '" + thrownError + "'");
+    //                         }
 
-                        });
-                    }
-
-
-
-                }
-            },
-            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                console.log("Failed, error is '" + thrownError + "'");
-                //alert("Add new product failed, error is '" + thrownError + "'");
-            }
-
-        });
-    } else {
-        statusCheckAddProduct === true
-   
-    }
-    if(statusCheckAddProduct === true){
-        putDataToCart(ProductID, ProductName, Category, Price, UnitType, Amount, Barcode, ImgProduct)
-    }
+    //                     });
+    //                 }
+    //             }
+    //         },
+    //         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+    //             console.log("Failed, error is '" + thrownError + "'");
+    //             //alert("Add new product failed, error is '" + thrownError + "'");
+    //         }
+    //     });
+    // } else {
+    //     statusCheckAddProduct === true
+    // }
+    // if(statusCheckAddProduct === true){
+    //     putDataToCart(ProductID, ProductName, Category, Price, UnitType, Amount, Barcode, ImgProduct)
+    // }
  
 }
 
@@ -287,7 +282,7 @@ function putDataToCart(ProductID, ProductName, Category, Price, UnitType, Amount
                             headers: {
                                 'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                             },
-                            success: function (data) {
+                             success: function (data) {
 
                                 for (var i = 0; i < data.length; i++) {
                                     if (data[i].ProductID === ProductID) {
