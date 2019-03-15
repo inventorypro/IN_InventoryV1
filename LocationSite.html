@@ -54,8 +54,8 @@
 
     <script src="js/index.js"></script>
     <script src="js/admin.js"></script>
+    <script src="js/locationSite.js"></script>
 
-    <script src="js/adminRequis.js"></script>
 </head>
 
 <body>
@@ -77,10 +77,10 @@
                 <li>
                     <a href="Dashboard.html">Dashboard</a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="AdminRequis.html">All Requisition</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="LocationSite.html">Locations</a>
                 </li>
                 <li>
@@ -127,57 +127,27 @@
         <div class="container-fluid setMycontainer">
             <div class="container-fluid ">
 
-            </div>
-        </div>
-
-        
-        <!-- /#page-content-wrapper -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid setFont"><br>
-
-
-                <!-- <button class="btn btn-success float-right" >ส่งใบเบิก</button> -->
-
-                <h1>All Requisition</h1>
+                <h1>Location</h1>
 
                 <hr>
+                <select class="form-control" id="setLocation" placeholder="select"
+                onchange="viewWarehouseData()" required>
+                <option disabled selected value="">Select Location</option>
+            </select>
 
+            </div>
 
+        </div>
+        <!-- /#page-content-wrapper -->
+        <div id="page-content-wrapper" >
+            <div class="container-fluid setFont"><br>
+                <h1>All Requisition</h1>
+                <hr>
                 <div class="row-fluid">
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="showDataPD-Location">
 
                         <center>
-                            <table id="example" class="table table-striped table-bordered text-center dtCheck "
-                                style="width:80%">
-                                <thead>
-                                    <tr>
-                                        <th>RequisID</th>
-                                        <th>RequisNumber</th>
-                                        <th>Requisition</th>
-                                        <th>RequisPosition</th>
-                                        <th>RequisDept</th>
-                                        <th>RequisLocation</th>
-                                        <th>RequisDate</th>
-                                        <th>RequisStatus</th>
-                                        <th>RequisNote</th>
-                                        <th>Product</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>RequisID</th>
-                                        <th>RequisNumber</th>
-                                        <th>Requisition</th>
-                                        <th>RequisPosition</th>
-                                        <th>RequisDept</th>
-                                        <th>RequisLocation</th>
-                                        <th>RequisDate</th>
-                                        <th>RequisStatus</th>
-                                        <th>RequisNote</th>
-                                        <th>Product</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                        
                         </center>
                     </div>
                 </div>
