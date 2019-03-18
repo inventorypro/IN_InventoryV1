@@ -130,16 +130,16 @@
                 <h1>Location</h1>
 
                 <hr>
-                <select class="form-control" id="setLocation" placeholder="select"
-                onchange="viewWarehouseData()" required>
-                <option disabled selected value="">Select Location</option>
-            </select>
+                <select class="form-control" id="setLocation" placeholder="select" onchange="viewWarehouseData()"
+                    required>
+                    <option disabled selected value="">Select Location</option>
+                </select>
 
             </div>
 
         </div>
         <!-- /#page-content-wrapper -->
-        <div id="page-content-wrapper" >
+        <div id="page-content-wrapper">
             <div class="container-fluid setFont"><br>
                 <h1>All Requisition</h1>
                 <hr>
@@ -147,7 +147,7 @@
                     <div class="table-responsive" id="showDataPD-Location">
 
                         <center>
-                        
+
                         </center>
                     </div>
                 </div>
@@ -166,23 +166,48 @@
     <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Small Modal</button> -->
     <!-- Modal -->
     <div class="modal fade setFont" id="myModal" role="dialog">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
             <div class="modal-content">
+
+                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h6 class="modal-title">Comment</h6>
+                    <h4 class="modal-title">Edit</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-
                 </div>
+                <div id="loader" style="display:none;"> </div>
+
+                <!-- Modal body -->
                 <div class="modal-body">
+                    <input type="hidden" class="form-control" id="editProductID">
 
-                    <p id="getNoteView" class="setWordNoteView"> </p>
+                    editPrice: <input type="number" class="form-control" id="editPrice">
+                    editMinValue: <input type="number" class="form-control" id="editMinValue">
+                    editMaxValue: <input type="number" class="form-control" id="editMaxValue">
+                    editBarcode: <input type="text" class="form-control" id="editBarcode">
+                    editVender: <input type="text" class="form-control" id="editVender">
+                    editPlace: <input type="text" class="form-control" id="editPlace">
+                    editProductStatus: <input type="text" class="form-control" id="editProductStatus">
+                    editAmount: <input type="number" class="form-control" id="editAmount">
+
+
+
+
                 </div>
+                <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                        onclick="btnEditProduct()">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
+
+
+
         </div>
     </div>
+
+    </div>
+
     <!-- Bootstrap core JavaScript -->
     <!-- <script src="vendor/jquery/jquery.min.js"></script>
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->

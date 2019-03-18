@@ -95,6 +95,10 @@ $(document).ready(function () {
 
         success: function (data) {
 
+            if(data.RequisStatus.toLowerCase() === "approve"){
+                document.getElementById('btnVReceive').style.visibility = 'show';
+            }
+
             console.table(data.RequisNumber);
         
             $("#RequisNumber").text(data.RequisNumber);
