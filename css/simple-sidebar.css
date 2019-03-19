@@ -299,3 +299,11 @@ input:required:invalid {
 select:required:invalid {
   border-color: #C00000;
 }
+
+.setButton{
+  margin-left: 20px;
+  }
+
+  .setButton2{
+    margin-right: 20px;
+    }
