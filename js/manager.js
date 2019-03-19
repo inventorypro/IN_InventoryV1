@@ -12,7 +12,7 @@ $(document).ready(function () {
             },
 
             success: function (data) {
-                //console.table(data);
+                console.table(data);
                 // console.log(data[0].Permission.toLowerCase());
                 //console.log(localStorage.logUsername);
 
