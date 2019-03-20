@@ -49,8 +49,8 @@ function viewWarehouseData() {
     console.log($('#setLocation').val());
 
     var tagTable = "";
-    tagTable += '<table id="example" class="table table-striped table-bordered text-center dtCheck "style="width:80%">'
-    tagTable += " <thead> <tr> <th>ProductLocationID</th> <th>ImgProduct</th> <th>Product</th> <th>ProductID</th> <th>Barcode</th> <th>ProductName</th> <th>Category</th> <th>Price</th> <th>UnitType</th> <th>MinValue</th> <th>MaxValue</th> <th>Amount</th> <th>ProductStatus</th> <th>Place</th> <th>Vender</th>  <th>ACTION</th> </tr></thead>"
+    tagTable += '<table id="example" class="table table-striped table-bordered text-center dtCheck "style="width:100%">'
+    tagTable += " <thead> <tr> <th>Increase</th> <th>ImgProduct</th> <th >Product</th> <th>ProductID</th> <th>Barcode</th> <th>ProductName</th> <th>Category</th> <th>Price</th> <th>UnitType</th> <th>MinValue</th> <th>MaxValue</th> <th>Amount</th> <th>ProductStatus</th> <th>Place</th> <th>Vender</th>  <th>ACTION</th> </tr></thead>"
     tagTable += '</table>'
     $("#showDataPD-Location").append(tagTable)
 
@@ -101,7 +101,16 @@ function viewWarehouseData() {
                 "data": data,
                 "columns": [
 
-                    { "data": "ProductLocationID",visible: false  },
+
+                    {
+                        "data": "ProductLocationID", render: function (data, type, row, meta) {
+                            return type === 'display' ?
+                                ' <button type="button" class="btn btn-success btn-circle btn-lg" data-toggle="modal" data-target="#addProduct" onclick="showDataAddProduct(' + row.ProductLocationID + ')"><i class="material-icons" style="font-size:35px"> add </i></button>  ' :
+                                data;
+
+                        }
+
+                    },
                     {
                         "data": "ProductLocationID", render: function (data, type, row, meta) {
                             return type === 'display' ?
@@ -114,24 +123,24 @@ function viewWarehouseData() {
                     {
                         "data": "ProductLocationID", render: function (data, type, row, meta) {
                             return type === 'display' ?
-                                '<p>' + row.ProductID + '</p><p>' + row.ProductName + '</p>' :
+                                '<p>' + row.Barcode + ' ' + row.ProductName + '</p><p>Category: ' + row.Category + '</p><p>UnitType: ' + row.UnitType + '</p><p>MaxValue: ' + row.MaxValue + ' MinValue: ' + row.MinValue + ' </p><p>Amount: ' + row.Amount + '</p>' :
                                 data;
                         }
                     },
-                    { "data": "ProductID",visible: false },
-                    { "data": "Barcode",visible: false  },
-                    { "data": "ProductName",visible: false  },
-                    { "data": "Category",visible: false  },
-                    { "data": "Price",visible: false  },
-                    { "data": "UnitType",visible: false  },
-                    { "data": "MinValue" },
-                    { "data": "MaxValue" },
-                    { "data": "Amount" },
-                    { "data": "ProductStatus" },
+                    { "data": "ProductID", visible: false },
+                    { "data": "Barcode", visible: false },
+                    { "data": "ProductName", visible: false },
+                    { "data": "Category", visible: false },
+                    { "data": "Price", visible: false },
+                    { "data": "UnitType", visible: false },
+                    { "data": "MinValue", visible: false },
+                    { "data": "MaxValue", visible: false },
+                    { "data": "Amount", visible: false },
+                    { "data": "ProductStatus", visible: false },
 
                     { "data": "Place" },
-                    { "data": "Vender",visible: false  },
-                    
+                    { "data": "Vender", visible: false },
+
                     {
                         "data": "ProductLocationID", render: function (data, type, row, meta) {
                             return type === 'display' ?
@@ -244,7 +253,9 @@ function btnEditProduct() {
             }).then(function (data) {
                 console.log(data);
 
-                location.reload();
+                // location.reload();
+                document.getElementById("setLocation").value = setLocation.value;
+                viewWarehouseData();
             });
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -259,7 +270,7 @@ function btnEditProduct() {
 
 }
 
-function btnDelete(id){
+function btnDelete(id) {
 
     $.ajax({
 
@@ -282,7 +293,86 @@ function btnDelete(id){
     }).then(function (data) {
         console.log(data);
 
-        location.reload();
+        // location.reload();
+        document.getElementById("setLocation").value = setLocation.value;
+                viewWarehouseData();
     });
 
+}
+var getIDaddProduct;
+function showDataAddProduct(id) {
+    getIDaddProduct = id
+    console.log(id);
+}
+function addProduct() {
+    console.log(getIDaddProduct);
+
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ProductLocation/" + getIDaddProduct,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.table(data);
+            var setAmount = parseInt( data.Amount) + parseInt($('#addAmount').val());
+            var formdata = {
+                "ProductLocationID": data.ProductLocationID,
+                "LocationID": data.LocationID,
+                "LocationName": data.LocationName,
+                "ProductID": data.ProductID,
+                "Barcode": data.Barcode,
+                "ProductName": data.ProductName,
+                "Category": data.Category,
+                "Price": data.Price,
+                "UnitType": data.UnitType,
+                "MinValue": data.MinValue,
+                "MaxValue": data.MaxValue,
+                "Amount": setAmount,
+                "ProductStatus": data.ProductStatus,
+                "ImgProduct": data.ImgProduct,
+                "SITES": data.SITES,
+                "Place": data.Place,
+                "Vender": data.Vender
+            }
+            console.log(setAmount);
+            console.log(data.MaxValue);
+            if (setAmount > data.MaxValue) {
+                alert("ไม่สามารถเพิ่มสินค้าเกิน MaxValue!");
+            } else {
+                $.ajax({
+
+                    type: "PUT",
+                    url: "http://localhost:60443/api/IN_ProductLocation/" + getIDaddProduct,
+                    dataType: 'json',
+                    data: formdata,
+                    headers: {
+                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                    },
+                    success: function (data) {
+                        console.table(data);
+
+                    },
+                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                        // console.log("Add new product failed, error is '" + thrownError + "'");
+                        alert("Edit product failed, error is '" + thrownError + "'");
+                    }
+
+                }).then(function (data) {
+                    console.log(data);
+                    document.getElementById("setLocation").value = setLocation.value;
+                    viewWarehouseData();
+                    // location.reload();
+                });
+            }
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            // console.log("Add new product failed, error is '" + thrownError + "'");
+            alert("Edit product failed, error is '" + thrownError + "'");
+        }
+
+    });
 }
