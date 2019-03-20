@@ -96,7 +96,8 @@ $(document).ready(function () {
         success: function (data) {
 
             if(data.RequisStatus.toLowerCase() === "approve"){
-                document.getElementById('btnVReceive').style.visibility = 'show';
+                console.log(data.RequisStatus);
+                document.getElementById('btnVReceive').style.display = "block";
             }
 
             console.table(data.RequisNumber);
@@ -113,7 +114,9 @@ $(document).ready(function () {
             $("#RequisNote").text(data.RequisNote);
             $("#TotalCost").text(data.TotalCost);
             $("#RequisStatus").text(data.RequisStatus);
-            
+            $("#Signature").text(data.Signature);
+            $("#SignatureDate").text(data.SignatureDate);
+
             $("#RequisNumberPrint").text(data.RequisNumber);
             $("#RequisNamePrint").text(data.RequisName);
             $("#RequisLocationPrint").text(data.RequisLocation);
@@ -125,6 +128,8 @@ $(document).ready(function () {
             $("#RequisNotePrint").text(data.RequisNote);
             $("#TotalCostPrint").text(data.TotalCost);
             $("#RequisStatusPrint").text(data.RequisStatus);
+            $("#SignaturePrint").text(data.Signature);
+            $("#SignatureDatePrint").text(data.SignatureDate);
 
      
         },
@@ -155,3 +160,6 @@ function btnPrint() {
     window.print();
 }
 
+function receiveSignature(){
+    window.location.href = "signature.html";
+}

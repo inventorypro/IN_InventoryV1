@@ -269,7 +269,7 @@ function btnCheckApproveRequis() {
                     
 
 
-                    // checkInLocation();
+                    checkInLocation();
                     updateProductUnapproveApp();
 
                 } else {
@@ -279,7 +279,7 @@ function btnCheckApproveRequis() {
 
                
 
-                    // checkInLocation();
+                    checkInLocation();
                     updateProductUnapproveApp();
                 }
 

@@ -146,6 +146,7 @@
                             <b>สถานที่นำไปใช้ : &nbsp;</b><a id="RequisLocation"></a><br>
                             <b>สถานะ : &nbsp;</b><a id="ApproveStatus"></a><br>
                             <b>อนุมัติโดย : &nbsp;</b><a id="ApproveName"></a><br>
+                            <b>รับโดย : &nbsp;</b><a id="Signature"></a><br>
                         </div>
                         <div class="col-md-6">
                             <b>วันที่เบิก : &nbsp;</b><a id="RequisDate"></a><br>
@@ -153,17 +154,20 @@
                             <b>แผนก : &nbsp;</b><a id="RequisDept"></a><br>
                             <b>หมายเหตุ : &nbsp;</b><a class="setRequisNote" id="RequisNote"></a>
                             <b>วันที่อนุมัติ : &nbsp;</b><a id="ApproveDate"></a><br>
+                            <b>วันที่รับ : &nbsp;</b><a id="SignatureDate"></a><br>
                         </div>
                     </div>
                     <br>
+                    <div style="  margin-bottom: 2%;">
                     <div class="float-left">
-                        <button class="btn btn-info" id="btnVReceive" style="display:none;" onclick=""><i class="fas fa-print fa-lg"></i>Receive</button>
+                        <button class="btn btn-info" id="btnVReceive" style="display:none;" onclick="receiveSignature()"><i class="fas fa-print fa-lg"></i>Receive</button>
        
                     </div>
                     <div class="float-right">
                         <button class="btn btn-info" onclick="btnPrint()"><i class="fas fa-print fa-lg"></i> Print</button>
-                        <button class="btn btn-info" onclick="goBack()"><i class="fas fa-arrow-left fa-lg"></i> Back</button>
-                    </div>
+                        <button class="btn btn-info" onclick="goBack()"><i class="fas fa-arrow-left fa-lg"></i> Back</button>         
+                    </div>   
+                </div> 
                 </div>
                 <br><br>
             </div>
@@ -283,13 +287,19 @@
                     <h5>เลขที่ : <a id="RequisNumberPrint"></a> </h5>
                     <h5>ชื่อผู้เบิก : <a id="RequisNamePrint"></a> </h5>
                     <h5>สถานะ : <a id="RequisStatusPrint"></a></h5>
+                    <h5>รับโดย : <a id="SignaturePrint"></a> </h5>
+           
                     <h5>หมายเหตุ : <a class="setRequisNotePrint" id="RequisNotePrint"></a> </h5>
                 </div>
+            
                 <div class="col-md-6">
                     <h5>วันที่ : <a id="RequisDatePrint"></a> </h5>
                     <h5>ตำแหน่ง : <a id="RequisPositionPrint"></a> </h5>
+                    <h5>วันที่อนุมัติ : &nbsp;<a id="ApproveDate"></a></h5>
+                    <h5>วันที่รับ : <a id="SignatureDatePrint"></a> </h5>
                     <h5>แผนก : <a id="RequisDeptPrint"></a> </h5>
                     <h5>สถานที่นำไปใช้ : <a id="RequisLocationPrint"></a> </h5>
+                
                 </div>
             </div>
 

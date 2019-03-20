@@ -265,7 +265,7 @@ function putDataToCart(ProductID, ProductName, Category, Price, UnitType, Amount
             if (data.ProductStatus === "true") {
                 //alert(ProductID+ProductName+Category+Price+UnitType+Amount+Barcode+ImgProduct);
                 var addAmount = $('#addAmount' + ProductID).val();
-                if (Amount >= addAmount && addAmount != 0) {
+                if (Amount >= addAmount && addAmount  > 0) {
 
                     // var setDateNow = new Date().toLocaleString();
                     // console.log(setDateNow);

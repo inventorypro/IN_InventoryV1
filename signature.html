@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+
+
+    <script src="script/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <!-- ////datatable///// -->
+
+    <script src="script/jquery-3.3.1.js"></script>
+    <script src="script/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script src="script/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="script/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="script/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="script/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="script/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="script/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+
+    <script src="script/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <link rel="stylesheet" href="script/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+    <link rel="stylesheet" href="script/1.10.19/css/dataTables.bootstrap4.min.css">
+
+    <script src="script/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+
+    <link rel="stylesheet" href="script/buttons/1.5.2/css/buttons.dataTables.min.css">
+
+    <script src="script/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="script/bootstrap/4.2.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Sarabun" rel="stylesheet">
+    <script src="script/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- https://material.io/tools/icons/?icon=shopping_cart&style=baseline -->
+
+
+
+
+    <script src="js/index.js"></script>
+    <script src="js/manager.js"></script>
+
+</head>
+<style>
+    body,
+    canvas,
+    div,
+    form,
+    input {
+        margin: 0;
+        padding: 0;
+    }
+
+    #wrapper {
+        width: auto;
+        height: auto;
+    }
+
+    canvas {
+        border-top: 2px solid;
+        border-bottom: 2px solid;
+        margin-left: auto;
+        margin-right: auto;
+        width: auto
+    }
+
+    h1,
+    p {
+
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    #controlPanel {
+        margin: 2px;
+    }
+
+    #saveSignature {
+        display: none;
+    }
+</style>
+<script>
+console.log(localStorage.logIDrequisViewPro);
+
+    var zkSignature = (function () {
+
+        var empty = true;
+
+        return {
+            //public functions
+            capture: function () {
+                var parent = document.getElementById("canvas");
+                parent.childNodes[0].nodeValue = "";
+
+                var canvasArea = document.createElement("canvas");
+                canvasArea.setAttribute("id", "newSignature");
+                parent.appendChild(canvasArea);
+
+                var canvas = document.getElementById("newSignature");
+                var context = canvas.getContext("2d");
+
+                if (!context) {
+                    throw new Error("Failed to get canvas' 2d context");
+                }
+
+                screenwidth = screen.width;
+                console.log(screen.width);
+                // if (screenwidth < 480) {
+                //     canvas.width = screenwidth - 8;
+                //     canvas.height = (screenwidth * 0.63);
+                // } else {
+                //     canvas.width = 464;
+                //     canvas.height = 304;
+                // }
+                canvas.width = screen.width;
+                canvas.height = 300;
+
+                context.fillStyle = "#fff";
+                context.strokeStyle = "#444";
+                context.lineWidth = 1.2;
+                context.lineCap = "round";
+
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                context.fillStyle = "#3a87ad";
+                context.strokeStyle = "#3a87ad";
+                context.lineWidth = 5;
+                context.moveTo((canvas.width * 0.042), (canvas.height * 0.7));
+                context.lineTo((canvas.width * 0.958), (canvas.height * 0.7));
+                context.stroke();
+
+                context.fillStyle = "#fff";
+                context.strokeStyle = "#444";
+
+                var disableSave = true;
+                var pixels = [];
+                var cpixels = [];
+                var xyLast = {};
+                var xyAddLast = {};
+                var calculate = false;
+                //functions
+                {
+                    function remove_event_listeners() {
+                        canvas.removeEventListener('mousemove', on_mousemove, false);
+                        canvas.removeEventListener('mouseup', on_mouseup, false);
+                        canvas.removeEventListener('touchmove', on_mousemove, false);
+                        canvas.removeEventListener('touchend', on_mouseup, false);
+
+                        document.body.removeEventListener('mouseup', on_mouseup, false);
+                        document.body.removeEventListener('touchend', on_mouseup, false);
+                    }
+
+                    function get_board_coords(e) {
+                        var x, y;
+
+                        if (e.changedTouches && e.changedTouches[0]) {
+                            var offsety = canvas.offsetTop || 0;
+                            var offsetx = canvas.offsetLeft || 0;
+
+                            x = e.changedTouches[0].pageX - offsetx;
+                            y = e.changedTouches[0].pageY - offsety;
+                        } else if (e.layerX || 0 == e.layerX) {
+                            x = e.layerX;
+                            y = e.layerY;
+                        } else if (e.offsetX || 0 == e.offsetX) {
+                            x = e.offsetX;
+                            y = e.offsetY;
+                        }
+
+                        return {
+                            x: x,
+                            y: y
+                        };
+                    };
+
+                    function on_mousedown(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        canvas.addEventListener('mousemove', on_mousemove, false);
+                        canvas.addEventListener('mouseup', on_mouseup, false);
+                        canvas.addEventListener('touchmove', on_mousemove, false);
+                        canvas.addEventListener('touchend', on_mouseup, false);
+
+                        document.body.addEventListener('mouseup', on_mouseup, false);
+                        document.body.addEventListener('touchend', on_mouseup, false);
+
+                        empty = false;
+                        var xy = get_board_coords(e);
+                        context.beginPath();
+                        pixels.push('moveStart');
+                        context.moveTo(xy.x, xy.y);
+                        pixels.push(xy.x, xy.y);
+                        xyLast = xy;
+                    };
+
+                    function on_mousemove(e, finish) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var xy = get_board_coords(e);
+                        var xyAdd = {
+                            x: (xyLast.x + xy.x) / 2,
+                            y: (xyLast.y + xy.y) / 2
+                        };
+
+                        if (calculate) {
+                            var xLast = (xyAddLast.x + xyLast.x + xyAdd.x) / 3;
+                            var yLast = (xyAddLast.y + xyLast.y + xyAdd.y) / 3;
+                            pixels.push(xLast, yLast);
+                        } else {
+                            calculate = true;
+                        }
+
+                        context.quadraticCurveTo(xyLast.x, xyLast.y, xyAdd.x, xyAdd.y);
+                        pixels.push(xyAdd.x, xyAdd.y);
+                        context.stroke();
+                        context.beginPath();
+                        context.moveTo(xyAdd.x, xyAdd.y);
+                        xyAddLast = xyAdd;
+                        xyLast = xy;
+
+                    };
+
+                    function on_mouseup(e) {
+                        remove_event_listeners();
+                        disableSave = false;
+                        context.stroke();
+                        pixels.push('e');
+                        calculate = false;
+                    };
+
+                }
+
+                canvas.addEventListener('mousedown', on_mousedown, false);
+                canvas.addEventListener('touchstart', on_mousedown, false);
+
+            }
+            ,
+            save: function () {
+
+                var canvas = document.getElementById("newSignature");
+                // save canvas image as data url (png format by default)
+                var dataURL = canvas.toDataURL("image/png");
+                document.getElementById("saveSignature").src = dataURL;
+
+            }
+            ,
+            clear: function () {
+
+                var parent = document.getElementById("canvas");
+                var child = document.getElementById("newSignature");
+                parent.removeChild(child);
+                empty = true;
+                this.capture();
+
+            }
+            ,
+            send: function () {
+
+                if (empty == false) {
+
+                    var canvas = document.getElementById("newSignature");
+                    var dataURL = canvas.toDataURL("image/png");
+                    document.getElementById("saveSignature").src = dataURL;
+
+
+                    // var sendemail = document.getElementById('sendemail').value;
+                    // var replyemail = document.getElementById('replyemail').value;
+
+                    var dataform = document.createElement("form");
+                    document.body.appendChild(dataform);
+
+                    // console.log(dataURL);
+                    $.ajax({
+
+                        type: "GET",
+                        url: "http://localhost:60443/api/IN_ProductLocation/",
+                        dataType: 'json',
+                        headers: {
+                            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                        },
+                        success: function (data) {
+
+                            console.log(dataURL);
+                        },
+                        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+
+                        }
+
+                    });
+                } else {
+                    alert("xxxx");
+                }
+            }
+
+        }
+
+    })()
+
+    var zkSignature;
+</script>
+
+<body>
+
+    <div>
+        <nav class="navbar navbar-light bg-light">
+            <span class="navbar-brand mb-0 h1">
+                <p id="myUsername"></p>
+            </span>
+            <a class="float-right text-secondary" onclick="goBack()">Back</a>
+        </nav>
+        <div id="wrapper" class="container-fluid">
+
+
+            <div id="canvas">
+                Canvas is not supported.
+            </div>
+
+            <script>
+                zkSignature.capture();
+            </script>
+            <form>
+                <button type="button" class="btn btn-danger float-left setButton" onclick="zkSignature.clear()">
+                    Clear Signature
+                </button>
+
+                <img id="saveSignature" alt="Saved image png" />
+
+
+
+                <button type="button" class="btn btn-success float-right setButton2" onclick="zkSignature.send()">
+                    Send Email
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+
+    <!-- Menu Toggle Script -->
+    <script>
+        !function (a) { var b = /iPhone/i, c = /iPod/i, d = /iPad/i, e = /(?=.*\bAndroid\b)(?=.*\bMobile\b)/i, f = /Android/i, g = /(?=.*\bAndroid\b)(?=.*\bSD4930UR\b)/i, h = /(?=.*\bAndroid\b)(?=.*\b(?:KFOT|KFTT|KFJWI|KFJWA|KFSOWI|KFTHWI|KFTHWA|KFAPWI|KFAPWA|KFARWI|KFASWI|KFSAWI|KFSAWA)\b)/i, i = /IEMobile/i, j = /(?=.*\bWindows\b)(?=.*\bARM\b)/i, k = /BlackBerry/i, l = /BB10/i, m = /Opera Mini/i, n = /(CriOS|Chrome)(?=.*\bMobile\b)/i, o = /(?=.*\bFirefox\b)(?=.*\bMobile\b)/i, p = new RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)", "i"), q = function (a, b) { return a.test(b) }, r = function (a) { var r = a || navigator.userAgent, s = r.split("[FBAN"); return "undefined" != typeof s[1] && (r = s[0]), s = r.split("Twitter"), "undefined" != typeof s[1] && (r = s[0]), this.apple = { phone: q(b, r), ipod: q(c, r), tablet: !q(b, r) && q(d, r), device: q(b, r) || q(c, r) || q(d, r) }, this.amazon = { phone: q(g, r), tablet: !q(g, r) && q(h, r), device: q(g, r) || q(h, r) }, this.android = { phone: q(g, r) || q(e, r), tablet: !q(g, r) && !q(e, r) && (q(h, r) || q(f, r)), device: q(g, r) || q(h, r) || q(e, r) || q(f, r) }, this.windows = { phone: q(i, r), tablet: q(j, r), device: q(i, r) || q(j, r) }, this.other = { blackberry: q(k, r), blackberry10: q(l, r), opera: q(m, r), firefox: q(o, r), chrome: q(n, r), device: q(k, r) || q(l, r) || q(m, r) || q(o, r) || q(n, r) }, this.seven_inch = q(p, r), this.any = this.apple.device || this.android.device || this.windows.device || this.other.device || this.seven_inch, this.phone = this.apple.phone || this.android.phone || this.windows.phone, this.tablet = this.apple.tablet || this.android.tablet || this.windows.tablet, "undefined" == typeof window ? this : void 0 }, s = function () { var a = new r; return a.Class = r, a }; "undefined" != typeof module && module.exports && "undefined" == typeof window ? module.exports = r : "undefined" != typeof module && module.exports && "undefined" != typeof window ? module.exports = s() : "function" == typeof define && define.amd ? define("isMobile", [], a.isMobile = s()) : a.isMobile = s() }(this);
+        // alert(isMobile.any ? 'Mobile' : 'Not mobile');
+        var mobileOrWeb = isMobile.any;
+        //console.log(mobileOrWeb);
+        if (mobileOrWeb === true) {
+            $("#wrapper").toggleClass("toggled");
+        } else {
+
+        }
+
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+
+
+
+    </script>
+</body>
+
+</html>
