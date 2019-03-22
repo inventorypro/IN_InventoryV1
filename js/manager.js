@@ -51,8 +51,4 @@ $(document).ready(function () {
 
 function goBack() {
     window.history.back();
-<<<<<<< HEAD
 } 
-=======
-}
->>>>>>> 5e230a9fbc7085f4ebeb0e8820613cc2131ec5f7

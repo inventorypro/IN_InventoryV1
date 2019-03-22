@@ -315,7 +315,7 @@ function showDataLocation() {
 
 
                 var option = document.createElement("option");
-                option.text = data[i].LocationName;
+                option.text = data[i].LocationID+","+data[i].LocationName;
 
                 setDataLocation.add(option, setDataLocation[i]);
 
@@ -417,7 +417,7 @@ function addAllRequisNumber() {
                     "ImgProduct": data[i].ImgProduct,
                     "UserID": data[i].UserID,
                     "Barcode": data[i].Barcode,
-                    "Location": data[i].Location,
+                    "Location": $('#setDataLocation').val(),
                     "RequisStatus": "pending",
                     "RequisNumber": setRanBillNum,
                     "EMP_EngName": data[i].EMP_EngName,

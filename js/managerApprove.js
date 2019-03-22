@@ -114,7 +114,8 @@ $(document).ready(function () {
             $("#RequisNote").text(data.RequisNote);
             $("#TotalCost").text(data.TotalCost);
             $("#RequisStatus").text(data.RequisStatus);
-            $("#Signature").text(data.Signature);
+            // $("#Signature").text(data.Signature);
+            document.getElementById("Signature").src = data.Signature;
             $("#SignatureDate").text(data.SignatureDate);
 
             $("#RequisNumberPrint").text(data.RequisNumber);
@@ -128,7 +129,8 @@ $(document).ready(function () {
             $("#RequisNotePrint").text(data.RequisNote);
             $("#TotalCostPrint").text(data.TotalCost);
             $("#RequisStatusPrint").text(data.RequisStatus);
-            $("#SignaturePrint").text(data.Signature);
+            // $("#SignaturePrint").text(data.Signature);
+            document.getElementById("SignaturePrint").src = data.Signature;
             $("#SignatureDatePrint").text(data.SignatureDate);
 
      

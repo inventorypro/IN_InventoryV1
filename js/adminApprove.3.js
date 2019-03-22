@@ -103,6 +103,7 @@ $(document).ready(function () {
                 document.getElementById('btnUnapprove').style.visibility = 'hidden';
                 // document.getElementById("btnCheckingApprove").disabled = true;
                 // document.getElementById("btnUpdateApprove").disabled = true;
+               
             }
             if (data.RequisStatus === "unapprove") {
                 document.getElementById('btnApprove').style.visibility = 'hidden';
@@ -124,7 +125,7 @@ $(document).ready(function () {
             $("#ApproveStatus").text(data.RequisStatus);
             $("#RequisNote").text(data.RequisNote);
             $("#TotalCost").text(data.TotalCost);
-            myRequisLocation = data.RequisLocation
+            myRequisLocation = data.RequisLocation.split(",")[1]
 
             $("#RequisNumberPrint").text(data.RequisNumber);
             $("#RequisNamePrint").text(data.RequisName);
@@ -137,7 +138,7 @@ $(document).ready(function () {
             $("#RequisNotePrint").text(data.RequisNote);
             $("#TotalCostPrint").text(data.TotalCost);
             if (data.RequisStatus.toLowerCase() === "verify") {
-            
+
                 document.getElementById("btnApprove").disabled = false;
                 document.getElementById('btnCheckingApprove').style.visibility = 'hidden';
             }
@@ -211,9 +212,14 @@ function btnCheckApproveRequis() {
                 resultsArrDataV_RequisitionPACK.push(0000);
                 for (var j = 0; j < dataV_RequisitionPACK.length; j++) {
                     if (results[i] === dataV_RequisitionPACK[j].ItemID) {
-                        //console.log(results[i] + " " + dataV_RequisitionPACK[j].ItemID+ " "+j);
-                        resultsArrDataV_RequisitionPACK[i] += dataV_RequisitionPACK[j].ItemAmount * dataV_RequisitionPACK[j].RequisAmount;
-                        //console.log(dataV_RequisitionPACK[j].ItemAmount);
+                        console.log(dataV_RequisitionPACK[j].ItemAmount + " " + dataV_RequisitionPACK[j].RequisAmount + " " + j);
+                        if (dataV_RequisitionPACK[j].Category.toLowerCase() === "package") {
+                            resultsArrDataV_RequisitionPACK[i] += dataV_RequisitionPACK[j].ItemAmount * dataV_RequisitionPACK[j].RequisAmount;
+                        } else {
+                            resultsArrDataV_RequisitionPACK[i] += dataV_RequisitionPACK[j].ItemAmount;
+                        }
+
+                        console.log(resultsArrDataV_RequisitionPACK[i]);
                     }
                 }
             }
@@ -263,10 +269,10 @@ function btnCheckApproveRequis() {
                     }
                 }
                 if (checkingStatusApprove === true) {
-                    alert("ตรวจสอบสำเร็จ");
+                    // alert("ตรวจสอบสำเร็จ");
                     // document.getElementById('btnUpdateApprove').style.visibility = 'visible';
 
-                    
+
 
 
                     checkInLocation();
@@ -277,7 +283,7 @@ function btnCheckApproveRequis() {
                     // document.getElementById('btnUpdateApprove').style.visibility = 'visible';
 
 
-               
+
 
                     checkInLocation();
                     updateProductUnapproveApp();
@@ -449,7 +455,7 @@ function approveRequis() {
                 },
 
                 success: function (data) {
-
+                    localStorage.setItem("logCalRequisNumber", data.RequisNumber);
                     var now = new Date();
                     var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
                     var formdataReq = {
@@ -506,6 +512,7 @@ function approveRequis() {
                                     if (dataV[i].RequisStatus !== "unapprove") {
                                         countUpdate++;
                                         approveOneProduct(dataV[i].RequisID, maxLenghtUpdate, countUpdate)
+                                        // console.log(approveOneProduct(dataV[i].RequisID, maxLenghtUpdate, countUpdate));
 
                                     }
                                 }
@@ -579,9 +586,16 @@ function approveOneProduct(id, maxLenghtUpdate, countUpdate) {
                 },
                 success: function (datax) {
                     console.log(datax);
-                    if (countUpdate === maxLenghtUpdate) {
-                        location.reload();
-                    }
+               
+                        if (countUpdate === maxLenghtUpdate) {
+                            // location.reload(); //-*-
+                            calAmountPD()
+                            
+                        }else{
+                            
+                        }
+                  
+                   
 
                 },
                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -598,6 +612,197 @@ function approveOneProduct(id, maxLenghtUpdate, countUpdate) {
         }
 
     });
+}
+
+function calAmountPD() {
+    var results2 = [];
+    console.log(localStorage.logCalRequisNumber);
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/V_RequisitionPACK?RequisNumber=" + localStorage.logCalRequisNumber,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.log(data);
+            var countMaxCal = 0;
+            var numFnCal = 0;
+            for (var i = 0; i < data.length; i++) {
+                // console.log(data[i].RequisStatus.toLowerCase());
+                console.log(data[i].Category);
+                if (data[i].RequisStatus.toLowerCase() !== "unapprove") {
+                    countMaxCal++;
+
+                }
+
+            }
+            var arrPutCalAmount = []
+            for (var i = 0; i < data.length; i++) {
+                // console.log(data[i].RequisStatus.toLowerCase());
+                // console.log(data[i].Category);
+                if (data[i].RequisStatus.toLowerCase() !== "unapprove") {
+                    if (data[i].Category === "PACKAGE") {
+                        console.log(data[i].RequisAmount * data[i].ItemAmount);
+                        var result = data[i].RequisAmount * data[i].ItemAmount;
+                        numFnCal++;
+                        arrPutCalAmount.push(data[i].ProductID);
+                        arrPutCalAmount.push(data[i].ItemID);
+                        // putCalAmount(data[i].ItemID,result, countMaxCal, numFnCal);
+
+                    } else {
+                        console.log(data[i].ProductName);
+                        console.log(data[i].ItemAmount);
+                        numFnCal++;
+                        arrPutCalAmount.push(data[i].ItemID);
+                        // putCalAmount(data[i].ItemID, data[i].ItemAmount, countMaxCal, numFnCal);
+
+                    }
+
+                }
+
+            }
+            console.log(arrPutCalAmount);
+            var sorted_arr = arrPutCalAmount.slice().sort();;
+            var distinct = (value, index, self) => {
+                return self.indexOf(value) === index;
+            }
+
+            var results = sorted_arr.filter(distinct);
+            console.log(results);
+            results2 = [];
+            var num = 0;
+            var count = 0;
+            for (var i = 0; i < results.length; i++) {
+                for (var j = 0; j < data.length; j++) {
+                    if (results[i] === data[j].ItemID && data[j].Category.toLowerCase() === "package") {
+                        count += data[j].ItemAmount * data[j].RequisAmount
+                        results2[num] = results[i] + "," + count;
+                    } else if (results[i] === data[j].ItemID && data[j].Category.toLowerCase() !== "package") {
+                        count += data[j].ItemAmount
+                        results2[num] = results[i] + "," + count;
+                    } else if (results[i] === data[j].ProductID && data[j].Category.toLowerCase() === "package") {
+                        count = data[j].RequisAmount
+                        results2[num] = results[i] + "," + count;
+                    }
+
+
+                }
+                count = 0;
+                num++;
+            }
+            console.log(results2);
+
+
+
+            // for (var i = 0; i < results.length; i++) {
+            //     console.log(results[i].split(",")[0]+"x"+ results[i].split(",")[1]);
+            //     putCalAmount(results[i].split(",")[0], results[i].split(",")[1]);
+            // }
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    }).done(function (data) {
+        var countRow = 0;
+
+        results2.forEach(function (element) {
+            console.log(element.split(",")[0] + "x" + element.split(",")[1]);
+            countRow++;
+            putCalAmount(element.split(",")[0], element.split(",")[1], results2.length, countRow);
+
+        });
+    })
+}
+
+
+
+
+
+function putCalAmount(id, reqAmount, countlength, countRow) {
+
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Product/" + id,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+
+
+
+            var formdata = {
+                "ProductID": data.ProductID,
+                "Barcode": data.Barcode,
+                "ProductName": data.ProductName,
+                "Category": data.Category,
+                "Price": data.Price,
+                "UnitType": data.UnitType,
+                "MinValue": data.MinValue,
+                "MaxValue": data.MaxValue,
+                "Amount": parseInt(data.Amount) - parseInt(reqAmount),
+                "Vender": data.Vender,
+                "ProductStatus": data.ProductStatus,
+                "ImgProduct": data.ImgProduct,
+                "SITES": data.SITES,
+                "Place": data.Place
+            }
+            $.ajax({
+
+                type: "PUT",
+                url: "http://localhost:60443/api/IN_Product/" + id,
+                dataType: 'json',
+                data: formdata,
+                headers: {
+                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                },
+                success: function (data) {
+
+
+                    if (countlength === countRow) {
+                   
+       
+                            alert("สำเร็จ",location.reload());
+                   
+                            // window.location.href = "AdminViewProductRequis.html";
+                        
+                    }
+
+
+                  
+
+
+                    // location.reload(); //-*-
+                    // calAmountPD();
+
+
+                },
+                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                    console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                    //alert("Add new product failed, error is '" + thrownError + "'");
+                }
+
+            }).done(function (data) {
+
+            });
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
+
+
 }
 
 
@@ -646,7 +851,7 @@ function unapproveOneProductApp(id, maxLenghtUpdate, countUpdate) {
                 success: function (datax) {
                     console.log(datax);
                     if (countUpdate === maxLenghtUpdate) {
-                         checkInLocation();
+                        checkInLocation();
                     }
 
                 },
@@ -846,7 +1051,7 @@ function updateProductUnApproveAPI(id, countAllApprove, allDataApprove) {
                     console.log(data);
 
                     if (countAllApprove === allDataApprove) {
-                         location.reload();
+                        location.reload();
                         //checkInLocation();
                     }
                 },
@@ -935,7 +1140,7 @@ function updateProductUnApproveAPILocation(id, countAllCheck, allDataCheckProduc
         success: function (data) {
             console.log(data);
             var idProductLocation;
-        
+
 
             for (var i = 0; i < data.length; i++) {
                 if (id === data[i].ProductID) {
@@ -979,6 +1184,7 @@ function updateProductUnApproveAPILocation(id, countAllCheck, allDataCheckProduc
 
                     if (countAllCheck === allDataCheckProduct) {
                         // location.reload();
+                        // checkInLocation();
                         verifyProduct();
                     }
 
@@ -1039,6 +1245,7 @@ function verifyProduct() {
                     'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                 },
                 success: function (data) {
+     
                     location.reload();
                 },
                 error: function (jqXHR, xhr, ajaxOptions, thrownError) {

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>เช็นรับ</title>
 
 
 
@@ -96,7 +96,7 @@
     }
 </style>
 <script>
-console.log(localStorage.logIDrequisViewPro);
+    console.log(localStorage.logIDrequisViewPro);
 
     var zkSignature = (function () {
 
@@ -288,26 +288,132 @@ console.log(localStorage.logIDrequisViewPro);
                     document.body.appendChild(dataform);
 
                     // console.log(dataURL);
+                    var countAllApproveProduct = 0;
                     $.ajax({
 
                         type: "GET",
-                        url: "http://localhost:60443/api/IN_ProductLocation/",
+                        url: "http://localhost:60443/api/IN_ProductViewBarcode?RequisNumber=" + localStorage.logIDrequisViewPro,
                         dataType: 'json',
                         headers: {
                             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                         },
-                        success: function (data) {
 
-                            console.log(dataURL);
+                        success: function (data) {
+                            countAllApproveProduct = 0;
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].RequisStatus.toLowerCase() === "approve") {
+                                    countAllApproveProduct++;
+                                } else {
+
+                                }
+                            }
+
+                            console.log(countAllApproveProduct);
                         },
                         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                            console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
+                            // alert('check !');
 
+                        }
+
+                    }).done(function () {
+                        if (countAllApproveProduct === 0) {
+                            alert("ไม่สามารถรับได้");
+                        } else {
+                            $.ajax({
+                                type: "GET",
+                                url: "http://localhost:60443/api/IN_Requisition/" + localStorage.logIDrequis,
+                                dataType: 'json',
+                                headers: {
+                                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                                },
+
+                                success: function (data) {
+
+                                    var now = new Date();
+                                    var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
+                                    var formdataReq = {
+                                        "RequisID": data.RequisID,
+                                        "RequisName": data.RequisName,
+                                        "RequisPosition": data.RequisPosition,
+                                        "RequisDept": data.RequisDept,
+                                        "RequisLocation": data.RequisLocation,
+                                        "RequisNote": data.RequisNote,
+                                        "RequisDate": data.RequisDate,
+                                        "ApproveID": data.ApproveID,
+                                        "ApproveName": data.ApproveName,
+                                        "ApproveDate": data.ApproveDate,
+                                        "RequisNumber": data.RequisNumber,
+                                        "TotalCost": data.TotalCost,
+                                        "UserID": data.UserID,
+                                        "SITES": data.SITES,
+                                        "RequisStatus": "finish",
+                                        "Signature": dataURL,
+                                        "SignatureDate": setDateNow
+                                    }
+                                    $.ajax({
+                                        type: "PUT",
+                                        url: "http://localhost:60443/api/IN_Requisition/" + localStorage.logIDrequis,
+                                        dataType: 'json',
+                                        data: formdataReq,
+                                        headers: {
+                                            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                                        },
+                                        success: function (data) {
+
+                                        },
+                                        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                            // console.log("Add new product failed, error is '" + thrownError + "'");
+                                            alert("Approve failed, error is '" + thrownError + "'");
+                                        }
+                                    }).done(function (data) {
+                                        $.ajax({
+
+                                            type: "GET",
+                                            url: "http://localhost:60443/api/V_RequisitionPACK?RequisNumber=" + localStorage.logIDrequisViewPro,
+                                            dataType: 'json',
+                                            headers: {
+                                                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                                            },
+
+                                            success: function (dataV) {
+                                                var countUpdate = 1;
+                                                var maxLenghtUpdate = 1;
+                                                for (var i = 0; i < dataV.length; i++) {
+                                                    if (dataV[i].RequisStatus === "approve") {
+                                                        maxLenghtUpdate++;
+                                                    }
+                                                }
+                                                for (var i = 0; i < dataV.length; i++) {
+                                                    if (dataV[i].RequisStatus === "approve") {
+                                                        countUpdate++;
+                                                        approveOneProduct(dataV[i].RequisID, maxLenghtUpdate, countUpdate)
+
+                                                    }
+                                                }
+
+                                            },
+                                            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                                console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
+                                                // alert('check !');
+
+                                            }
+
+                                        });
+                                    });
+
+                                },
+                                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                    console.log("+++++++++++++++++++++++++  Bot notification failed, error is '" + thrownError + "'");
+                                    // alert('check !');
+
+                                }
+                            });
                         }
 
                     });
                 } else {
-                    alert("xxxx");
+                    alert("กรุณาเซ็นรับก่อนทำรายการ");
                 }
             }
 
@@ -316,6 +422,247 @@ console.log(localStorage.logIDrequisViewPro);
     })()
 
     var zkSignature;
+
+    function approveRequis() {
+
+
+
+    }
+
+    function approveOneProduct(id, maxLenghtUpdate, countUpdate) {
+        $.ajax({
+
+            type: "GET",
+            url: "http://localhost:60443/api/IN_ProductRequis/" + id,
+            dataType: 'json',
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (data) {
+
+                console.log(data);
+                var updateIDPdRq = data.RequisID;
+                var formdata = {
+                    "RequisID": data.RequisID,
+                    "ProductID": data.ProductID,
+                    "Category": data.Category,
+                    "ProductName": data.ProductName,
+                    "Price": data.Price,
+                    "UnitType": data.UnitType,
+                    "Balance": data.Balance,
+                    "RequisAmount": data.RequisAmount,
+                    "RequisNote": data.RequisNote,
+                    "Date": data.Date,
+                    "ImgProduct": data.ImgProduct,
+                    "UserID": data.UserID,
+                    "Barcode": data.Barcode,
+                    "Location": data.Location,
+                    "RequisStatus": "finish",
+                    "RequisNumber": data.RequisNumber,
+                    "EMP_EngName": data.EMP_EngName,
+                    "Position": data.Position
+                }
+
+                $.ajax({
+
+                    type: "PUT",
+                    url: "http://localhost:60443/api/IN_ProductRequis/" + updateIDPdRq,
+                    dataType: 'json',
+                    data: formdata,
+                    headers: {
+                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                    },
+                    success: function (datax) {
+                        console.log(datax);
+                        if (countUpdate === maxLenghtUpdate) {
+                            // location.reload();
+                            getAllPD();
+                        }
+
+                    },
+                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                        console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                        //alert("Add new product failed, error is '" + thrownError + "'");
+                    }
+
+                });
+
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                //alert("Add new product failed, error is '" + thrownError + "'");
+            }
+
+        });
+    }
+
+    function getAllPD() {
+        $.ajax({
+
+            type: "GET",
+            url: "http://localhost:60443/api/IN_ProductViewBarcode?RequisNumber=" + localStorage.logIDrequisViewPro,
+            dataType: 'json',
+
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (data) {
+
+                // Location,ProductID,RequisAmount
+                var countAllgetPD = 0;
+                var numAllgetPD = 0;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].RequisStatus.toLowerCase() === "finish") {
+                        countAllgetPD++;
+                    }
+
+                }
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].RequisStatus.toLowerCase() === "finish") {
+                        postPDinLocation(data[i].ProductID, data[i].Location, data[i].RequisAmount, countAllgetPD, numAllgetPD);
+                        numAllgetPD++;
+                    }
+
+                }
+
+
+                console.log(data);
+                console.log(countAllgetPD);
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                //alert("Add new product failed, error is '" + thrownError + "'");
+            }
+
+        });
+    }
+
+    function postPDinLocation(ProductID, Location, RequisAmount, countAllgetPD, numAllgetPD) {
+        console.log(ProductID + " " + Location + " " + RequisAmount);
+
+        $.ajax({
+
+            type: "GET",
+            url: "http://localhost:60443/api/IN_Product/" + ProductID,
+            dataType: 'json',
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (data) {
+                var formdata = {
+                    "ProductLocationID": 1,
+                    "LocationID": Location.split(",")[0],
+                    "LocationName": Location.split(",")[1],
+                    "ProductID": data.ProductID,
+                    "Barcode": data.Barcode,
+                    "ProductName": data.ProductName,
+                    "Category": data.Category,
+                    "Price": data.Price,
+                    "UnitType": data.UnitType,
+                    "MinValue": data.MinValue,
+                    "MaxValue": data.MaxValue,
+                    "Amount": RequisAmount,
+                    "ProductStatus": data.ProductStatus,
+                    "ImgProduct": data.ImgProduct,
+                    "SITES": data.SITES,
+                    "Place": "",
+                    "Vender": data.Vender
+                }
+                $.ajax({
+
+                    type: "POST",
+                    url: "http://localhost:60443/api/IN_ProductLocation",
+                    dataType: 'json',
+                    data: formdata,
+                    headers: {
+                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                    },
+                    success: function (data) {
+
+                        if (countAllgetPD === numAllgetPD) {
+                            window.location.href = "managerViewProductRequis.html";
+                        }
+
+                    },
+                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                        console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                        //alert("Add new product failed, error is '" + thrownError + "'");
+                    }
+
+                });
+
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                //alert("Add new product failed, error is '" + thrownError + "'");
+            }
+
+        });
+    }
+
+    function calAllPD() {
+        $.ajax({
+
+            type: "GET",
+            url: "http://localhost:60443/api/V_RequisitionPACK?RequisNumber=" + localStorage.logIDrequisViewPro,
+            dataType: 'json',
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (data) {
+                var countAllgetPD = 0;
+                var numAllgetPD = 0;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].RequisStatus.toLowerCase() === "finish") {
+                        countAllgetPD++;
+                    }
+
+                }
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].RequisStatus.toLowerCase() === "finish") {
+                        putUpdatePD(ItemID,countAllgetPD,numAllgetPD)
+                        numAllgetPD++;
+                    }
+
+                }
+
+
+
+
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                //alert("Add new product failed, error is '" + thrownError + "'");
+            }
+
+        });
+    }
+
+    function putUpdatePD() {
+        $.ajax({
+
+            type: "POST",
+            url: "http://localhost:60443/api/IN_ProductLocation",
+            dataType: 'json',
+            data: formdata,
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (data) {
+
+                if (countAllgetPD === numAllgetPD) {
+                    window.location.href = "managerViewProductRequis.html";
+                }
+
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                //alert("Add new product failed, error is '" + thrownError + "'");
+            }
+
+        });
+    }
+
 </script>
 
 <body>

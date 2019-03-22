@@ -104,6 +104,7 @@ function viewNote(note){
 function setIDrequisViewPro(setId,requisId){
     localStorage.setItem("logIDrequisViewPro", setId);
     localStorage.setItem("logIDrequis", requisId);
+ 
      window.location.href = "managerViewProductRequis.html";
 
 }
