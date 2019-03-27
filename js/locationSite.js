@@ -31,7 +31,15 @@ function ddlLocation() {
 
 
             }
+            console.log($('#setLocation').val());
+            if ($('#setLocation').val() === null) {
 
+                document.getElementById("page-content-wrapper").style.display = 'none';
+            } else {
+             
+            
+               
+            }
 
 
 
@@ -45,6 +53,13 @@ function ddlLocation() {
 }
 
 function viewWarehouseData() {
+    localStorage.setItem("logSetLocation", $('#setLocation').val());
+    if ($('#setLocation').val() === null) {
+
+        document.getElementById("page-content-wrapper").style.display = 'none';
+    } else {
+        document.getElementById("page-content-wrapper").style.display = 'block';
+    }
     $("#showDataPD-Location").empty();
     console.log($('#setLocation').val());
 
@@ -295,7 +310,7 @@ function btnDelete(id) {
 
         // location.reload();
         document.getElementById("setLocation").value = setLocation.value;
-                viewWarehouseData();
+        viewWarehouseData();
     });
 
 }
@@ -317,7 +332,7 @@ function addProduct() {
         },
         success: function (data) {
             console.table(data);
-            var setAmount = parseInt( data.Amount) + parseInt($('#addAmount').val());
+            var setAmount = parseInt(data.Amount) + parseInt($('#addAmount').val());
             var formdata = {
                 "ProductLocationID": data.ProductLocationID,
                 "LocationID": data.LocationID,

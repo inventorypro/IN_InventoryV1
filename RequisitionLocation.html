@@ -54,7 +54,7 @@
 
     <script src="js/index.js"></script>
     <script src="js/admin.js"></script>
-    <script src="js/locationSite.js"></script>
+    <script src="js/RequisitionLocation.js"></script>
 
 </head>
 
@@ -127,29 +127,31 @@
         <div class="container-fluid setMycontainer">
             <div class="container-fluid ">
 
-                <h1>Location</h1>
+                <h1>Requisition Location</h1>
 
                 <hr>
                 <select class="form-control" id="setLocation" placeholder="select" onchange="viewWarehouseData()"
                     required>
                     <option disabled selected value="">Select Location</option>
                 </select>
-                <br>
+
             </div>
-            <br>
+
         </div>
         <!-- /#page-content-wrapper -->
         <div id="page-content-wrapper">
+            
             <div class="container-fluid setFont"><br><br>
-                <a href="RequisitionLocation.html" style="text-decoration:none;font-size: 25px" class="float-right ">
-                    <i class="material-icons" style="font-size: 35px;">shopping_cart</i> <span
-                        class="badge2 badge2-danger">
-                        <div id="checkCartUser"></div>
-                    </span>
-                </a>
+                <div class="float-right ">
+                        <h1>Total:</h1>   
+                </div>
+                   
                 <h1>All Product</h1>
+
+           
                 <hr>
                 <div class="row-fluid">
+                    
                     <div class="table-responsive" id="showDataPD-Location">
 
                         <center>
@@ -157,7 +159,7 @@
                         </center>
                     </div>
                 </div>
-                <!-- 
+<!-- 
                 <input type="checkbox" onClick="toggleCheckbox(this)" /> Toggle All
                 <button type="button" class="btn btn-danger" onclick="multiDelete()">Delete all</button>  -->
                 <br><br>
@@ -213,35 +215,35 @@
 
 
     <div class="modal fade setFont" id="addProduct" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Increase</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-dialog">
+                <div class="modal-content">
+    
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Increase</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div id="loader" style="display:none;"> </div>
+    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <input class="form-control" id="addAmount">
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal"
+                        onclick="addProduct()" >Save</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
-                <div id="loader" style="display:none;"> </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <input class="form-control" id="addAmount">
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal"
-                        onclick="addProduct()">Save</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
+    
+    
+    
             </div>
-
-
-
         </div>
-    </div>
-
-
-
+    
+      
+  
 
     <!-- Bootstrap core JavaScript -->
     <!-- <script src="vendor/jquery/jquery.min.js"></script>
