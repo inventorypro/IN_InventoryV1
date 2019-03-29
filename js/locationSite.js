@@ -36,9 +36,9 @@ function ddlLocation() {
 
                 document.getElementById("page-content-wrapper").style.display = 'none';
             } else {
-             
-            
-               
+
+
+
             }
 
 
@@ -53,6 +53,7 @@ function ddlLocation() {
 }
 
 function viewWarehouseData() {
+
     localStorage.setItem("logSetLocation", $('#setLocation').val());
     if ($('#setLocation').val() === null) {
 
@@ -120,7 +121,7 @@ function viewWarehouseData() {
                     {
                         "data": "ProductLocationID", render: function (data, type, row, meta) {
                             return type === 'display' ?
-                                ' <button type="button" class="btn btn-success btn-circle btn-lg" data-toggle="modal" data-target="#addProduct" onclick="showDataAddProduct(' + row.ProductLocationID + ')"><i class="material-icons" style="font-size:35px"> add </i></button>  ' :
+                                ' <button type="button" class="btn btn-success btn-circle btn-lg" data-toggle="modal" data-target="#addProduct" onclick="showDataAddProduct(' + row.ProductLocationID + ',' + row.ProductID + ')"><i class="material-icons" style="font-size:35px"> add </i></button>  ' :
                                 data;
 
                         }
@@ -176,7 +177,7 @@ function viewWarehouseData() {
 
     });
 
-
+    countCart();
 }
 
 function ShowDataEditor(id) {
@@ -292,7 +293,7 @@ function btnDelete(id) {
         type: "DELETE",
         url: "http://localhost:60443/api/IN_ProductLocation/" + id,
         dataType: 'json',
-        data: formdata,
+  
         headers: {
             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
         },
@@ -315,79 +316,269 @@ function btnDelete(id) {
 
 }
 var getIDaddProduct;
-function showDataAddProduct(id) {
+var getIDProduct;
+var getAllAmountProduct;
+var getMaxVarPD;
+function showDataAddProduct(id, pdID) {
     getIDaddProduct = id
-    console.log(id);
-}
-function addProduct() {
-    console.log(getIDaddProduct);
+    getIDProduct = pdID
+
 
     $.ajax({
 
         type: "GET",
-        url: "http://localhost:60443/api/IN_ProductLocation/" + getIDaddProduct,
+        url: "http://localhost:60443/api/IN_Product/" + pdID,
         dataType: 'json',
         headers: {
             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
         },
         success: function (data) {
-            console.table(data);
-            var setAmount = parseInt(data.Amount) + parseInt($('#addAmount').val());
-            var formdata = {
-                "ProductLocationID": data.ProductLocationID,
-                "LocationID": data.LocationID,
-                "LocationName": data.LocationName,
-                "ProductID": data.ProductID,
-                "Barcode": data.Barcode,
-                "ProductName": data.ProductName,
-                "Category": data.Category,
-                "Price": data.Price,
-                "UnitType": data.UnitType,
-                "MinValue": data.MinValue,
-                "MaxValue": data.MaxValue,
-                "Amount": setAmount,
-                "ProductStatus": data.ProductStatus,
-                "ImgProduct": data.ImgProduct,
-                "SITES": data.SITES,
-                "Place": data.Place,
-                "Vender": data.Vender
-            }
-            console.log(setAmount);
-            console.log(data.MaxValue);
-            if (setAmount > data.MaxValue) {
-                alert("ไม่สามารถเพิ่มสินค้าเกิน MaxValue!");
-            } else {
-                $.ajax({
+            // $("#addAmount").attr({
+            //     "max": data.Amount,        // substitute your own
+            //     "min": 1          // values (or variables) here
+            // });
 
-                    type: "PUT",
-                    url: "http://localhost:60443/api/IN_ProductLocation/" + getIDaddProduct,
-                    dataType: 'json',
-                    data: formdata,
-                    headers: {
-                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-                    },
-                    success: function (data) {
-                        console.table(data);
+            $("#addAmount").prop('min', 1);
+            $("#addAmount").prop('max', data.Amount);
+            console.log(data.ProductName + "A: " + data.Amount);
 
-                    },
-                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                        // console.log("Add new product failed, error is '" + thrownError + "'");
-                        alert("Edit product failed, error is '" + thrownError + "'");
-                    }
-
-                }).then(function (data) {
-                    console.log(data);
-                    document.getElementById("setLocation").value = setLocation.value;
-                    viewWarehouseData();
-                    // location.reload();
-                });
-            }
-
+            getAllAmountProduct = data.Amount;
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
             // console.log("Add new product failed, error is '" + thrownError + "'");
             alert("Edit product failed, error is '" + thrownError + "'");
         }
 
+    }).then(function (data) {
+
+
+        $.ajax({
+
+            type: "GET",
+            url: "http://localhost:60443/api/IN_ProductLocation/" + getIDaddProduct,
+            dataType: 'json',
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (data) {
+
+                getMaxVarPD = data.MaxValue;
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                // console.log("Add new product failed, error is '" + thrownError + "'");
+                alert("Edit product failed, error is '" + thrownError + "'");
+            }
+
+        })
     });
+
+    console.log(id);
+}
+function addProduct() {
+    console.log($('#addAmount').val());
+    if ($('#addAmount').val() > getAllAmountProduct || $('#addAmount').val() < 0 || $('#addAmount').val() === undefined || $('#addAmount').val() === null) {
+        alert("จำนวนสินค้าไม่เพียงพอ(" + getAllAmountProduct + ")");
+    } else {
+
+        $.ajax({
+
+            type: "GET",
+            url: "http://localhost:60443/api/IN_ReceiverViewProductID/" + getIDProduct,
+            dataType: 'json',
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (data) {
+                // console.log(data[0].ReqAmount);
+                if (data.length === 0) {
+                    console.log("xxx");
+                    $.ajax({
+
+                        type: "GET",
+                        url: "http://localhost:60443/api/IN_ProductLocation/" + getIDaddProduct,
+                        dataType: 'json',
+                        headers: {
+                            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                        },
+                        success: function (data) {
+                            console.table(data);
+                            var setAmount = parseInt(data.Amount) + parseInt($('#addAmount').val());
+                            var setTotal = data.Price * parseInt($('#addAmount').val());
+
+                            var now = new Date();
+                            var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
+
+                            var formdata = {
+                                "ReceiverID": 1,
+                                "LocationID": data.LocationID,
+                                "ProductID": data.ProductID,
+                                "ProductName": data.ProductName,
+                                "Price": data.Price,
+                                "Total": setTotal,
+                                "ReqAmount": parseInt($('#addAmount').val()),
+                                "ReqTime": setDateNow,
+                                "ESSUSR_Name": localStorage.logUsername,
+                                "EMP_EngName": localStorage.getMyUsername,
+                                "ReceiverSignature": null,
+                                "ReceiverESSUSR_Name": null,
+                                "ReceiverEMP_EngName": null,
+                                "ReceiverTime": null,
+                                "SITES": localStorage.logSite,
+                                "Status": "pending"
+                            }
+                            console.log(setAmount);
+                            console.log(data.MaxValue);
+                            if (setAmount > data.MaxValue) {
+                                alert("ไม่สามารถเพิ่มสินค้าเกิน MaxValue!");
+                            } else {
+                                $.ajax({
+
+                                    type: "POST",
+                                    url: "http://localhost:60443/api/IN_Receiver",
+                                    dataType: 'json',
+                                    data: formdata,
+                                    headers: {
+                                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                                    },
+                                    success: function (data) {
+                                        console.table(data);
+
+                                    },
+                                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                        // console.log("Add new product failed, error is '" + thrownError + "'");
+                                        alert("Edit product failed, error is '" + thrownError + "'");
+                                    }
+
+                                }).then(function (data) {
+                                    console.log(data);
+                                    alert("Successs");
+                                    document.getElementById("setLocation").value = setLocation.value;
+                                    viewWarehouseData();
+                                    // location.reload();
+                                });
+                            }
+
+                        },
+                        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                            // console.log("Add new product failed, error is '" + thrownError + "'");
+                            alert("Edit product failed, error is '" + thrownError + "'");
+                        }
+
+                    });
+                } else {
+                    if (parseInt($('#addAmount').val()) + parseInt(data[0].ReqAmount) > getAllAmountProduct || parseInt($('#addAmount').val()) + parseInt(data[0].ReqAmount) > getMaxVarPD) {
+                        alert("จำนวนสินค้าไม่เพียงพอ(" + getAllAmountProduct + ")");
+                    } else {
+
+                        var caltotal = parseInt($('#addAmount').val()) + parseInt(data[0].ReqAmount);
+                        var total = caltotal * data[0].Price
+                        var now = new Date();
+                        var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
+
+                        // console.log(getIDaddProduct);
+                        var formdata = {
+                            "ReceiverID": data[0].ReceiverID,
+                            "LocationID": data[0].LocationID,
+                            "ProductID": data[0].ProductID,
+                            "ProductName": data[0].ProductName,
+                            "Price": data[0].Price,
+                            "Total": total,
+                            "ReqAmount": parseInt($('#addAmount').val()) + parseInt(data[0].ReqAmount),
+                            "ReqTime": setDateNow,
+                            "ESSUSR_Name": data[0].ESSUSR_Name,
+                            "EMP_EngName": data[0].EMP_EngName,
+                            "ReceiverSignature": data[0].ReceiverSignature,
+                            "ReceiverESSUSR_Name": data[0].ReceiverESSUSR_Name,
+                            "ReceiverEMP_EngName": data[0].ReceiverEMP_EngName,
+                            "ReceiverTime": data[0].ReceiverTime,
+                            "SITES": data[0].ReqSITESAmount,
+                            "Status": data[0].Status,
+                            "LocationProductID": data[0].LocationProductID
+                        }
+
+                        $.ajax({
+
+                            type: "PUT",
+                            url: "http://localhost:60443/api/IN_Receiver/" + data[0].ReceiverID,
+                            dataType: 'json',
+                            data: formdata,
+                            headers: {
+                                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                            },
+                            success: function (dataP) {
+                                // console.table(data);
+                                alert("Successs");
+                                document.getElementById("setLocation").value = setLocation.value;
+                                viewWarehouseData();
+                            },
+                            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                // console.log("Add new product failed, error is '" + thrownError + "'");
+                                alert("Edit product failed, error is '" + thrownError + "'");
+                            }
+
+                        })
+                    }
+
+                }
+
+
+
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                console.log("product failed, error is '" + thrownError + "'");
+
+
+            }
+
+        })
+
+
+
+    }
+
+}
+
+function veriInputAmount() {
+    var xxx = document.getElementById("addAmount").value
+    console.log(getAllAmountProduct)
+    if (xxx > 0) {
+        if (xxx >= getAllAmountProduct) {
+            document.getElementById("btnaddProduct").disabled = true;
+        } else {
+            document.getElementById("btnaddProduct").disabled = false;
+        }
+
+    } else {
+        document.getElementById("btnaddProduct").disabled = true;
+    }
+
+
+
+
+}
+
+function countCart() {
+
+    console.log(setLocation.value);
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ReceiverLocationID/" + setLocation.value.split(",")[0],
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.log(data.length);
+            document.getElementById("checkCartLoca").innerHTML = data.length;
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            // console.log("Add new product failed, error is '" + thrownError + "'");
+            alert("Edit product failed, error is '" + thrownError + "'");
+        }
+
+    })
+
+
+
 }

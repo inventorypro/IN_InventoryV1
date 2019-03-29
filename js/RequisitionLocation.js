@@ -1,5 +1,7 @@
 $(document).ready(function () {
     ddlLocation();
+
+
 });
 
 function ddlLocation() {
@@ -32,13 +34,16 @@ function ddlLocation() {
 
             }
             console.log($('#setLocation').val());
+            document.getElementById("showNameLocation").innerHTML = $('#setLocation').val().split(",")[1];
             if ($('#setLocation').val() === null) {
 
                 document.getElementById("page-content-wrapper").style.display = 'none';
-       
+
+
             } else {
                 document.getElementById("page-content-wrapper").style.display = 'block';
-          
+                viewWarehouseData()
+
             }
 
 
@@ -64,15 +69,16 @@ function viewWarehouseData() {
 
     var tagTable = "";
     tagTable += '<table id="example" class="table table-striped table-bordered text-center dtCheck "style="width:100%">'
-    tagTable += " <thead> <tr> <th>Increase</th> <th>ImgProduct</th> <th >Product</th> <th>ProductID</th> <th>Barcode</th> <th>ProductName</th> <th>Category</th> <th>Price</th> <th>UnitType</th> <th>MinValue</th> <th>MaxValue</th> <th>Amount</th> <th>ProductStatus</th> <th>Place</th> <th>Vender</th>  <th>ACTION</th> </tr></thead>"
+    tagTable += " <thead> <tr> <th>ReceiverID</th>  <th>ProductName</th>  <th>ReqAmount</th>  <th>Price</th>  <th>Total</th>  <th>ReqTime</th> <th>Action</th> </tr></thead>"
     tagTable += '</table>'
     $("#showDataPD-Location").append(tagTable)
+
 
 
     $.ajax({
 
         type: "GET",
-        url: "http://localhost:60443/api/IN_ProductLocationViewPD/" + $('#setLocation').val().split(",")[0],
+        url: "http://localhost:60443/api/IN_ReceiverLocationID/" + setLocation.value.split(",")[0],
         dataType: 'json',
         headers: {
             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
@@ -114,6 +120,21 @@ function viewWarehouseData() {
                 ],
                 "data": data,
                 "columns": [
+                    { "data": "ReceiverID", },
+                    { "data": "ProductName", },
+                    { "data": "ReqAmount", },
+                    { "data": "Price", },
+                    { "data": "Total", },
+                    { "data": "ReqTime", },
+                    {
+                        "data": "ReceiverID", render: function (data, type, row, meta) {
+                            return type === 'display' ?
+                                '<button type="button" class="btn btn-danger" onclick="btnDelete(' + row.ReceiverID + ')">Delete</button>' :
+                                data;
+                        }
+                    },
+
+
                 ]
             });
 
@@ -137,9 +158,9 @@ function btnDelete(id) {
     $.ajax({
 
         type: "DELETE",
-        url: "http://localhost:60443/api/IN_ProductLocation/" + id,
+        url: "http://localhost:60443/api/IN_Receiver/" + id,
         dataType: 'json',
-        data: formdata,
+
         headers: {
             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
         },

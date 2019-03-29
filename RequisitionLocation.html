@@ -130,8 +130,17 @@
                 <h1>Requisition Location</h1>
 
                 <hr>
-                <select class="form-control" id="setLocation" placeholder="select" onchange="viewWarehouseData()"
-                    required>
+                <h1>
+                    <p id="showNameLocation"></p>
+                </h1>
+                <button class="btn btn-info"><i class="fas fa-print fa-lg"></i>Receiver</button>
+
+
+
+                <button class="btn btn-info float-right">Back</button><br><br>
+
+                <select class="form-control " id="setLocation" placeholder="select" style='display:none;'
+                    onchange="viewWarehouseData()" required>
                     <option disabled selected value="">Select Location</option>
                 </select>
 
@@ -140,18 +149,18 @@
         </div>
         <!-- /#page-content-wrapper -->
         <div id="page-content-wrapper">
-            
+
             <div class="container-fluid setFont"><br><br>
                 <div class="float-right ">
-                        <h1>Total:</h1>   
+                    <h1>Total:</h1>
                 </div>
-                   
+
                 <h1>All Product</h1>
 
-           
+
                 <hr>
                 <div class="row-fluid">
-                    
+
                     <div class="table-responsive" id="showDataPD-Location">
 
                         <center>
@@ -159,7 +168,7 @@
                         </center>
                     </div>
                 </div>
-<!-- 
+                <!-- 
                 <input type="checkbox" onClick="toggleCheckbox(this)" /> Toggle All
                 <button type="button" class="btn btn-danger" onclick="multiDelete()">Delete all</button>  -->
                 <br><br>
@@ -215,35 +224,35 @@
 
 
     <div class="modal fade setFont" id="addProduct" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-    
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Increase</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div id="loader" style="display:none;"> </div>
-    
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <input class="form-control" id="addAmount">
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal"
-                        onclick="addProduct()" >Save</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Increase</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-    
-    
-    
+                <div id="loader" style="display:none;"> </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input class="form-control" id="addAmount">
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                        onclick="addProduct()">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
             </div>
+
+
+
         </div>
-    
-      
-  
+    </div>
+
+
+
 
     <!-- Bootstrap core JavaScript -->
     <!-- <script src="vendor/jquery/jquery.min.js"></script>

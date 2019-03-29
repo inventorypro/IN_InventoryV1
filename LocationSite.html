@@ -144,7 +144,7 @@
                 <a href="RequisitionLocation.html" style="text-decoration:none;font-size: 25px" class="float-right ">
                     <i class="material-icons" style="font-size: 35px;">shopping_cart</i> <span
                         class="badge2 badge2-danger">
-                        <div id="checkCartUser"></div>
+                        <div ><p id="checkCartLoca">0</p></div>
                     </span>
                 </a>
                 <h1>All Product</h1>
@@ -225,12 +225,12 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <input class="form-control" id="addAmount">
+                    <input type="number" class="form-control" id="addAmount" required onkeyup="veriInputAmount()">
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal"
-                        onclick="addProduct()">Save</button>
+                    <button type="button" id="btnaddProduct" class="btn btn-success" data-dismiss="modal"
+                        onclick="addProduct()" disabled>Save</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
