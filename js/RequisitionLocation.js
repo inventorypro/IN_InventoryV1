@@ -183,3 +183,6 @@ function btnDelete(id) {
 
 }
 
+function goBack() {
+    window.history.back();
+}
