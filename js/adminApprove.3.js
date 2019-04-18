@@ -96,7 +96,7 @@ $(document).ready(function () {
 
         success: function (data) {
 
-            if (data.RequisStatus === "approve") {
+            if (data.RequisStatus === "approve" || data.RequisStatus === "finish") {
                 document.getElementById('btnApprove').style.visibility = 'hidden';
                 document.getElementById('btnCheckingApprove').style.visibility = 'hidden';
                 document.getElementById('btnUpdateApprove').style.visibility = 'hidden';

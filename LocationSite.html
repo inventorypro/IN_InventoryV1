@@ -126,8 +126,13 @@
 
         <div class="container-fluid setMycontainer">
             <div class="container-fluid ">
+                <br>
+                <button type="button" class="float-right btn btn-success btn-circle btn-lg" data-toggle="modal"
+                    data-target="#addLocation" onclick=""><i class="material-icons" style="font-size:35px"> add
+                    </i></button>
 
                 <h1>Location</h1>
+
 
                 <hr>
                 <select class="form-control" id="setLocation" placeholder="select" onchange="viewWarehouseData()"
@@ -144,7 +149,9 @@
                 <a href="RequisitionLocation.html" style="text-decoration:none;font-size: 25px" class="float-right ">
                     <i class="material-icons" style="font-size: 35px;">shopping_cart</i> <span
                         class="badge2 badge2-danger">
-                        <div ><p id="checkCartLoca">0</p></div>
+                        <div>
+                            <p id="checkCartLoca">0</p>
+                        </div>
                     </span>
                 </a>
                 <h1>All Product</h1>
@@ -225,12 +232,13 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <input type="number" class="form-control" id="addAmount" required onkeyup="veriInputAmount()">
+                    <input type="number" class="form-control" id="addAmount" value="1" min="1" required
+                        onkeyup="veriInputAmount()">
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" id="btnaddProduct" class="btn btn-success" data-dismiss="modal"
-                        onclick="addProduct()" disabled>Save</button>
+                        onclick="addProduct()" disabled>Add</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -239,6 +247,38 @@
 
         </div>
     </div>
+
+
+    <div class="modal fade setFont" id="addLocation" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Location</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Name :
+                    <input type="text" class="form-control" id="addNameLocation" placeholder="Enter Name" required
+                        onkeyup="veriInputAmount()">
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="btnAddLocation" class="btn btn-success" data-dismiss="modal"
+                        onclick="addNewLocation()"  >Add</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
 
 
 

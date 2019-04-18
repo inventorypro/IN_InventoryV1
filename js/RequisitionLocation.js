@@ -34,7 +34,7 @@ function ddlLocation() {
 
             }
             console.log($('#setLocation').val());
-            document.getElementById("showNameLocation").innerHTML = $('#setLocation').val().split(",")[1];
+            document.getElementById("showNameLocation").innerHTML = localStorage.logSetLocation.split(",")[1];
             if ($('#setLocation').val() === null) {
 
                 document.getElementById("page-content-wrapper").style.display = 'none';
@@ -73,18 +73,31 @@ function viewWarehouseData() {
     tagTable += '</table>'
     $("#showDataPD-Location").append(tagTable)
 
-
+    console.log(localStorage.logSetLocation.split(",")[0]);
 
     $.ajax({
 
         type: "GET",
-        url: "http://localhost:60443/api/IN_ReceiverLocationID/" + setLocation.value.split(",")[0],
+        url: "http://localhost:60443/api/IN_ReceiverLocationID/" + localStorage.logSetLocation.split(",")[0],
         dataType: 'json',
         headers: {
             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
         },
         success: function (data) {
+            console.log(data);
+            console.log(localStorage.logSetLocation.split(",")[0]);
+            var getDataReceiverLC = [];
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].Status === "pending") {
+                    getDataReceiverLC.push(data[i]);
+                }
+            }
 
+            if (getDataReceiverLC.length === 0) {
+                document.getElementById('btnApprovePD').style.visibility = 'hidden';
+            }
+
+            console.log(getDataReceiverLC);
             var datatable = $('#example').DataTable({
                 // dom: 'lBrtip,Bfrtip,CBlrtip',
                 fixedHeader: true,
@@ -118,7 +131,7 @@ function viewWarehouseData() {
                         ]
                     },
                 ],
-                "data": data,
+                "data": getDataReceiverLC,
                 "columns": [
                     { "data": "ReceiverID", },
                     { "data": "ProductName", },
@@ -177,12 +190,76 @@ function btnDelete(id) {
         console.log(data);
 
         // location.reload();
-        document.getElementById("setLocation").value = setLocation.value;
+        document.getElementById("setLocation").value = localStorage.logSetLocation;
         viewWarehouseData();
     });
 
 }
 
 function goBack() {
-    window.history.back();
+    window.location.href = "locationSite.html";
 }
+
+function approvePD() {
+    window.location.href = "reqSignature.html";
+    var arrayApprovePD = [];
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ReceiverLocationID/" + localStorage.logSetLocation.split(",")[0],
+        dataType: 'json',
+
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].Status.toLowerCase() === "pending") {
+                    arrayApprovePD.push(data[i]);
+                }
+            }
+
+            console.table(arrayApprovePD);
+      
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            // console.log("Add new product failed, error is '" + thrownError + "'");
+            alert("Edit product failed, error is '" + thrownError + "'");
+        }
+
+    })
+
+}
+
+// function checkPD(dataPD) {
+
+//     $.ajax({
+
+//         type: "GET",
+//         url: "http://localhost:60443/api/IN_ProductLocationViewPD/" + localStorage.logSetLocation.split(",")[0],
+//         dataType: 'json',
+
+//         headers: {
+//             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+//         },
+//         success: function (data) {
+     
+
+//             console.table(data);
+      
+
+
+
+//         },
+//         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+//             // console.log("Add new product failed, error is '" + thrownError + "'");
+//             alert("Edit product failed, error is '" + thrownError + "'");
+//         }
+
+//     })
+
+
+// }

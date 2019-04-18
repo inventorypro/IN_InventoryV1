@@ -66,7 +66,7 @@ function viewWarehouseData() {
 
     var tagTable = "";
     tagTable += '<table id="example" class="table table-striped table-bordered text-center dtCheck "style="width:100%">'
-    tagTable += " <thead> <tr> <th>Increase</th> <th>ImgProduct</th> <th >Product</th> <th>ProductID</th> <th>Barcode</th> <th>ProductName</th> <th>Category</th> <th>Price</th> <th>UnitType</th> <th>MinValue</th> <th>MaxValue</th> <th>Amount</th> <th>ProductStatus</th> <th>Place</th> <th>Vender</th>  <th>ACTION</th> </tr></thead>"
+    tagTable += " <thead> <tr>  <th>ImgProduct</th> <th >Product</th> <th>ProductID</th> <th>Barcode</th> <th>ProductName</th> <th>Category</th> <th>Price</th> <th>UnitType</th> <th>MinValue</th> <th>MaxValue</th> <th>Amount</th> <th>ProductStatus</th> <th>Place</th> <th>Vender</th></tr></thead>"
     tagTable += '</table>'
     $("#showDataPD-Location").append(tagTable)
 
@@ -118,15 +118,7 @@ function viewWarehouseData() {
                 "columns": [
 
 
-                    {
-                        "data": "ProductLocationID", render: function (data, type, row, meta) {
-                            return type === 'display' ?
-                                ' <button type="button" class="btn btn-success btn-circle btn-lg" data-toggle="modal" data-target="#addProduct" onclick="showDataAddProduct(' + row.ProductLocationID + ',' + row.ProductID + "," + "'" + row.Category + "'" + ')"><i class="material-icons" style="font-size:35px"> add </i></button>  ' :
-                                data;
-
-                        }
-
-                    },
+            
                     {
                         "data": "ProductLocationID", render: function (data, type, row, meta) {
                             return type === 'display' ?
@@ -157,13 +149,7 @@ function viewWarehouseData() {
                     { "data": "Place" },
                     { "data": "Vender", visible: false },
 
-                    {
-                        "data": "ProductLocationID", render: function (data, type, row, meta) {
-                            return type === 'display' ?
-                                '  <center> <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" onclick="ShowDataEditor(' + row.ProductLocationID + ')">Edit </button>  <button type="button" class="btn btn-danger" onclick="btnDelete(' + row.ProductLocationID + ')">Delete </button></center>' :
-                                data;
-                        }
-                    },
+                 
                 ]
             });
 
@@ -467,17 +453,17 @@ function addProduct() {
             for (var i = 0; i < arrayPackageProduct.length; i++) {
                 for (var j = 0; j < arrayCheckProduct.length; j++) {
                     if (arrayPackageProduct[i].split(",")[0] === arrayCheckProduct[j].split(",")[0]) {
-                        var addPD = parseInt(countAmountData) + parseInt($('#addAmount').val());
+                        var addPD = parseInt(countAmountData) + parseInt($('#addAmount').val())  ;
 
                         console.log(addPD);
 
-                        var allamount = addPD * parseInt(arrayPackageProduct[i].split(",")[1])
+                        var allamount =addPD * parseInt(arrayPackageProduct[i].split(",")[1])
                         if (allamount > arrayCheckProduct[j].split(",")[1]) {
                             statusCheckProductInPack = false;
-
+                           
 
                         }
-                        console.log(allamount + ":" + arrayCheckProduct[j].split(",")[1]);
+                        console.log(allamount +":"+arrayCheckProduct[j].split(",")[1]);
                         console.log(arrayPackageProduct[i].split(",")[0] + "//" + arrayCheckProduct[j].split(",")[0]);
                     }
                 }
@@ -711,7 +697,7 @@ function countCart() {
                     countData++;
                 }
             }
-            document.getElementById("checkCartLoca").innerHTML = countData;
+            // document.getElementById("checkCartLoca").innerHTML = countData;
         },
         error: function (jqXHR, xhr, ajaxOptions, thrownError) {
             // console.log("Add new product failed, error is '" + thrownError + "'");
@@ -730,91 +716,3 @@ function callProduct() {
 
 }
 
-
-
-
-function addNewLocation() {
-
-
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:60443/api/IN_Location?siteName=all",
-        dataType: 'json',
-
-        headers: {
-            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-        },
-        success: function (dataLC) {
-            var checkLC = true;
-            console.log(dataLC);
-            for (var i = 0; i < dataLC.length; i++) {
-                if ($('#addNameLocation').val() === dataLC[i].LocationName) {
-                    checkLC = false;
-                    console.log( $('#addNameLocation').val());
-                    console.log( dataLC[i].location);
-                }
-            }
-           
-            if (checkLC === false) {
-                alert("ไม่สามารถตั้งชื่อนี้ได้")
-            } else {
-                var formdataLC;
-                $.ajax({
-                    type: "GET",
-                    url: "http://localhost:60443/api/IN_Sites",
-                    dataType: 'json',
-                    headers: {
-                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-                    },
-                    success: function (data) {
-                        for (var i = 0; i < data.length; i++) {
-                            if (data[i].SITES === localStorage.logSite) {
-                                var formdataLC = {
-                                    "LocationID": 1,
-                                    "LocationName": $('#addNameLocation').val(),
-                                    "ImgLocation": "",
-                                    "SITESID": data[i].SITESID,
-                                    "SITES": data[i].SITES
-                                }
-                            }
-                        }
-        
-                        $.ajax({
-                            type: "POST",
-                            url: "http://localhost:60443/api/IN_Location",
-                            dataType: 'json',
-                            data: formdataLC,
-                            headers: {
-                                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-                            },
-                            success: function (data) {
-                                alert("สำเร็จ")
-                                // location.reload();
-                            },
-                            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                                // console.log("Add new product failed, error is '" + thrownError + "'");
-                                alert("Approve failed, error is '" + thrownError + "'");
-                            }
-                        });
-        
-                    },
-                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                        // console.log("Add new product failed, error is '" + thrownError + "'");
-                        alert("Approve failed, error is '" + thrownError + "'");
-                    }
-                });
-        
-            }
-        
-        
-
-        },
-        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-            // console.log("Add new product failed, error is '" + thrownError + "'");
-            alert("Approve failed, error is '" + thrownError + "'");
-        }
-    });
-
-  
-
-}
