@@ -2,7 +2,7 @@ var allProduct = [];
 
 $(document).ready(function () {
 
-
+    ddlReturnProduct();
 
 
     $("#addPackProduct").hide();
@@ -645,9 +645,9 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 
 function btnEditProduct() {
 
-if($('#editCategory').val().toLowerCase() === "package"){
-    updateAllProductPackage(); 
-}
+    if ($('#editCategory').val().toLowerCase() === "package") {
+        updateAllProductPackage();
+    }
 
     var cProductID = $('#editProductID').val();
 
@@ -965,7 +965,7 @@ function showddlPackProduct(id) {
                 $("#showPackProduct").append(' <div id="addShowPack' + data[j].PackageID + '">' + data[j].ProductName + '<br>จำนวน(1 : 1 Pack): <input type="number" name="quantity" onchange="checkEditVal()" id="editsetAmountProduct' + data[j].PackageID + '" min="1" value="' + data[j].Amount + '"><br><br></div>');
 
                 // document.getElementById(setName).value = data[j].PackageID;
-                editArrayIdPackProduct[j] = ''+data[j].PackageID+','+ data[j].ProductID+','+'editsetAmountProduct' + data[j].PackageID +','+data[j].PackProductID+','+data[j].ProductName ;
+                editArrayIdPackProduct[j] = '' + data[j].PackageID + ',' + data[j].ProductID + ',' + 'editsetAmountProduct' + data[j].PackageID + ',' + data[j].PackProductID + ',' + data[j].ProductName;
 
 
             }
@@ -992,10 +992,10 @@ function getProductById(id) {
 }
 
 function clearDivShowPDEdit() {
-    
-for(var i = editArrayIdPackProduct.length ; 0<i ; i--){
-    editArrayIdPackProduct.pop();
-}
+
+    for (var i = editArrayIdPackProduct.length; 0 < i; i--) {
+        editArrayIdPackProduct.pop();
+    }
     $("#showPackProduct").empty();
 }
 
@@ -1031,18 +1031,18 @@ function checkVall() {
 
 function updateAllProductPackage() {
     var getReqAmount = "";
-    var getIdPackEdit ;
+    var getIdPackEdit;
     var getNameReqAmount = "";
 
-    for(var i = 0 ; i < editArrayIdPackProduct.length ; i++ ){
+    for (var i = 0; i < editArrayIdPackProduct.length; i++) {
         getReqAmount = editArrayIdPackProduct[i];
-        getNameReqAmount = "#"+getReqAmount.split(",")[2];
+        getNameReqAmount = "#" + getReqAmount.split(",")[2];
         getIdPackEdit = getReqAmount.split(",")[0];
         console.log(getNameReqAmount);
         var formdata = {
             "PackageID": getIdPackEdit,
             "ProductID": getReqAmount.split(",")[1],
-            "Amount":   $(getNameReqAmount).val(),
+            "Amount": $(getNameReqAmount).val(),
             "SITES": localStorage.logSite,
             "PackProductID": getReqAmount.split(",")[3],
             "ProductName": getReqAmount.split(",")[4]
@@ -1058,23 +1058,23 @@ function updateAllProductPackage() {
             },
             success: function (datax) {
                 console.table(datax);
-    
+
             },
             error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                 // console.log("Add new product failed, error is '" + thrownError + "'");
                 alert("Edit product failed, error is '" + thrownError + "'");
             }
-    
+
         }).then(function (data) {
             // console.log(data);
-    
+
             // location.reload();
         });
- 
+
     }
 }
 
-function checkEditVal(){
+function checkEditVal() {
     // var valAmountEdit = 99999999;
     // for(var i = 0 ; i < allProduct.length ; i++ ){
     //     for(var j = 0 ; j < editArrayIdPackProduct.length ; j++ ){
@@ -1085,12 +1085,59 @@ function checkEditVal(){
     //                 valAmountEdit = $("#"+editArrayIdPackProduct[j].split(",")[2]).val() / allProduct[i].split(",")[3] ;
     //             }
     //         }
-  
-            
+
+
     //     }
-    
+
     // }
 
     // document.getElementById("editAmount").value = Math.floor(valAmountEdit);
     // // document.getElementById("editPrice").value = xxxxx;
+}
+
+
+function returnProduct() {
+    var now = new Date();
+    var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
+    console.log($('#addsetReturunProduct').val());
+}
+
+function ddlReturnProduct() {
+    $('#topicReturunProduct').val("volvo");
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Product?sites=" + localStorage.logSite,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.log(data.length);
+            //  console.log(data[0].UnitTypeName);
+            //  location.reload();
+
+            var addsetReturunProduct = document.getElementById("addsetReturunProduct");
+            var option = document.createElement("option");
+            for (var i = 0; i < data.length; i++) {
+
+
+                var option = document.createElement("option");
+                option.text = data[i].ProductID + "," + data[i].ProductName;
+
+
+                addsetReturunProduct.add(option, addsetReturunProduct[i]);
+
+            }
+
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
 }

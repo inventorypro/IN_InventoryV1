@@ -101,16 +101,16 @@
                             <a href="#">Return Report</a>
                         </li>
                         <li>
-                            <a href="#">Requisition Report</a>
+                            <a href="RequisitionReport.html">Requisition Report</a>
                         </li>
                         <li>
-                            <a href="#">Low Product Report</a>
+                            <a href="LowProductReport.html">Low Product Report</a>
                         </li>
                         <li>
-                            <a href="#">Out of Stock Report</a>
+                            <a href="OutStockReport.html">Out of Stock Report</a>
                         </li>
                         <li>
-                            <a href="#">Total Cost Report</a>
+                            <a href="TotalCostReport.html">Total Cost Report</a>
                         </li>
                     </ul>
                 </div>
@@ -185,6 +185,8 @@
         <!-- /#page-content-wrapper -->
         <div id="page-content-wrapper">
             <div class="container-fluid setFont"><br>
+                <button type="button" class="btn btn-success float-right" data-toggle="modal"
+                    data-target="#myModalReturnProduct" style="margin-left:15px">Return Product</button>
                 <button type="button" class="btn btn-success float-right" data-toggle="modal"
                     data-target="#myModalAddNew">Add New Product</button>
                 <h1>Product list</h1>
@@ -407,6 +409,56 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" onclick="addNewProduct()">Add</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- The Modal -->
+    <div class="modal setFont" id="myModalReturnProduct">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Return Product</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div id="loader" style="display:none;"> </div>
+                <!-- Modal body -->
+
+                <div class="modal-body">
+                    <form id="myform">
+
+                        Topic: <select class="form-control checkAmountClassname"
+                             onclick="" id="topicReturunProduct" required>
+                            <option value="volvo"  >Volvo</option>
+                            <option value="volvo2">Volvo2</option>
+                            <option value="volvo3">Volvo3</option>
+                            <option disabled selected value="">Please select Topic</option>
+                        </select>
+                        <br>
+                        Product: 
+                        <select class="form-control checkAmountClassname" id="addsetReturunProduct" placeholder="select"
+                            onclick="" required>
+                            <option disabled selected value="">Please select Product</option>
+                        </select>
+                        Amount:  <input type="number" class="form-control" id="amountReturnPD" required>
+                        Comment:  <textarea class="form-control" rows="5" id="commentReturnPD" ></textarea>
+
+                </div>
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="">Return</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
                 </form>
