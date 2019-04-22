@@ -185,11 +185,15 @@
         <!-- /#page-content-wrapper -->
         <div id="page-content-wrapper">
             <div class="container-fluid setFont"><br>
+              
+                <button type="button" class="btn btn-success float-right" style="margin-left:15px" data-toggle="modal"
+                        data-target="#myModalTopicReturnProduct" style="margin-left:15px" >Add New Topic Return</button>
                 <button type="button" class="btn btn-success float-right" data-toggle="modal"
                     data-target="#myModalReturnProduct" style="margin-left:15px">Return Product</button>
                 <button type="button" class="btn btn-success float-right" data-toggle="modal"
                     data-target="#myModalAddNew">Add New Product</button>
                 <h1>Product list</h1>
+          
                 <hr>
                 <style>
                     button.dt-button,
@@ -428,7 +432,8 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Return Product</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    
+                    <button type="button" class="close" data-dismiss="modal"  >&times;</button>
                 </div>
 
                 <div id="loader" style="display:none;"> </div>
@@ -439,12 +444,11 @@
 
                         Topic: <select class="form-control checkAmountClassname"
                              onclick="" id="topicReturunProduct" required>
-                            <option value="volvo"  >Volvo</option>
-                            <option value="volvo2">Volvo2</option>
-                            <option value="volvo3">Volvo3</option>
+                 
                             <option disabled selected value="">Please select Topic</option>
-                        </select>
-                        <br>
+                        </select><br>
+                       
+                     
                         Product: 
                         <select class="form-control checkAmountClassname" id="addsetReturunProduct" placeholder="select"
                             onclick="" required>
@@ -458,7 +462,44 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="">Return</button>
+                    <button type="button" class="btn btn-success" onclick="returnProduct()">Return</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <!-- The Modal -->
+    <div class="modal setFont" id="myModalTopicReturnProduct">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">New Topic Return Product</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+
+                <div id="loader" style="display:none;"> </div>
+                <!-- Modal body -->
+
+                <div class="modal-body">
+                    <form id="myform">
+
+                        Topic: <input type="text" class="form-control" id="topicReturnPD" required>
+                        Comment:  <textarea class="form-control" rows="5" id="commentTopicReturnPD" ></textarea>
+
+                </div>
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="newTopicReturn()">Add</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
                 </form>

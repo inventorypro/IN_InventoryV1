@@ -1097,13 +1097,147 @@ function checkEditVal() {
 
 
 function returnProduct() {
-    var now = new Date();
-    var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
-    console.log($('#addsetReturunProduct').val());
+    if ($('#topicReturunProduct').val() === null || $('#addsetReturunProduct').val() === null || $('#amountReturnPD').val() <= 0) {
+        alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+    } else {
+        // alert("Pass");
+
+        $.ajax({
+
+            type: "GET",
+            url: "http://localhost:60443/api/IN_Product/" + $('#addsetReturunProduct').val().split(",")[0],
+            dataType: 'json',
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (data) {
+
+                var now = new Date();
+                var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
+                console.log(data);
+                var formdata = {
+                    "StockCardID": 1,
+                    "Date": setDateNow,
+                    "UserID": localStorage.logUsername,
+                    "StockCardCategory": $('#topicReturunProduct').val(),
+                    "ProductID": data.ProductID,
+                    "Amount": $('#amountReturnPD').val(),
+                    "Balance": $('#amountReturnPD').val() + data.Amount,
+                    "ProductName": data.ProductName,
+                    "Price": data.Price,
+                    "UnitType": data.UnitType,
+                    "Category": data.Category,
+                    "SITES": data.SITES,
+                    "Comment": $('#commentReturnPD').val()
+                }
+                $.ajax({
+
+                    type: "POST",
+                    url: "http://localhost:60443/api/IN_StockCard",
+                    dataType: 'json',
+                    data: formdata,
+                    headers: {
+                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                    },
+                    success: function (datax) {
+                        console.table(datax);
+                        calReturnPD();
+                    },
+                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                        // console.log("Add new product failed, error is '" + thrownError + "'");
+                        alert("Edit product failed, error is '" + thrownError + "'");
+                    }
+
+                }).then(function (data) {
+                    // console.log(data);
+
+                    // location.reload();
+                });
+
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                //alert("Add new product failed, error is '" + thrownError + "'");
+            }
+
+        });
+
+    }
+
+
+
+
+}
+
+
+function calReturnPD() {
+
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Product/" + $('#addsetReturunProduct').val().split(",")[0],
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+
+
+            console.log(data);
+            var formdata = {
+                "ProductID": data.ProductID,
+                "Barcode": data.Barcode,
+                "ProductName": data.ProductName,
+                "Category": data.Category,
+                "Price": data.Price,
+                "UnitType": data.UnitType,
+                "MinValue": data.MinValue,
+                "MaxValue": data.MaxValue,
+                "Amount": parseInt(data.Amount) + $('#amountReturnPD').val(),
+                "Vender": data.Vender,
+                "ProductStatus": data.ProductStatus,
+                "ImgProduct": data.ImgProduct,
+                "SITES": data.SITES,
+                "Place": data.Place
+
+            }
+            $.ajax({
+
+                type: "PUT",
+                url: "http://localhost:60443/api/IN_Product/" + $('#addsetReturunProduct').val().split(",")[0],
+                dataType: 'json',
+                data: formdata,
+                headers: {
+                    'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                },
+                success: function (datax) {
+                    alert("สำเร็จ");
+                    location.reload();
+
+                },
+                error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                    // console.log("Add new product failed, error is '" + thrownError + "'");
+                    alert("Edit product failed, error is '" + thrownError + "'");
+                }
+
+            }).then(function (data) {
+                // console.log(data);
+
+                // location.reload();
+            });
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
+
 }
 
 function ddlReturnProduct() {
-    $('#topicReturunProduct').val("volvo");
+    // $('#topicReturunProduct').val("return1");
     $.ajax({
 
         type: "GET",
@@ -1140,4 +1274,89 @@ function ddlReturnProduct() {
         }
 
     });
+
+
+
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_Topic",
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.log(data.length);
+            //  console.log(data[0].UnitTypeName);
+            //  location.reload();
+
+            var addsetTopicReturunProduct = document.getElementById("topicReturunProduct");
+            var option = document.createElement("option");
+            for (var i = 0; i < data.length; i++) {
+
+
+                var option = document.createElement("option");
+                option.text = data[i].Name;
+
+
+                addsetTopicReturunProduct.add(option, addsetTopicReturunProduct[i]);
+
+            }
+
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+            //alert("Add new product failed, error is '" + thrownError + "'");
+        }
+
+    });
+
+}
+function closeModel(){
+    var x = document.getElementById("myModalReturnProduct"); 
+    x.close(); 
+}
+
+$("#trigger").click(function(){
+    $("#trigger").data('target', $('#myModalAddNew'));
+  })
+
+function newTopicReturn() {
+    if ($('#topicReturnPD').val().length === 0) {
+        alert("กรุณาตรวจสอบข้อมูล")
+    }else{
+        var formdata = {
+            "Id": 1,
+            "Name":  $('#topicReturnPD').val(),
+            "Description": $('#commentTopicReturnPD').val(),
+            "SITES": localStorage.logSite,
+        }
+        $.ajax({
+
+            type: "POST",
+            url: "http://localhost:60443/api/IN_Topic",
+            dataType: 'json',
+            data: formdata,
+            headers: {
+                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+            },
+            success: function (datax) {
+                alert("สำเร็จ");
+                location.reload();
+
+            },
+            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                // console.log("Add new product failed, error is '" + thrownError + "'");
+                alert("Edit product failed, error is '" + thrownError + "'");
+            }
+
+        }).then(function (data) {
+            // console.log(data);
+
+            // location.reload();
+        });
+    }
 }
