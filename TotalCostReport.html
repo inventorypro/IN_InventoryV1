@@ -50,8 +50,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- https://material.io/tools/icons/?icon=shopping_cart&style=baseline -->
 
-    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
     <script src="js/index.js"></script>
     <script src="js/admin.js"></script>
@@ -62,7 +60,7 @@
 <body>
     <div class="header">
         <nav class="navbar fixed-top">
-            <span class="navbar-brand mb-0 h1">Navbar</span>
+            <span class="navbar-brand mb-0 h1">INVENTORY MANAGEMENT</span>
             <a href="#menu-toggle" class="btn" id="menu-toggle"><i class="fas fa-bars setIconbarSize"></i></a>
         </nav>
     </div>
@@ -114,9 +112,6 @@
                     </ul>
                 </div>
                 <li>
-                    <a href="#">Contact</a>
-                </li>
-                <li>
                     <a href="#" onclick="fnLogout()">Logout</a>
                 </li>
             </ul>
@@ -145,7 +140,21 @@
 
 
                 <div class="row-fluid">
-                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                    <div class="table-responsive">
+                        <table id="totalCostShow" class="table table-striped table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>ProductName</th>
+                                    <th>UnitType</th>
+                                    <th>Price</th>
+                                    <th>RequisAmount</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
 
 

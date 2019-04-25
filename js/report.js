@@ -304,7 +304,8 @@ $(document).ready(function () {
 var outStockProduct = [];
 
 $(document).ready(function () {
-    console.log(localStorage.logSite);
+    //console.log(localStorage.logSite);
+    
     // var pageLength = 10;
     // function pageLength() {
     //     pageLength = $('#addProductName').val();
@@ -390,4 +391,6 @@ $(document).ready(function () {
         }
     });
 });
+
+//Total cost Report
 
