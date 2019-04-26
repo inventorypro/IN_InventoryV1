@@ -1123,7 +1123,7 @@ function returnProduct() {
                     "StockCardCategory": $('#topicReturunProduct').val(),
                     "ProductID": data.ProductID,
                     "Amount":$('#amountReturnPD').val(),
-                    "Balance":calAmount,
+                    "Balance":data.Amount,
                     "ProductName": data.ProductName,
                     "Price": data.Price,
                     "UnitType": data.UnitType,
