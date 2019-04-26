@@ -50,18 +50,19 @@ function viewCost() {
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
 
-    if (fDate.getTime() > sDate.getTime()) {
-        console.log(-diffDays);
-    } else {
-        console.log(diffDays);
-    }
+    // if (fDate.getTime() > sDate.getTime()) {
+    //     console.log(-diffDays);
+    // } else {
+    //     console.log(diffDays);
+    // }
 
 
 
 
     console.log(selectLocation);
-    if (fDate === "" || sDate === "") {
+    if ($('#fDate').val() === "" || $('#sDate').val() === "") {
         console.log(fDate);
+      
     } else {
 
         $("#showData-Cost").empty();
@@ -83,11 +84,7 @@ function viewCost() {
         //     </table>
         // </div>
 
-        var tagTable = "";
-        tagTable += '<table id="example" class="table table-striped table-bordered text-center dtCheck "style="width:100%">'
-        tagTable += " <thead> <tr>   <th>Location</th>  <th>ProductName</th>  <th>UnitType</th>  <th>Price</th>  <th>RequisAmount</th>  <th>Total</th> <th>Date</th> </tr></thead>"
-        tagTable += '</table>'
-        $("#showData-Cost").append(tagTable)
+    
 
 
         $.ajax({
@@ -102,21 +99,34 @@ function viewCost() {
             success: function (data) {
                 //console.log(data)
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].RequisStatus === "finish") {
+                    var cDate = new Date(data[i].Date);
+                    if (data[i].RequisStatus === "finish" && cDate >= fDate && cDate <= sDate && data[i].Location === selectLocation) {
                         productAll.push({ Location: data[i].Location, ProductName: data[i].ProductName, UnitType: data[i].UnitType, Price: data[i].Price, RequisAmount: data[i].RequisAmount, Total: parseInt(data[i].Price) * parseInt(data[i].RequisAmount), Date: data[i].Date })
                     }
                 }
                 console.log(productAll);
                 countLocation = 0;
           
+              
+ 
+
                 for (var i = 0; i < productAll.length; i++) {
-
-                    if (productAll[i].Location === selectLocation) {
+                    if(productAll[i].Location === selectLocation){
                         countLocation += productAll[i].Total;
-
                     }
                 }
 
+             
+                var tagTable = "";
+                tagTable += "Total: <h4>";
+                tagTable += countLocation;
+                tagTable += "</h4>";
+                tagTable += '<table id="totalCostShow" class="table table-striped table-bordered text-center dtCheck "style="width:100%">'
+                tagTable += " <thead> <tr>   <th>Location</th>  <th>ProductName</th>  <th>UnitType</th>  <th>Price</th>  <th>RequisAmount</th>  <th>Total</th> <th>Date</th> </tr></thead>"
+                tagTable += '</table>'
+                $("#showData-Cost").append(tagTable)
+
+           
                 console.log(countLocation);
                 // console.table(data);
 
