@@ -1114,15 +1114,16 @@ function returnProduct() {
 
                 var now = new Date();
                 var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
-                console.log(data);
+                var calAmount = parseInt($('#amountReturnPD').val())  + parseInt(data.Amount);
+                console.log(calAmount);
                 var formdata = {
                     "StockCardID": 1,
                     "Date": setDateNow,
                     "UserID": localStorage.logUsername,
                     "StockCardCategory": $('#topicReturunProduct').val(),
                     "ProductID": data.ProductID,
-                    "Amount": parseInt( $('#amountReturnPD').val())  + parseInt(data.Amount),
-                    "Balance":data.Balance,
+                    "Amount":$('#amountReturnPD').val(),
+                    "Balance":calAmount,
                     "ProductName": data.ProductName,
                     "Price": data.Price,
                     "UnitType": data.UnitType,
@@ -1182,7 +1183,7 @@ function calReturnPD() {
         },
         success: function (data) {
 
-
+         
             console.log(data);
             var formdata = {
                 "ProductID": data.ProductID,
@@ -1193,7 +1194,7 @@ function calReturnPD() {
                 "UnitType": data.UnitType,
                 "MinValue": data.MinValue,
                 "MaxValue": data.MaxValue,
-                "Amount": parseInt(data.Amount) + $('#amountReturnPD').val(),
+                "Amount": parseInt(data.Amount) +  parseInt($('#amountReturnPD').val()),
                 "Vender": data.Vender,
                 "ProductStatus": data.ProductStatus,
                 "ImgProduct": data.ImgProduct,
