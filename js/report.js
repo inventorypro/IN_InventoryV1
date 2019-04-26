@@ -26,10 +26,7 @@
 //Balance Report
 $(document).ready(function () {
     console.log(localStorage.logSite);
-    // var pageLength = 10;
-    // function pageLength() {
-    //     pageLength = $('#addProductName').val();
-    // }
+
     $.ajax({
 
         type: "GET",

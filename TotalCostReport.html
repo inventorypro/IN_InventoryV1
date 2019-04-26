@@ -51,6 +51,7 @@
     <!-- https://material.io/tools/icons/?icon=shopping_cart&style=baseline -->
 
 
+
     <script src="js/index.js"></script>
     <script src="js/admin.js"></script>
     <script src="js/TotalCost.js"></script>
@@ -132,29 +133,30 @@
             <div class="container-fluid setFont"><br>
 
 
-                <!-- <button class="btn btn-success float-right" >ส่งใบเบิก</button> -->
+
 
                 <h1>Total Cost Report</h1>
 
                 <hr>
+                <label>Select Location</label>
+                <select class="form-control" id="addsetLocation" onclick="setVarDdlCategory()"> </select>
+                <div class="form-group">
+                    <label>ตั้งแต่วันที่</label>
+                    <input type="date" name="bday" max="3000-12-31" id="fDate" min="1000-01-01" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>ถึงวันที่</label>
+                    <input type="date" name="bday" min="1000-01-01" id="sDate" max="3000-12-31" class="form-control">
+                </div>
+                <button type="button" class="btn btn-success float-right" style="margin-left:15px"
+                    style="margin-left:15px" onclick="viewCost()">ค้นหา</button><br><br>
+                <div class="row-fluid" id="showData-Cost">
+                    <div class="table-responsive" id="showDataPD-Location">
 
 
-                <div class="row-fluid">
-                    <div class="table-responsive">
-                        <table id="totalCostShow" class="table table-striped table-bordered text-center">
-                            <thead>
-                                <tr>
-                                    <th>Location</th>
-                                    <th>ProductName</th>
-                                    <th>UnitType</th>
-                                    <th>Price</th>
-                                    <th>RequisAmount</th>
-                                    <th>Total</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                        </table>
                     </div>
+
+
                 </div>
 
 
@@ -165,29 +167,6 @@
 
     </div>
 
-    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Small Modal</button> -->
-    <!-- Modal -->
-    <div class="modal fade setFont" id="myModal" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title">Comment</h6>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                </div>
-                <div class="modal-body">
-
-                    <p id="getNoteView" class="setWordNoteView"> </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Bootstrap core JavaScript -->
-    <!-- <script src="vendor/jquery/jquery.min.js"></script>
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 
     <!-- Menu Toggle Script -->
     <script>

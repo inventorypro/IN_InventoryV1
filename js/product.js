@@ -1122,7 +1122,7 @@ function returnProduct() {
                     "StockCardCategory": $('#topicReturunProduct').val(),
                     "ProductID": data.ProductID,
                     "Amount": $('#amountReturnPD').val(),
-                    "Balance": $('#amountReturnPD').val() + data.Amount,
+                    "Balance":parseInt( $('#amountReturnPD').val())  + parseInt(data.Amount),
                     "ProductName": data.ProductName,
                     "Price": data.Price,
                     "UnitType": data.UnitType,
