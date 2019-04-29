@@ -521,7 +521,7 @@
                     if (data[i].RequisStatus.toLowerCase() === "finish") {
                         numAllgetPD++;
                         postPDinLocation(data[i].ProductID, data[i].Location, data[i].RequisAmount, countAllgetPD, numAllgetPD);
-                        
+
                     }
 
                 }
@@ -550,47 +550,92 @@
                 'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
             },
             success: function (data) {
-                var formdata = {
-                    "ProductLocationID": 1,
-                    "LocationID": Location.split(",")[0],
-                    "LocationName": Location.split(",")[1],
-                    "ProductID": data.ProductID,
-                    "Barcode": data.Barcode,
-                    "ProductName": data.ProductName,
-                    "Category": data.Category,
-                    "Price": data.Price,
-                    "UnitType": data.UnitType,
-                    "MinValue": data.MinValue,
-                    "MaxValue": data.MaxValue,
-                    "Amount": RequisAmount,
-                    "ProductStatus": data.ProductStatus,
-                    "ImgProduct": data.ImgProduct,
-                    "SITES": data.SITES,
-                    "Place": "",
-                    "Vender": data.Vender
-                }
-                $.ajax({
+                if (data.Category.toLowerCase() === "package") {
+                    console.log("package"); //// bbb
+                    var formdata = {
+                        "ProductLocationID": 1,
+                        "LocationID": Location.split(",")[0],
+                        "LocationName": Location.split(",")[1],
+                        "ProductID": data.ProductID,
+                        "Barcode": data.Barcode,
+                        "ProductName": data.ProductName,
+                        "Category": data.Category,
+                        "Price": data.Price,
+                        "UnitType": data.UnitType,
+                        "MinValue": data.MinValue,
+                        "MaxValue": data.MaxValue,
+                        "Amount": RequisAmount,
+                        "ProductStatus": data.ProductStatus,
+                        "ImgProduct": data.ImgProduct,
+                        "SITES": data.SITES,
+                        "Place": "",
+                        "Vender": data.Vender
+                    }
+                    $.ajax({
 
-                    type: "POST",
-                    url: "http://localhost:60443/api/IN_ProductLocation",
-                    dataType: 'json',
-                    data: formdata,
-                    headers: {
-                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-                    },
-                    success: function (data) {
+                        type: "POST",
+                        url: "http://localhost:60443/api/IN_ProductLocation",
+                        dataType: 'json',
+                        data: formdata,
+                        headers: {
+                            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                        },
+                        success: function (data) {
 
-                        if (countAllgetPD === numAllgetPD) {
-                            window.location.href = "managerViewProductRequis.html";
+                            if (countAllgetPD === numAllgetPD) {
+                                window.location.href = "managerViewProductRequis.html";
+                            }
+
+                        },
+                        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                            //alert("Add new product failed, error is '" + thrownError + "'");
                         }
 
-                    },
-                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                        console.log("Add new Stockcard failed, error is '" + thrownError + "'");
-                        //alert("Add new product failed, error is '" + thrownError + "'");
+                    });
+                } else {
+                    var formdata = {
+                        "ProductLocationID": 1,
+                        "LocationID": Location.split(",")[0],
+                        "LocationName": Location.split(",")[1],
+                        "ProductID": data.ProductID,
+                        "Barcode": data.Barcode,
+                        "ProductName": data.ProductName,
+                        "Category": data.Category,
+                        "Price": data.Price,
+                        "UnitType": data.UnitType,
+                        "MinValue": data.MinValue,
+                        "MaxValue": data.MaxValue,
+                        "Amount": RequisAmount,
+                        "ProductStatus": data.ProductStatus,
+                        "ImgProduct": data.ImgProduct,
+                        "SITES": data.SITES,
+                        "Place": "",
+                        "Vender": data.Vender
                     }
+                    $.ajax({
 
-                });
+                        type: "POST",
+                        url: "http://localhost:60443/api/IN_ProductLocation",
+                        dataType: 'json',
+                        data: formdata,
+                        headers: {
+                            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                        },
+                        success: function (data) {
+
+                            if (countAllgetPD === numAllgetPD) {
+                                window.location.href = "managerViewProductRequis.html";
+                            }
+
+                        },
+                        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                            console.log("Add new Stockcard failed, error is '" + thrownError + "'");
+                            //alert("Add new product failed, error is '" + thrownError + "'");
+                        }
+
+                    });
+                }
 
             },
             error: function (jqXHR, xhr, ajaxOptions, thrownError) {
@@ -622,8 +667,8 @@
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].RequisStatus.toLowerCase() === "finish") {
                         numAllgetPD++;
-                        putUpdatePD(ItemID,countAllgetPD,numAllgetPD)
-                     
+                        putUpdatePD(ItemID, countAllgetPD, numAllgetPD)
+
                     }
 
                 }
@@ -640,7 +685,7 @@
         });
     }
 
-    function putUpdatePD(ItemID,countAllgetPD,numAllgetPD) {
+    function putUpdatePD(ItemID, countAllgetPD, numAllgetPD) {
         $.ajax({
 
             type: "POST",
@@ -696,7 +741,7 @@
 
 
                 <button type="button" class="btn btn-success float-right setButton2" onclick="zkSignature.send()">
-                    Send Email
+                    Submit
                 </button>
             </form>
 

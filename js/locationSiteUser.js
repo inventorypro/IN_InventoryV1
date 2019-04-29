@@ -66,7 +66,7 @@ function viewWarehouseData() {
 
     var tagTable = "";
     tagTable += '<table id="example" class="table table-striped table-bordered text-center dtCheck "style="width:100%">'
-    tagTable += " <thead> <tr>  <th>ImgProduct</th> <th >Product</th> <th>ProductID</th> <th>Barcode</th> <th>ProductName</th> <th>Category</th> <th>Price</th> <th>UnitType</th> <th>MinValue</th> <th>MaxValue</th> <th>Amount</th> <th>ProductStatus</th> <th>Place</th> <th>Vender</th></tr></thead>"
+    tagTable += " <thead> <tr> <th>Action</th> <th>ImgProduct</th> <th >Product</th> <th>ProductID</th> <th>Barcode</th> <th>ProductName</th> <th>Category</th> <th>Price</th> <th>UnitType</th> <th>MinValue</th> <th>MaxValue</th> <th>Amount</th> <th>ProductStatus</th> <th>Place</th> <th>Vender</th></tr></thead>"
     tagTable += '</table>'
     $("#showDataPD-Location").append(tagTable)
 
@@ -117,8 +117,16 @@ function viewWarehouseData() {
                 "data": data,
                 "columns": [
 
+                    {
+                        "data": "ProductLocationID", render: function (data, type, row, meta) {
+                            return type === 'display' ?
+                                ' <button type="button" class="btn btn-success btn-circle btn-lg" data-toggle="modal" data-target="#addProduct" onclick="showDataUseProduct(' + row.ProductLocationID + ',' + row.ProductID + "," + "'" + row.Category + "'" + ')">USE</button>  ' :
+                                data;
 
-            
+                        }
+
+                    },
+
                     {
                         "data": "ProductLocationID", render: function (data, type, row, meta) {
                             return type === 'display' ?
@@ -149,7 +157,7 @@ function viewWarehouseData() {
                     { "data": "Place" },
                     { "data": "Vender", visible: false },
 
-                 
+
                 ]
             });
 
@@ -453,17 +461,17 @@ function addProduct() {
             for (var i = 0; i < arrayPackageProduct.length; i++) {
                 for (var j = 0; j < arrayCheckProduct.length; j++) {
                     if (arrayPackageProduct[i].split(",")[0] === arrayCheckProduct[j].split(",")[0]) {
-                        var addPD = parseInt(countAmountData) + parseInt($('#addAmount').val())  ;
+                        var addPD = parseInt(countAmountData) + parseInt($('#addAmount').val());
 
                         console.log(addPD);
 
-                        var allamount =addPD * parseInt(arrayPackageProduct[i].split(",")[1])
+                        var allamount = addPD * parseInt(arrayPackageProduct[i].split(",")[1])
                         if (allamount > arrayCheckProduct[j].split(",")[1]) {
                             statusCheckProductInPack = false;
-                           
+
 
                         }
-                        console.log(allamount +":"+arrayCheckProduct[j].split(",")[1]);
+                        console.log(allamount + ":" + arrayCheckProduct[j].split(",")[1]);
                         console.log(arrayPackageProduct[i].split(",")[0] + "//" + arrayCheckProduct[j].split(",")[0]);
                     }
                 }
@@ -711,8 +719,110 @@ function countCart() {
 
 }
 
+var useProductLocationID;
+function showDataUseProduct(ProductLocationID, ProductID, Category) {
+    console.log(ProductLocationID + "/" + ProductID + "/" + Category);
+    useProductLocationID = ProductLocationID
+}
 
-function callProduct() {
+function useProduct() {
+    $.ajax({
 
+        type: "GET",
+        url: "http://localhost:60443/api/IN_ProductLocation/" + useProductLocationID,
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            var formdata = {
+                "ProductLocationID": data.ProductLocationID,
+                "LocationID": data.LocationID,
+                "LocationName": data.LocationName,
+                "ProductID": data.ProductID,
+                "Barcode": data.Barcode,
+                "ProductName": data.ProductName,
+                "Category": data.Category,
+                "Price": data.Price,
+                "UnitType": data.UnitType,
+                "MinValue": data.MinValue,
+                "MaxValue": data.MaxValue,
+                "Amount": parseInt(data.Amount) - $("#addAmount").val(),
+                "ProductStatus": data.ProductStatus,
+                "ImgProduct": data.ImgProduct,
+                "SITES": data.SITES,
+                "Place": data.Place,
+                "Vender": data.Vender
+            }
+            var calA = parseInt(data.Amount) - $("#addAmount").val()
+            var now = new Date();
+            var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
+            var formdata2 = {
+                "Id": 1,
+                "LocationID": data.LocationID,
+                "LocationName": data.LocationName,
+                "ProductLocationID": data.ProductLocationID,
+                "ProductName": data.ProductName,
+                "Price": data.Price,
+                "Amount": parseInt(data.Amount) - $("#addAmount").val(),
+                "Balance": calA*data.Price,
+                "Date": setDateNow,
+                "SITE": data.SITES
+              
+            }
+            if (data.Amount < $("#addAmount").val()) {
+                alert("จำนวนไม่เพียงพอ กรุณาลองใหม่อีกครั้ง");
+            } else {
+                $.ajax({
+
+                    type: "PUT",
+                    url: "http://localhost:60443/api/IN_ProductLocation/" + useProductLocationID,
+                    dataType: 'json',
+                    data: formdata,
+                    headers: {
+                        'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                    },
+                    success: function (data) {
+                       
+
+                        $.ajax({
+
+                            type: "POST",
+                            url: "http://localhost:60443/api/IN_LocationHistory",
+                            dataType: 'json',
+                            data: formdata2,
+                            headers: {
+                                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+                            },
+                            success: function (data) {
+                                alert("สำเร๊จ");
+                                location.reload();
+        
+                            },
+                            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                                // console.log("Add new product failed, error is '" + thrownError + "'");
+                                alert("Edit product failed, error is '" + thrownError + "'");
+                            }
+        
+                        })
+
+                    },
+                    error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+                        // console.log("Add new product failed, error is '" + thrownError + "'");
+                        alert("Edit product failed, error is '" + thrownError + "'");
+                    }
+
+                })
+            }
+
+
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            // console.log("Add new product failed, error is '" + thrownError + "'");
+            alert("Edit product failed, error is '" + thrownError + "'");
+        }
+
+    })
 }
 
