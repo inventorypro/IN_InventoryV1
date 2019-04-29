@@ -1,37 +1,37 @@
-//Return Report
-// $(document).ready(function () {
-var productAll = [];
-function viewReport() {
-    productAll = [];
-    var selectTopic = $('#addsetTopic').val();
+var productLocationHis = [];
+
+function viewLocationHisReport() {
+
+    var selectLocation = $('#addLocation').val();
 
     $.ajax({
 
         type: "GET",
-        url: "http://localhost:60443/api/IN_StockCardSITE?siteName=" + localStorage.logSite,
+        url: "http://localhost:60443/api/IN_LocationHistory?siteName=all",
         dataType: 'json',
         headers: {
             'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
         },
 
         success: function (data) {
-            console.log(data)
             for (var i = 0; i < data.length; i++) {
-                if (data[i].StockCardCategory === selectTopic.split(",")[1]) {
-                    productAll.push({ Date: data[i].Date, ProductID: data[i].ProductID, ProductName: data[i].ProductName, Amount: data[i].Amount, Comment: data[i].Comment })
+                if (data[i].LocationName === selectLocation.split(",")[1]) {
+                    productLocationHis.push({ LocationName: data[i].LocationName, ProductName: data[i].ProductName, Price: data[i].Price, Amount: data[i].Amount, Balance: data[i].Balance, Date: data[i].Date })
                 }
             }
-            console.log(productAll);
+            console.log(productLocationHis);
 
             var tagTable = "";
-
-            tagTable += '<table class="table table-striped table-bordered text-center dtCheck" style="width:100%" id="reportShow">'
-            tagTable += " <thead> <tr>   <th>Date</th>  <th>ProductID</th>  <th>ProductName</th>  <th>Amount</th>  <th>Comment</th> </tr></thead>"
+            
+            tagTable += '<table class="table table-striped table-bordered text-center dtCheck" style="width:100%" id="LocationHistory">'
+            tagTable += " <thead> <tr>   <th>LocationName</th>  <th>ProductName</th>  <th>Price</th>  <th>Amount</th>  <th>Balance</th> <th>Date</th> </tr></thead>"
             tagTable += "</table>"
+            
+            $("#showDataLocationHis").append(tagTable)
 
-            $("#showDataReturn").append(tagTable)
+            // console.log(allProduct[0].split(",")[0]);
 
-            var datatable = $('#reportShow').DataTable({
+            var datatable = $('#LocationHistory').DataTable({
                 // dom: 'lBrtip,Bfrtip,CBlrtip',
 
                 fixedHeader: true,
@@ -70,15 +70,18 @@ function viewReport() {
 
                 ],
 
-                "data": productAll,
+                "data": productLocationHis,
                 "columns": [
-                    { "data": "Date" },
-                    { "data": "ProductID" },
+                    { "data": "LocationName" },
                     { "data": "ProductName" },
+                    { "data": "Price" },
                     { "data": "Amount" },
-                    { "data": "Comment" }
+                    { "data": "Balance" },
+                    { "data": "Date" }
                 ]
             });
+
+
             // for(var i = 0 ; i <= data.length ; i++){
             //     $( ".getMyProduct" ).append( "<p>"+data[i].ProductID +"</p>" );
             // }
@@ -94,7 +97,7 @@ function viewReport() {
 $.ajax({
 
     type: "GET",
-    url: "http://localhost:60443/api/IN_Topic",
+    url: "http://localhost:60443/api/IN_LocationHistory?siteName=all",
     dataType: 'json',
     headers: {
         'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
@@ -104,16 +107,16 @@ $.ajax({
         //  console.log(data[0].UnitTypeName);
         //  location.reload();
 
-        var addsetTopic = document.getElementById("addsetTopic");
+        var addLocation = document.getElementById("addLocation");
         var option = document.createElement("option");
         for (var i = 0; i < data.length; i++) {
 
 
             var option = document.createElement("option");
-            option.text = data[i].Id + "," + data[i].Name;
+            option.text = data[i].LocationID + "," + data[i].LocationName;
 
 
-            addsetTopic.add(option, addsetTopic[i]);
+            addLocation.add(option, addLocation[i]);
 
         }
 
@@ -127,4 +130,3 @@ $.ajax({
     }
 
 });
-// })
