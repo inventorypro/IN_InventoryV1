@@ -724,7 +724,7 @@ function showDataUseProduct(ProductLocationID, ProductID, Category) {
     console.log(ProductLocationID + "/" + ProductID + "/" + Category);
     useProductLocationID = ProductLocationID
 }
-
+var formdata2;
 function useProduct() {
     $.ajax({
 
@@ -755,21 +755,24 @@ function useProduct() {
                 "Vender": data.Vender
             }
             var calA = parseInt(data.Amount) - $("#addAmount").val()
+            var varCalA = calA*data.Price
             var now = new Date();
             var setDateNow = moment(now).format('YYYY-MM-DD HH:mm:ss');
-            var formdata2 = {
-                "Id": 1,
+
+            formdata2 = {
+                "Id": 0,
                 "LocationID": data.LocationID,
                 "LocationName": data.LocationName,
                 "ProductLocationID": data.ProductLocationID,
                 "ProductName": data.ProductName,
                 "Price": data.Price,
                 "Amount": parseInt(data.Amount) - $("#addAmount").val(),
-                "Balance": calA*data.Price,
+                "Balance": varCalA,
                 "Date": setDateNow,
                 "SITE": data.SITES
-              
+
             }
+
             if (data.Amount < $("#addAmount").val()) {
                 alert("จำนวนไม่เพียงพอ กรุณาลองใหม่อีกครั้ง");
             } else {
@@ -782,34 +785,15 @@ function useProduct() {
                     headers: {
                         'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
                     },
-                    success: function (data) {
-                       
+                    success: function (datax) {
 
-                        $.ajax({
-
-                            type: "POST",
-                            url: "http://localhost:60443/api/IN_LocationHistory",
-                            dataType: 'json',
-                            data: formdata2,
-                            headers: {
-                                'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
-                            },
-                            success: function (data) {
-                                alert("สำเร๊จ");
-                                location.reload();
-        
-                            },
-                            error: function (jqXHR, xhr, ajaxOptions, thrownError) {
-                                // console.log("Add new product failed, error is '" + thrownError + "'");
-                                alert("Edit product failed, error is '" + thrownError + "'");
-                            }
-        
-                        })
+                        postUsePD(formdata2)
+     
 
                     },
                     error: function (jqXHR, xhr, ajaxOptions, thrownError) {
                         // console.log("Add new product failed, error is '" + thrownError + "'");
-                        alert("Edit product failed, error is '" + thrownError + "'");
+                        alert("put product failed, error is '" + thrownError + "'");
                     }
 
                 })
@@ -826,3 +810,25 @@ function useProduct() {
     })
 }
 
+function postUsePD(formdata2){
+    $.ajax({
+
+        type: "POST",
+        url: "http://localhost:60443/api/IN_LocationHistory",
+        dataType: 'json',
+        data: formdata2,
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (dataxx) {
+            alert("สำเร๊จ");
+            location.reload();
+
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            // console.log("Add new product failed, error is '" + thrownError + "'");
+            alert("post product failed, error is '" + thrownError + "'");
+        }
+
+    })
+}

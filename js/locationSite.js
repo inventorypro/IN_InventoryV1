@@ -818,3 +818,32 @@ function addNewLocation() {
   
 
 }
+
+
+function testCall() {
+
+
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:60443/api/IN_LocationHistory?siteName=all",
+        dataType: 'json',
+        headers: {
+            'Authorization': 'basic ' + btoa(localStorage.logUsername + ':' + localStorage.logPassword)
+        },
+        success: function (data) {
+            console.log(data);
+
+        
+        },
+        error: function (jqXHR, xhr, ajaxOptions, thrownError) {
+            // console.log("Add new product failed, error is '" + thrownError + "'");
+            alert("Edit product failed, error is '" + thrownError + "'");
+        }
+
+    })
+
+
+
+
+}
