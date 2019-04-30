@@ -51,10 +51,9 @@
     <!-- https://material.io/tools/icons/?icon=shopping_cart&style=baseline -->
 
 
-
     <script src="js/index.js"></script>
     <script src="js/admin.js"></script>
-    <script src="js/returnreport.js"></script>
+    <script src="js/LocationHistoryReport.js"></script>
 
 </head>
 
@@ -141,19 +140,23 @@
 
                 <!-- <button class="btn btn-success float-right" >ส่งใบเบิก</button> -->
 
-                <h1>Return Report</h1>
+                <h1>Location History Report</h1>
 
                 <hr>
-                <label>Select Topic</label>
-                <select class="form-control" id="addsetTopic" onclick=""> </select><br>
+                <label>Select Location</label>
+                <select class="form-control" id="addLocation" onclick=""> </select><br>
                 <button type="button" class="btn btn-success float-right" style="margin-left:15px"
-                    style="margin-left:15px" onclick="viewReport()">ค้นหา</button><br><br>
+                    style="margin-left:15px" onclick="viewLocationHisReport()">ค้นหา</button><br><br>
 
 
                 <div class="row-fluid">
-                    <div class="table-responsive" id="showDataReturn">
+                    <div class="table-responsive" id="showDataLocationHis">
+
                     </div>
                 </div>
+
+
+
 
             </div>
         </div>
