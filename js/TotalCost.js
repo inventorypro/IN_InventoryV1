@@ -57,8 +57,6 @@ function viewCost() {
     // }
 
 
-
-
     console.log(selectLocation);
     if ($('#fDate').val() === "" || $('#sDate').val() === "") {
         console.log(fDate);
@@ -66,23 +64,7 @@ function viewCost() {
     } else {
 
         $("#showData-Cost").empty();
-        console.log($('#setLocation').val());
-
-        // <div class="table-responsive">
-        //     <table id="totalCostShow" class="table table-striped table-bordered text-center">
-        //         <thead>
-        //             <tr>
-        //                 <th>Location</th>
-        //                 <th>ProductName</th>
-        //                 <th>UnitType</th>
-        //                 <th>Price</th>
-        //                 <th>RequisAmount</th>
-        //                 <th>Total</th>
-        //                 <th>Date</th>
-        //             </tr>
-        //         </thead>
-        //     </table>
-        // </div>
+        console.log($('#addsetLocation').val());
 
     
 

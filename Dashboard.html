@@ -120,7 +120,7 @@
                         </li>
                     </ul>
                 </div>
-              
+
                 <li>
                     <a href="#" onclick="fnLogout()">Logout</a>
                 </li>
@@ -189,15 +189,24 @@
         <!-- /#page-content-wrapper -->
         <div id="page-content-wrapper">
             <div class="container-fluid setFont"><br>
-              
-                <button type="button" class="btn btn-success float-right" style="margin-left:15px" data-toggle="modal"
-                        data-target="#myModalTopicReturnProduct" style="margin-left:15px" >Add New Topic Return</button>
-                <button type="button" class="btn btn-success float-right" data-toggle="modal"
-                    data-target="#myModalReturnProduct" style="margin-left:15px">Add And Return Product</button>
-                <button type="button" class="btn btn-success float-right" data-toggle="modal"
-                    data-target="#myModalAddNew">Add New Product</button>
+
+                <div class="btn-group float-right">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Menu
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <button class="dropdown-item" type="button" data-toggle="modal"
+                            data-target="#myModalTopicReturnProduct">Add New Topic Return</button>
+                        <button class="dropdown-item" type="button" data-toggle="modal"
+                            data-target="#myModalReturnProduct">Add And Return Product</button>
+                        <button class="dropdown-item" type="button" data-toggle="modal"
+                            data-target="#myModalAddNew">Add New Product</button>
+                    </div>
+                </div>
                 <h1>Product list</h1>
-          
+
+
                 <hr>
                 <style>
                     button.dt-button,
@@ -436,8 +445,8 @@
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Return Product</h4>
-                    
-                    <button type="button" class="close" data-dismiss="modal"  >&times;</button>
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <div id="loader" style="display:none;"> </div>
@@ -446,20 +455,20 @@
                 <div class="modal-body">
                     <form id="myform">
 
-                        Topic: <select class="form-control checkAmountClassname"
-                             onclick="" id="topicReturunProduct" required>
-                 
+                        Topic: <select class="form-control checkAmountClassname" onclick="" id="topicReturunProduct"
+                            required>
+
                             <option disabled selected value="">Please select Topic</option>
                         </select><br>
-                       
-                     
-                        Product: 
+
+
+                        Product:
                         <select class="form-control checkAmountClassname" id="addsetReturunProduct" placeholder="select"
                             onclick="" required>
                             <option disabled selected value="">Please select Product</option>
                         </select>
-                        Amount:  <input type="number" class="form-control" id="amountReturnPD" required>
-                        Comment:  <textarea class="form-control" rows="5" id="commentReturnPD" ></textarea>
+                        Amount: <input type="number" class="form-control" id="amountReturnPD" required>
+                        Comment: <textarea class="form-control" rows="5" id="commentReturnPD"></textarea>
 
                 </div>
 
@@ -475,7 +484,7 @@
 
     </div>
 
-    
+
     <!-- The Modal -->
     <div class="modal setFont" id="myModalTopicReturnProduct">
 
@@ -487,7 +496,7 @@
                     <h4 class="modal-title">New Topic Return Product</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                
+
 
                 <div id="loader" style="display:none;"> </div>
                 <!-- Modal body -->
@@ -496,7 +505,7 @@
                     <form id="myform">
 
                         Topic: <input type="text" class="form-control" id="topicReturnPD" required>
-                        Comment:  <textarea class="form-control" rows="5" id="commentTopicReturnPD" ></textarea>
+                        Comment: <textarea class="form-control" rows="5" id="commentTopicReturnPD"></textarea>
 
                 </div>
 
