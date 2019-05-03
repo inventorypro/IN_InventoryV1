@@ -4,6 +4,9 @@ var myRequisLocation;
 
 var datatable;
 var dataLoadPage = []
+
+
+var costTotal =0;
 $(document).ready(function () {
     document.getElementById('btnUpdateApprove').style.visibility = 'hidden';
 
@@ -20,13 +23,16 @@ $(document).ready(function () {
         },
 
         success: function (data) {
-            // console.table(data);
+             console.table(data);
+
+          
             for (var i = 0; i < data.length; i++) {
                 if (data[i].RequisStatus.toLowerCase() === "unapprove" || data[i].RequisStatus.toLowerCase() === "approve" || data[i].RequisStatus.toLowerCase() === "finish") {
                 } else {
                     allIDproductLocation.push(data[i].ProductID);
                     console.table(data[i].Price);
-                    totalCost += data[i].Price;
+                    totalCost += data[i].Price * data[i].RequisAmount;
+                  
                 }
             }
 
@@ -95,7 +101,7 @@ $(document).ready(function () {
         },
 
         success: function (data) {
-
+            console.table(data);
             if (data.RequisStatus === "approve" || data.RequisStatus === "finish") {
                 document.getElementById('btnApprove').style.visibility = 'hidden';
                 document.getElementById('btnCheckingApprove').style.visibility = 'hidden';
@@ -127,6 +133,8 @@ $(document).ready(function () {
             $("#TotalCost").text(data.TotalCost);
             myRequisLocation = data.RequisLocation.split(",")[1]
 
+
+
             $("#RequisNumberPrint").text(data.RequisNumber);
             $("#RequisNamePrint").text(data.RequisName);
             $("#RequisLocationPrint").text(data.RequisLocation);
@@ -137,6 +145,8 @@ $(document).ready(function () {
             $("#RequisDeptPrint").text(data.RequisDept);
             $("#RequisNotePrint").text(data.RequisNote);
             $("#TotalCostPrint").text(data.TotalCost);
+
+
             if (data.RequisStatus.toLowerCase() === "verify") {
 
                 document.getElementById("btnApprove").disabled = false;
